@@ -32,7 +32,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             @Html.ActionLink("Formas de Pagamento", "Index", "FormasPagamento", new { @class = "dropdown-item" }, new { })
-                            <a class="dropdown-item" href="#">Another action</a>
+                            @Html.ActionLink("Especialidades", "Index", "Especialidades", new { @class = "dropdown-item" }, new { })
                             <a class="dropdown-item" href="#">Something else here</a>
                         </div>
                     </li>
@@ -50,6 +50,11 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script>
+        $('.date').mask('00/00/0000');
+        $('.cpf').mask('000.000.000-00', { reverse: true });
+        $('.phone').mask('00000-0000');
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

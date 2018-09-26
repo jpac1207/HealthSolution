@@ -1,0 +1,88 @@
+﻿@model IEnumerable<HealthSolution.ViewModels.PacienteViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="text-center">Cadastro de Paciente</h2>
+
+<p>
+    @Html.ActionLink("Novo Cadastro", "Create", new { }, new { @class = "btn btn-primary btn-block" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cpf)
+        </th>
+        <th>
+            Data de Nascimento
+        </th>
+        <th>
+            Data de Cadastro
+        </th>
+        <th>
+            Como Conheceu?
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cidade)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bairro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rua)
+        </th>
+        <th>
+            Numero Residência
+        </th>
+        <th>
+            Telefone
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cpf)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataNascimento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataCadastro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComoConheceu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cidade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bairro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rua)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumeroResidencia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumeroTelefone)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) |
+                @Html.ActionLink("Detalhar", "Details", new { id = item.Id }, new { @class = "btn btn-secondary" }) |
+                @Html.ActionLink("Excluir", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+    }
+
+</table>

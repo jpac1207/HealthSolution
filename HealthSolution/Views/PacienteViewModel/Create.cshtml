@@ -34,8 +34,7 @@
             <div class="col-md-4">
                 <label class="control-label">Data Nascimento</label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control date" } })
-                    @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control date datepicker" } })                   
                 </div>
             </div>
         </div>
@@ -44,8 +43,7 @@
             <div class="col-md-4">
                 <label class="control-label">Data de Cadastro</label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.DataCadastro, new { htmlAttributes = new { @class = "form-control date" } })
-                    @Html.ValidationMessageFor(model => model.DataCadastro, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.DataCadastro, new { htmlAttributes = new { @class = "form-control date datepicker" } })                   
                 </div>
             </div>
 

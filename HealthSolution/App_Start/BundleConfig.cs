@@ -10,7 +10,8 @@ namespace HealthSolution
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
-                        "~/Scripts/jquery.mask.js"));
+                        "~/Scripts/jquery.mask.js",
+                        "~/Scripts/jquery-ui.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -28,7 +29,8 @@ namespace HealthSolution
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/open-iconic-bootstrap.css",
-                      "~/Content/open-iconic.css"));
+                      "~/Content/open-iconic.css",
+                      "~/Content/jquery-ui.css"));
         }
     }
 }

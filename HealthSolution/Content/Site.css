@@ -22,3 +22,11 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.buttonCell {
+    min-width: 300px;
+}
+
+.phoneCell {
+    min-width: 150px;
+}

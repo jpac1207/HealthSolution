@@ -27,6 +27,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -215,6 +216,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\EspecialidadesController.cs" />
+    <Compile Include="Controllers\EspecialistaViewModelController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\FormasPagamentoController.cs" />
     <Compile Include="Controllers\PacienteViewModelController.cs" />
@@ -260,6 +262,7 @@
     <Compile Include="Models\Telefone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\EspecialistaViewModel.cs" />
     <Compile Include="ViewModels\PacienteViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -385,6 +388,11 @@
     <Content Include="Views\PacienteViewModel\Details.cshtml" />
     <Content Include="Views\PacienteViewModel\Edit.cshtml" />
     <Content Include="Views\PacienteViewModel\Index.cshtml" />
+    <Content Include="Views\EspecialistaViewModel\Create.cshtml" />
+    <Content Include="Views\EspecialistaViewModel\Delete.cshtml" />
+    <Content Include="Views\EspecialistaViewModel\Details.cshtml" />
+    <Content Include="Views\EspecialistaViewModel\Edit.cshtml" />
+    <Content Include="Views\EspecialistaViewModel\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

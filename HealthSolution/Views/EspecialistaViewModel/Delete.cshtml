@@ -21,6 +21,14 @@
         </dd>
 
         <dt>
+            Data de Nascimento
+        </dt>
+
+        <dd>
+            @(Model.DataNascimento != null ? Model.DataNascimento.ToString("dd/MM/yyy") : "-")
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Crm)
         </dt>
 
@@ -29,11 +37,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.EspecialidadeId)
+            @Html.DisplayNameFor(model => model.ConselhoUF)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.EspecialidadeId)
+            @Html.DisplayFor(model => model.ConselhoUF)
         </dd>
 
         <dt>
@@ -44,6 +52,38 @@
             @Html.DisplayFor(model => model.Especialidade)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Cidade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cidade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bairro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bairro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rua)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rua)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Numero)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Numero)
+        </dd>
+
     </dl>
 
     @using (Html.BeginForm()) {
@@ -51,7 +91,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Voltar para a Lista", "Index")
         </div>
     }
 </div>

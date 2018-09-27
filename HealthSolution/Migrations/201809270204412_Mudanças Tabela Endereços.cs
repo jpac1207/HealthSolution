@@ -7,14 +7,14 @@ namespace HealthSolution.Migrations
     {
         public override void Up()
         {
-            DropForeignKey("tbendereco", "PacienteId", "tbpaciente");
-            DropIndex("tbendereco", new[] { "PacienteId" });
-            AddColumn("tbespecialista", "ConselhoUF", c => c.String(unicode: false));
-            AddColumn("tbespecialista", "DataNascimento", c => c.DateTime(nullable: false, precision: 0));
-            AddColumn("tbespecialista", "Email", c => c.String(unicode: false));
-            AddColumn("tbpaciente", "EnderecoId", c => c.Int(nullable: false));
-            CreateIndex("tbpaciente", "EnderecoId");
-            AddForeignKey("tbpaciente", "EnderecoId", "tbendereco", "Id", cascadeDelete: true);
+            //DropForeignKey("tbendereco", "PacienteId", "tbpaciente");
+            //DropIndex("tbendereco", new[] { "PacienteId" });
+            //AddColumn("tbespecialista", "ConselhoUF", c => c.String(unicode: false));
+            //AddColumn("tbespecialista", "DataNascimento", c => c.DateTime(nullable: false, precision: 0));
+            //AddColumn("tbespecialista", "Email", c => c.String(unicode: false));
+            //AddColumn("tbpaciente", "EnderecoId", c => c.Int(nullable: false));
+            //CreateIndex("tbpaciente", "EnderecoId");
+            //AddForeignKey("tbpaciente", "EnderecoId", "tbendereco", "Id", cascadeDelete: true);
         }
         
         public override void Down()

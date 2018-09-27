@@ -7,9 +7,9 @@ namespace HealthSolution.Migrations
     {
         public override void Up()
         {
-            AddColumn("tbespecialista", "EnderecoId", c => c.Int(nullable: false));
-            CreateIndex("tbespecialista", "EnderecoId");
-            AddForeignKey("tbespecialista", "EnderecoId", "tbendereco", "Id", cascadeDelete: true);
+            //AddColumn("tbespecialista", "EnderecoId", c => c.Int(nullable: false));
+            //CreateIndex("tbespecialista", "EnderecoId");
+            //AddForeignKey("tbespecialista", "EnderecoId", "tbendereco", "Id", cascadeDelete: true);
         }
         
         public override void Down()

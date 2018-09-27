@@ -8,7 +8,7 @@ using System.Web;
 
 namespace HealthSolution.Dal
 {
-    //[DbConfigurationType(typeof(MySqlEFConfiguration))]
+    [DbConfigurationType(typeof(MySqlEFConfiguration))]
     public class HealthContext : DbContext
     {
         public HealthContext() : base("HealthContext")
@@ -28,6 +28,6 @@ namespace HealthSolution.Dal
         public IDbSet<FormaPagamento> FormasPagamento { get; set; }
         public IDbSet<PagamentoConsulta> PagamentosConsultas { get; set; }
         public IDbSet<PagamentoProcedimento> PagamentosProcedimentos { get; set; }
-        
+       
     }
 }

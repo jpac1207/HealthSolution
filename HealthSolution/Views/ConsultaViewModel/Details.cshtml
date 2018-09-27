@@ -1,0 +1,65 @@
+﻿@model HealthSolution.ViewModels.ConsultaViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2 class="text-center">Detalhes</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Especialidade
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Especialidade.Nome)
+        </dd>
+
+        <dt>
+            Doutor
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Especialista.Nome)
+        </dd>
+
+        <dt>
+            Forma Pagamento
+        </dt>
+
+        <dd>
+            @(Model.FormaPagamento != null ? Model.FormaPagamento.Nome : "-")
+        </dd>
+
+        <dt>
+            Paciente
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paciente.Nome)
+        </dd>
+
+        <dt>
+            Data
+        </dt>
+
+        <dd>
+            @(Model.Date != null ? Model.Date.ToString("dd/MM/yyy") : "-")
+        </dd>
+
+        <dt>
+            Observação
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Observacao)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Voltar para a Lista", "Index")
+</p>

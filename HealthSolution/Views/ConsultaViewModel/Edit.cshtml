@@ -1,0 +1,83 @@
+﻿@model HealthSolution.ViewModels.ConsultaViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2 class="text-center">Alterar Consulta</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        <div class="row">
+            <div class="col-md-4">
+                <label class="control-label">Especialidade</label>
+                <div class="col-md-10">
+                    @Html.DropDownList("EspecialidadeId", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.EspecialidadeId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="control-label">Doutor</label>
+                <div class="col-md-10">
+                    @Html.DropDownList("EspecialistaId", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.EspecialistaId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="control-label">Paciente</label>
+                <div class="col-md-10">
+                    @Html.DropDownList("PacienteId", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PacienteId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label class="control-label">Data</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control date datepicker" } })
+                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="control-label">Observação</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Observacao, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Observacao, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="control-label">Forma de Pagamento</label>
+                <div class="col-md-10">
+                    @Html.DropDownList("FormaPagamentoId", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.FormaPagamentoId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group m-5">
+            <div class="text-center">
+                <input type="submit" value="Salvar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Voltar para a Lista", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

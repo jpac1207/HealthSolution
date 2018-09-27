@@ -22,8 +22,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="navbar-nav">
-                    <li class="nav-item active">@Html.ActionLink("Home", "Index", "Home", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("About", "About", "Home", new { @class = "nav-link" })</li>
+                    <li class="nav-item active">@Html.ActionLink("Home", "Index", "Home", new { }, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("About", "About", "Home", new { }, new { @class = "nav-link" })</li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -79,7 +79,6 @@
 
         $(function () {
             $(".datepicker").datepicker();
-            $("input[data-val-date]").removeAttr("data-val");
         });
 
     </script>

@@ -34,7 +34,7 @@ namespace HealthSolution.Controllers
         private PacienteViewModel GetPacienteViewModel(Paciente x)
         {
             var myPhone = db.Telefones.Where(y => y.PacienteId == x.Id).FirstOrDefault();
-            var myAddress = db.Enderecos.Where(y => y.PacienteId == x.Id).FirstOrDefault();
+            var myAddress = db.Enderecos.Where(y => y.Id == x.EnderecoId).FirstOrDefault();
 
             var pacienteViewModel = new PacienteViewModel();
             pacienteViewModel.Id = x.Id;
@@ -94,23 +94,24 @@ namespace HealthSolution.Controllers
                 {
                     try
                     {
-                        var paciente = new Paciente();
-                        paciente.Nome = pacienteViewModel.Nome;
-                        paciente.Cpf = pacienteViewModel.Cpf;
-                        paciente.DataNascimento = pacienteViewModel.DataNascimento;
-                        paciente.DataCadastro = pacienteViewModel.DataCadastro;
-                        paciente.ComoConheceu = pacienteViewModel.ComoConheceu;
-                        db.Pacientes.Add(paciente);
-                        db.SaveChanges();
 
                         var endereco = new Endereco();
                         endereco.Cidade = pacienteViewModel.Cidade;
                         endereco.Bairro = pacienteViewModel.Bairro;
                         endereco.Rua = pacienteViewModel.Rua;
                         endereco.Numero = pacienteViewModel.NumeroResidencia;
-                        endereco.PacienteId = paciente.Id;
                         db.Enderecos.Add(endereco);
+                        db.SaveChanges();
 
+                        var paciente = new Paciente();
+                        paciente.Nome = pacienteViewModel.Nome;
+                        paciente.Cpf = pacienteViewModel.Cpf;
+                        paciente.DataNascimento = pacienteViewModel.DataNascimento;
+                        paciente.DataCadastro = pacienteViewModel.DataCadastro;
+                        paciente.ComoConheceu = pacienteViewModel.ComoConheceu;
+                        paciente.EnderecoId = endereco.Id;
+                        db.Pacientes.Add(paciente);
+                        
                         var telefone = new Telefone();
                         telefone.Numero = pacienteViewModel.NumeroTelefone;
                         telefone.PacienteId = paciente.Id;
@@ -169,7 +170,7 @@ namespace HealthSolution.Controllers
                             paciente.DataCadastro = pacienteViewModel.DataCadastro;
                             paciente.ComoConheceu = pacienteViewModel.ComoConheceu;
 
-                            var endereco = db.Enderecos.Where(x => x.PacienteId == paciente.Id).FirstOrDefault();
+                            var endereco = db.Enderecos.Where(x => x.Id == paciente.EnderecoId).FirstOrDefault();
 
                             if (endereco != null)
                             {
@@ -177,7 +178,6 @@ namespace HealthSolution.Controllers
                                 endereco.Bairro = pacienteViewModel.Bairro;
                                 endereco.Rua = pacienteViewModel.Rua;
                                 endereco.Numero = pacienteViewModel.NumeroResidencia;
-                                endereco.PacienteId = paciente.Id;
                             }
 
                             var telefone = db.Telefones.Where(x => x.PacienteId == paciente.Id).FirstOrDefault();
@@ -230,7 +230,7 @@ namespace HealthSolution.Controllers
 
                     if (paciente != null)
                     {                       
-                        var endereco = db.Enderecos.Where(x => x.PacienteId == paciente.Id).FirstOrDefault();
+                        var endereco = db.Enderecos.Where(x => x.Id == paciente.EnderecoId).FirstOrDefault();
 
                         if (endereco != null)
                         {

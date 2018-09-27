@@ -15,5 +15,7 @@ namespace HealthSolution.Models
         public DateTime DataNascimento { get; set; }
         public DateTime DataCadastro { get; set; }
         public string ComoConheceu { get; set; }
+        public int EnderecoId { get; set; }
+        public Endereco Endereco { get; set; }
     }
 }

@@ -39,6 +39,8 @@ namespace HealthSolution.Controllers
             especialistaViewModel.Id = x.Id;
             especialistaViewModel.Nome = x.Nome;
             especialistaViewModel.Crm = x.Crm;
+            especialistaViewModel.Email = x.Email;
+            especialistaViewModel.DataNascimento = x.DataNascimento;
            
             if (myespeciality != null)
             {
@@ -50,8 +52,51 @@ namespace HealthSolution.Controllers
                     especialistaViewModel.EspecialidadeId = especiality.Id;
                 } 
             }
+
+            if(x.EnderecoId != -1)
+            {
+                var endereco = db.Enderecos.Where(y => y.Id == x.EnderecoId).FirstOrDefault();
+                especialistaViewModel.Bairro = endereco.Bairro;
+                especialistaViewModel.Cidade = endereco.Cidade;
+                especialistaViewModel.Numero = endereco.Numero;
+                especialistaViewModel.Rua = endereco.Rua;
+            }
             
             return especialistaViewModel;
+        }
+
+        private List<String> GetListUF()
+        {
+            List<String> lista_UF = new List<string>();
+
+            lista_UF.Add("AC");
+            lista_UF.Add("AL");
+            lista_UF.Add("AM");
+            lista_UF.Add("AP");
+            lista_UF.Add("BA");
+            lista_UF.Add("CE");
+            lista_UF.Add("DF");
+            lista_UF.Add("ES");
+            lista_UF.Add("GO");
+            lista_UF.Add("MA");
+            lista_UF.Add("MG");
+            lista_UF.Add("MS");
+            lista_UF.Add("MT");
+            lista_UF.Add("PA");
+            lista_UF.Add("PB");
+            lista_UF.Add("PE");
+            lista_UF.Add("PI");
+            lista_UF.Add("PR");
+            lista_UF.Add("RJ");
+            lista_UF.Add("RN");
+            lista_UF.Add("RO");
+            lista_UF.Add("RS");
+            lista_UF.Add("SC");
+            lista_UF.Add("SE");
+            lista_UF.Add("SP");
+            lista_UF.Add("TO");
+
+            return lista_UF;
         }
 
         // GET: EspecialistaViewModel/Details/5
@@ -73,7 +118,7 @@ namespace HealthSolution.Controllers
         public ActionResult Create()
         {
             ViewBag.Especialidades = db.Especialidades.ToList();
-
+            ViewBag.ListaUF = GetListUF();
             return View();
         }
 
@@ -82,21 +127,34 @@ namespace HealthSolution.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nome,Crm,EspecialidadeId,Especialidade")] EspecialistaViewModel especialistaViewModel)
+        public ActionResult Create([Bind(Include = "Id,Nome,Crm,EspecialidadeId,Especialidade, DataNascimento,Email, Rua, Bairro, Cidade, Numero ")] EspecialistaViewModel especialistaViewModel)
         {
-
             if (ModelState.IsValid)
             {
                 using (var transaction = db.Database.BeginTransaction())
                 {
                     try
                     {
+                        /* Endereço */
+                        var endereco = new Endereco();
+                        endereco.Bairro = especialistaViewModel.Bairro;
+                        endereco.Cidade = especialistaViewModel.Cidade;
+                        endereco.Rua = especialistaViewModel.Rua;
+                        endereco.Numero = especialistaViewModel.Numero;
+                        db.Enderecos.Add(endereco);
+                        db.SaveChanges();
+
+                        /* Especialista */
                         var especialista = new Especialista();
                         especialista.Nome = especialistaViewModel.Nome;
                         especialista.Crm = especialistaViewModel.Crm;
+                        especialista.Email = especialistaViewModel.Email;
+                        especialista.ConselhoUF = especialistaViewModel.ConselhoUF;
+                        especialista.EnderecoId = endereco.Id;
                         db.Especialistas.Add(especialista);
                         db.SaveChanges();
 
+                        /* EspecialistaEspecialidade */
                         var especialistaEspecialidade = new EspecialistaEspecialidade();
                         especialistaEspecialidade.EspecialistaId = especialista.Id;
                         especialistaEspecialidade.EspecialidadeId = especialistaViewModel.EspecialidadeId;
@@ -180,6 +238,12 @@ namespace HealthSolution.Controllers
                 {
                     var especialista = db.Especialistas.Where(x => x.Id == id).FirstOrDefault();
 
+                    if (especialista.EnderecoId != -1)
+                    {
+                        var endereco = db.Enderecos.Where(y => y.Id == especialista.EnderecoId).FirstOrDefault();
+                        db.Enderecos.Remove(endereco);
+                    }
+
                     if (especialista != null)
                     {
                         var especialistaespecialidade = db.EspecialistasEspecialidades.Where(y => y.EspecialistaId == especialista.Id).ToList();
@@ -191,6 +255,7 @@ namespace HealthSolution.Controllers
                         db.SaveChanges();
                         transaction.Commit();
                     }
+                    
                 }
                 catch (Exception e)
                 {

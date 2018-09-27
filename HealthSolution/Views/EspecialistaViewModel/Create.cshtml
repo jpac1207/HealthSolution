@@ -1,4 +1,4 @@
-﻿@model HealthSolution.ViewModels.EspecialistaViewModel
+﻿@model HealthSolution.ViewModels.EspecialistaViewModel 
 
 @{
     ViewBag.Title = "Create";
@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>EspecialistaViewModel</h4>
+        <h4>Especialista</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -32,24 +32,17 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EspecialidadeId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Especialidade", htmlAttributes: new { @class = "control-label col-md-2" })
+            
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EspecialidadeId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EspecialidadeId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.especialidade, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.especialidade, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.especialidade, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.EspecialidadeId, new SelectList(ViewBag.Especialidades, "Id", "Nome"), htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Especialidade, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Cadastrar" class="btn btn-primary btn-lg" />
             </div>
         </div>
     </div>

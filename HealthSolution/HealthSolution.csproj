@@ -244,6 +244,10 @@
     <Compile Include="Migrations\201809252357032_EspecialistasEspecialidade.Designer.cs">
       <DependentUpon>201809252357032_EspecialistasEspecialidade.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809270019532_Especialista Nome String.cs" />
+    <Compile Include="Migrations\201809270019532_Especialista Nome String.Designer.cs">
+      <DependentUpon>201809270019532_Especialista Nome String.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Consulta.cs" />
@@ -421,6 +425,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809252357032_EspecialistasEspecialidade.resx">
       <DependentUpon>201809252357032_EspecialistasEspecialidade.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809270019532_Especialista Nome String.resx">
+      <DependentUpon>201809270019532_Especialista Nome String.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

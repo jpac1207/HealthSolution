@@ -8,7 +8,7 @@ using System.Web;
 
 namespace HealthSolution.Dal
 {
-    //[DbConfigurationType(typeof(MySqlEFConfiguration))]
+    [DbConfigurationType(typeof(MySqlEFConfiguration))]
     public class HealthContext : DbContext
     {
         public HealthContext() : base("HealthContext")

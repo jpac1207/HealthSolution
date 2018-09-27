@@ -46,7 +46,7 @@ namespace HealthSolution.Controllers
 
                 if (especiality != null)
                 {
-                    especialistaViewModel.especialidade = especiality.Nome;
+                    especialistaViewModel.Especialidade = especiality.Nome;
                     especialistaViewModel.EspecialidadeId = especiality.Id;
                 } 
             }
@@ -72,6 +72,8 @@ namespace HealthSolution.Controllers
         // GET: EspecialistaViewModel/Create
         public ActionResult Create()
         {
+            ViewBag.Especialidades = db.Especialidades.ToList();
+
             return View();
         }
 
@@ -80,7 +82,7 @@ namespace HealthSolution.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nome,Crm,EspecialidadeId,especialidade")] EspecialistaViewModel especialistaViewModel)
+        public ActionResult Create([Bind(Include = "Id,Nome,Crm,EspecialidadeId,Especialidade")] EspecialistaViewModel especialistaViewModel)
         {
 
             if (ModelState.IsValid)
@@ -127,6 +129,9 @@ namespace HealthSolution.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.Especialidades = db.Especialidades.ToList();
+
             return View(especialistaViewModel);
         }
 
@@ -135,7 +140,7 @@ namespace HealthSolution.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nome,Crm,EspecialidadeId,especialidade")] EspecialistaViewModel especialistaViewModel)
+        public ActionResult Edit([Bind(Include = "Id,Nome,Crm,EspecialidadeId,Especialidade")] EspecialistaViewModel especialistaViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -168,9 +173,30 @@ namespace HealthSolution.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            EspecialistaViewModel especialistaViewModel = GetEspecialistaViewModel(db.Especialistas.Find(id));
-           // db.Especialistas.Remove(especialistaViewModel);
-           // db.SaveChanges();
+            
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    var especialista = db.Especialistas.Where(x => x.Id == id).FirstOrDefault();
+
+                    if (especialista != null)
+                    {
+                        var especialistaespecialidade = db.EspecialistasEspecialidades.Where(y => y.EspecialistaId == especialista.Id).ToList();
+
+                        especialistaespecialidade.ForEach(x => db.EspecialistasEspecialidades.Remove(x));
+
+                        db.Especialistas.Remove(especialista);
+
+                        db.SaveChanges();
+                        transaction.Commit();
+                    }
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                }
+            }
             return RedirectToAction("Index");
         }
 

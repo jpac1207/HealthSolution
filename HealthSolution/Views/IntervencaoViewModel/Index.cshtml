@@ -1,0 +1,66 @@
+﻿@model IEnumerable<HealthSolution.ViewModels.IntervencaoViewModel>
+
+@{
+    ViewBag.Title = "Index";   
+}
+
+<h2 class="text-center">Procedimentos</h2>
+
+<p>
+    @Html.ActionLink("Agendar Novo Procedimento", "Create", new { }, new { @class = "btn btn-primary btn-block" })
+</p>
+<div class="table-responsive">
+    <table class="table">
+        <tr class="bg-dark text-white">
+            <th>
+                Doutor
+            </th>
+            <th>
+                Paciente
+            </th>
+            <th>
+                Procedimento
+            </th>
+            <th>
+                Data
+            </th>
+            <th>
+                Observação
+            </th>
+            <th>
+                Forma de Pagamento
+            </th>
+            <th class="buttonCell"></th>
+        </tr>
+
+        @foreach (var item in Model)
+    {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Especialista.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Paciente.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Procedimento.Nome)
+                </td>
+                <td>
+                    @(item.Date != null ? item.Date.Date.ToString("dd/MM/yyyy") : "")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FormaPagamento.Nome)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) |
+                    @Html.ActionLink("Detalhes", "Details", new { id = item.Id }, new { @class = "btn btn-secondary" }) |
+                    @Html.ActionLink("Excluir", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+    }
+
+    </table>
+</div>

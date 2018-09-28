@@ -30,9 +30,9 @@
                             Administração
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            @Html.ActionLink("Formas de Pagamento", "Index", "FormasPagamento", new { @class = "dropdown-item" }, new { })
-                            @Html.ActionLink("Especialidades", "Index", "Especialidades", new { @class = "dropdown-item" }, new { })
-                            <a class="dropdown-item" href="#">Something else here</a>
+                            @Html.ActionLink("Formas de Pagamento", "Index", "FormasPagamento", new { }, new { @class = "dropdown-item" })
+                            @Html.ActionLink("Especialidades", "Index", "Especialidades", new { }, new { @class = "dropdown-item" })
+                            @Html.ActionLink("Tipos de Procedimento", "Index", "Procedimentos", new { }, new { @class = "dropdown-item" })
                         </div>
                     </li>
                 </ul>
@@ -53,6 +53,7 @@
         $('.date').mask('00/00/0000');
         $('.cpf').mask('000.000.000-00', { reverse: true });
         $('.phone').mask('(00) 00000-0000');
+        $('.money').mask('000.000.000.000.000,00', { reverse: true });
 
         jQuery(function ($) {
             $.datepicker.regional['pt-BR'] = {

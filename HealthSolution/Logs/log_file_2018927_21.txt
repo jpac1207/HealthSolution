@@ -1,0 +1,5 @@
+27/09/2018 21:59:15 => An error occurred while updating the entries. See the inner exception for details.
+27/09/2018 21:59:15 =>    em System.Data.Entity.Internal.InternalContext.SaveChanges()
+   em System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   em System.Data.Entity.DbContext.SaveChanges()
+   em HealthSolution.Controllers.IntervencaoViewModelController.Create(IntervencaoViewModel intervencaoViewModel) na C:\Users\asus.PC\documents\visual studio 2015\Projects\HealthSolution\HealthSolution\Controllers\IntervencaoViewModelController.cs:linha 118

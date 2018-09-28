@@ -268,6 +268,10 @@
     <Compile Include="Migrations\201809280110347_CorrigindoPagamentoIntervencao.Designer.cs">
       <DependentUpon>201809280110347_CorrigindoPagamentoIntervencao.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809280230202_Corrigindo Banco.cs" />
+    <Compile Include="Migrations\201809280230202_Corrigindo Banco.Designer.cs">
+      <DependentUpon>201809280230202_Corrigindo Banco.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Consulta.cs" />
@@ -478,6 +482,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809280110347_CorrigindoPagamentoIntervencao.resx">
       <DependentUpon>201809280110347_CorrigindoPagamentoIntervencao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809280230202_Corrigindo Banco.resx">
+      <DependentUpon>201809280230202_Corrigindo Banco.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

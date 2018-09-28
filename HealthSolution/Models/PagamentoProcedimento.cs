@@ -9,7 +9,7 @@ namespace HealthSolution.Models
     [Table("tbpagamento_procedimento")]
     public class PagamentoProcedimento : Pagamento
     {
-        public int ProcedimentoId { get; set; }
-        public Procedimento Procedimento { get; set; }
+        public int IntervencaoId { get; set; }
+        public Intervencao Intervencao { get; set; }
     }
 }

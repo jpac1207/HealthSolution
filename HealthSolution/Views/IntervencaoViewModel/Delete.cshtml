@@ -1,0 +1,71 @@
+﻿@model HealthSolution.ViewModels.IntervencaoViewModel
+
+@{
+    ViewBag.Title = "Excluir";
+}
+
+<h2 class="text-center">Excluir</h2>
+
+<h3>Você realmente deseja excluir esse procedimento?</h3>
+<div>
+   
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Doutor
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Especialista.Nome)
+        </dd>
+
+        <dt>
+            Paciente
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paciente.Nome)
+        </dd>
+
+        <dt>
+            Procedimento
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Procedimento.Nome)
+        </dd>
+
+        <dt>
+            Data
+        </dt>
+
+        <dd>
+            @(Model.Date != null ? Model.Date.ToString("dd/MM/yyy") : "-")
+        </dd>
+
+        <dt>
+            Observação
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Observacao)
+        </dd>
+
+        <dt>
+            Forma de Pagamento
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FormaPagamento.Nome)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Excluir" class="btn btn-danger" /> |
+            @Html.ActionLink("Voltar para a Lista", "Index")
+        </div>
+    }
+</div>

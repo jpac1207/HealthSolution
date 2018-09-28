@@ -33,7 +33,7 @@ namespace HealthSolution.Controllers
 
         private PacienteViewModel GetPacienteViewModel(Paciente x)
         {
-            var myPhone = db.Telefones.Where(y => y.PacienteId == x.Id).FirstOrDefault();
+            var myPhone = db.Telefones.Where(y => y.Id == x.TelefoneId).FirstOrDefault();
             var myAddress = db.Enderecos.Where(y => y.Id == x.EnderecoId).FirstOrDefault();
 
             var pacienteViewModel = new PacienteViewModel();
@@ -103,6 +103,11 @@ namespace HealthSolution.Controllers
                         db.Enderecos.Add(endereco);
                         db.SaveChanges();
 
+
+                        var telefone = new Telefone();
+                        telefone.Numero = pacienteViewModel.NumeroTelefone;
+                        db.Telefones.Add(telefone);
+
                         var paciente = new Paciente();
                         paciente.Nome = pacienteViewModel.Nome;
                         paciente.Cpf = pacienteViewModel.Cpf;
@@ -110,12 +115,9 @@ namespace HealthSolution.Controllers
                         paciente.DataCadastro = pacienteViewModel.DataCadastro;
                         paciente.ComoConheceu = pacienteViewModel.ComoConheceu;
                         paciente.EnderecoId = endereco.Id;
+                        paciente.TelefoneId = telefone.Id;
                         db.Pacientes.Add(paciente);
                         
-                        var telefone = new Telefone();
-                        telefone.Numero = pacienteViewModel.NumeroTelefone;
-                        telefone.PacienteId = paciente.Id;
-                        db.Telefones.Add(telefone);
 
                         db.SaveChanges();
                         transaction.Commit();
@@ -180,12 +182,11 @@ namespace HealthSolution.Controllers
                                 endereco.Numero = pacienteViewModel.NumeroResidencia;
                             }
 
-                            var telefone = db.Telefones.Where(x => x.PacienteId == paciente.Id).FirstOrDefault();
+                            var telefone = db.Telefones.Where(x => x.Id == paciente.TelefoneId).FirstOrDefault();
 
                             if (telefone != null)
                             {
                                 telefone.Numero = pacienteViewModel.NumeroTelefone;
-                                telefone.PacienteId = paciente.Id;
                             }
 
                             db.SaveChanges();
@@ -232,19 +233,20 @@ namespace HealthSolution.Controllers
                     {                       
                         var endereco = db.Enderecos.Where(x => x.Id == paciente.EnderecoId).FirstOrDefault();
 
-                        if (endereco != null)
-                        {
-                            db.Enderecos.Remove(endereco);
-                        }
+                        var telefone = db.Telefones.Where(x => x.Id == paciente.TelefoneId).FirstOrDefault();
 
-                        var telefone = db.Telefones.Where(x => x.PacienteId == paciente.Id).FirstOrDefault();
-
+                        db.Pacientes.Remove(paciente);
+                        
                         if (telefone != null)
                         {
                             db.Telefones.Remove(telefone);
                         }
 
-                        db.Pacientes.Remove(paciente);
+                        if (endereco != null)
+                        {
+                            db.Enderecos.Remove(endereco);
+                        }
+
                         db.SaveChanges();
                         transaction.Commit();
                     }

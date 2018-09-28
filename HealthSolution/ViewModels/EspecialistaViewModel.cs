@@ -21,5 +21,7 @@ namespace HealthSolution.ViewModels
         public string Bairro { get; set; }
         public string Rua { get; set; }
         public string Numero { get; set; }
+
+        public string Telefone { get; set; }
     }
 }

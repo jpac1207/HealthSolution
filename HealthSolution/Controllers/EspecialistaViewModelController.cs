@@ -63,6 +63,12 @@ namespace HealthSolution.Controllers
                 especialistaViewModel.Rua = endereco.Rua;
             }
 
+            if (x.TelefoneId != -1)
+            {
+                var telefone = db.Telefones.Where(y => y.Id == x.TelefoneId).FirstOrDefault();
+                especialistaViewModel.Telefone = telefone.Numero;
+            }
+
             return especialistaViewModel;
         }
 
@@ -128,7 +134,7 @@ namespace HealthSolution.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nome,Crm,ConselhoUF,EspecialidadeId,Especialidade,DataNascimento,Email,Rua,Bairro,Cidade,Numero")] EspecialistaViewModel especialistaViewModel)
+        public ActionResult Create([Bind(Include = "Id,Nome,Crm,ConselhoUF,EspecialidadeId,Especialidade,DataNascimento,Email,Rua,Bairro,Cidade,Numero,Telefone")] EspecialistaViewModel especialistaViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -136,6 +142,11 @@ namespace HealthSolution.Controllers
                 {
                     try
                     {
+                        /* Telefone */
+                        var telefone = new Telefone();
+                        telefone.Numero = especialistaViewModel.Telefone;
+                        db.Telefones.Add(telefone);
+                            
                         /* Endereço */
                         var endereco = new Endereco();
                         endereco.Bairro = especialistaViewModel.Bairro;
@@ -152,6 +163,7 @@ namespace HealthSolution.Controllers
                         especialista.Email = especialistaViewModel.Email;
                         especialista.ConselhoUF = especialistaViewModel.ConselhoUF;
                         especialista.EnderecoId = endereco.Id;
+                        especialista.TelefoneId = telefone.Id;
                         especialista.DataNascimento = especialistaViewModel.DataNascimento;
                         db.Especialistas.Add(especialista);
                         db.SaveChanges();
@@ -200,7 +212,7 @@ namespace HealthSolution.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nome,Crm,ConselhoUF,EspecialidadeId,Especialidade,DataNascimento,Email,Rua,Bairro,Cidade,Numero ")] EspecialistaViewModel especialistaViewModel)
+        public ActionResult Edit([Bind(Include = "Id,Nome,Crm,ConselhoUF,EspecialidadeId,Especialidade,DataNascimento,Email,Rua,Bairro,Cidade,Numero,Telefone")] EspecialistaViewModel especialistaViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -219,6 +231,14 @@ namespace HealthSolution.Controllers
                             especialista.ConselhoUF = especialistaViewModel.ConselhoUF;
                             especialista.DataNascimento = especialistaViewModel.DataNascimento;
                             db.SaveChanges();
+
+                            /* Telefone */
+                            var telefone = especialista.Telefone;
+
+                            if(telefone != null)
+                            {
+                                telefone.Numero = especialistaViewModel.Telefone;
+                            }
 
                             /* Endereço */
                             var endereco = db.Enderecos.Where(x => x.Id == especialista.EnderecoId).FirstOrDefault();
@@ -260,7 +280,7 @@ namespace HealthSolution.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var especialista = db.Especialistas.Where(x => x.Id == id).Include(x => x.Endereco).FirstOrDefault();
+            var especialista = db.Especialistas.Where(x => x.Id == id).Include(x => x.Endereco).Include(x => x.Telefone).FirstOrDefault();
             if (especialista == null)
             {
                 return HttpNotFound();
@@ -295,11 +315,18 @@ namespace HealthSolution.Controllers
 
                     }
 
-                    if (especialista.EnderecoId != -1)
+                    if (especialista.Endereco!= null)
                     {
-                        var endereco = db.Enderecos.Where(y => y.Id == especialista.EnderecoId).FirstOrDefault();
+                        var endereco = especialista.Endereco;
                         db.Enderecos.Remove(endereco);
                     }
+
+                    if (especialista.Telefone != null)
+                    {
+                        var telefone = especialista.Telefone;
+                        db.Telefones.Remove(telefone);
+                    }
+                    db.SaveChanges();
                     transaction.Commit();
                 }
                 catch (Exception e)

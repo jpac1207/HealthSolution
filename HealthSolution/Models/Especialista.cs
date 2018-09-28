@@ -17,5 +17,7 @@ namespace HealthSolution.Models
         public string Email { get; set; }
         public int EnderecoId { get; set; }
         public Endereco Endereco { get; set; }
+        public int TelefoneId { get; set; }
+        public Telefone Telefone { get; set; }
     }
 }

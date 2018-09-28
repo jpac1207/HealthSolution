@@ -11,7 +11,5 @@ namespace HealthSolution.Models
     {
         public int Id { get; set; }
         public string Numero { get; set; }
-        public int PacienteId { get; set; }
-        public Paciente Paciente { get; set; }
     }
 }

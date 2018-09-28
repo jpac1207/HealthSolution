@@ -261,6 +261,10 @@
     <Compile Include="Migrations\201809270237538_add enderecoId especialistas.Designer.cs">
       <DependentUpon>201809270237538_add enderecoId especialistas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809272333332_telefone banco de dados.cs" />
+    <Compile Include="Migrations\201809272333332_telefone banco de dados.Designer.cs">
+      <DependentUpon>201809272333332_telefone banco de dados.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Consulta.cs" />
@@ -456,6 +460,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809270237538_add enderecoId especialistas.resx">
       <DependentUpon>201809270237538_add enderecoId especialistas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809272333332_telefone banco de dados.resx">
+      <DependentUpon>201809272333332_telefone banco de dados.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

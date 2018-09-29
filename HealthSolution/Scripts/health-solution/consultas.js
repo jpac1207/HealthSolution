@@ -1,30 +1,30 @@
-﻿var baseUrl = '../Especialidades/'; 
+﻿var baseUrl = '../EspecialistaViewModel/'; 
 var dropDoutor = document.getElementById("EspecialistaId");
 var dropEspecialidade = document.getElementById("EspecialidadeId");
 
-alert("João pedro é da mamãe!");
-function fnMudarDropDoutor() {
-    fnGetDoutorByEspecialidadeId(dropEspecialidade.selectedIndex);
+var fnMudarDropDoutor =  function () {
+    fnGetDoutorByEspecialidadeId(dropEspecialidade.options[dropEspecialidade.selectedIndex].value);
 }
 
 function fnGetDoutorByEspecialidadeId(especialidadeId) {
     var util = new Util();
     var method = 'GetEspecialistasById';
+    
     util.doAjax(baseUrl + method, "{especialidadeId:" + especialidadeId + "}").then(function (data) {
-        alert(data);
+        console.log(data);
         while (dropDoutor.options.length > 0)
         {
             dropDoutor.remove(0);
         }
 
-       /* for (var i = 0; data.length; i++) {
+        for (var i = 0; data.length; i++) {
             var opt = document.createElement("option");
-            opt.value = data[i][0];
-            opt.innerHTML = data[i][1];
+            opt.value = data[i].Especialista.Id;
+            opt.innerHTML = data[i].Especialista.Nome;
             dropDoutor.appendChild(opt);
-        } */
+        } 
         
     }), function (err) { consoleg.log(err)}; 
 }
 
-dropEspecialidade.onchange = mudarDropDoutor();
+dropEspecialidade.onchange = fnMudarDropDoutor;

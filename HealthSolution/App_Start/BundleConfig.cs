@@ -34,6 +34,8 @@ namespace HealthSolution
                       "~/Content/open-iconic-bootstrap.css",
                       "~/Content/open-iconic.css",
                       "~/Content/jquery-ui.css"));
+
+            bundles.Add(new ScriptBundle("~/health-solution").Include("~/Scripts/health-solution/consultas.js"));
         }
     }
 }

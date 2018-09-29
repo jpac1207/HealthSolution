@@ -35,7 +35,7 @@ namespace HealthSolution.Controllers
             {
                 pacientes = pacientes.Where(x => x.Cpf.Equals(cpf)).ToList();
             }
-                        
+
             pacientes.ForEach(x =>
             {
                 PacienteViewModel pacienteViewModel = GetPacienteViewModel(x);
@@ -130,7 +130,7 @@ namespace HealthSolution.Controllers
                         paciente.ComoConheceu = pacienteViewModel.ComoConheceu;
                         paciente.EnderecoId = endereco.Id;
                         paciente.TelefoneId = telefone.Id;
-                        db.Pacientes.Add(paciente);                        
+                        db.Pacientes.Add(paciente);
 
                         db.SaveChanges();
                         transaction.Commit();
@@ -243,13 +243,13 @@ namespace HealthSolution.Controllers
                     var paciente = db.Pacientes.Where(x => x.Id == id).FirstOrDefault();
 
                     if (paciente != null)
-                    {                       
+                    {
                         var endereco = db.Enderecos.Where(x => x.Id == paciente.EnderecoId).FirstOrDefault();
 
                         var telefone = db.Telefones.Where(x => x.Id == paciente.TelefoneId).FirstOrDefault();
 
                         db.Pacientes.Remove(paciente);
-                        
+
                         if (telefone != null)
                         {
                             db.Telefones.Remove(telefone);
@@ -270,6 +270,67 @@ namespace HealthSolution.Controllers
                 }
             }
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Prontuario(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var pacient = db.Pacientes.Where(x => x.Id == id).FirstOrDefault();
+
+            if (pacient == null)
+            {
+                return HttpNotFound();
+            }
+
+            var consultas = db.Consultas.Where(x => x.PacienteId == id)
+                .Include(x => x.Especialidade).Include(x => x.Especialista).
+                Include(x => x.Paciente).ToList();
+            var procedimentos = db.Intervencoes.Where(x => x.PacienteId == id)
+                .Include(x => x.Procedimento).Include(x => x.Paciente)
+                .Include(x => x.Especialista).ToList();
+            var prontuarios = new List<ProntuarioViewModel>();
+
+            consultas.ForEach(x =>
+            {
+                var paymentWay = db.PagamentosConsultas.Where(y => y.ConsultaId == x.Id)
+                .Include(y => y.FormaPagamento).FirstOrDefault();
+
+                prontuarios.Add(new ProntuarioViewModel()
+                {
+                    Tipo = "Consulta",
+                    Date = x.Date,
+                    Especialidade = x.Especialidade.Nome,
+                    NomeEspecialista = x.Especialista.Nome,
+                    NomePaciente = x.Paciente.Nome,
+                    FormaPagamento = paymentWay != null ? paymentWay.FormaPagamento.Nome : "-",
+                    Observacao = x.Observacao
+                });
+            });
+
+            procedimentos.ForEach(x =>
+            {
+                var payment = db.PagamentosProcedimentos.Where(y => y.IntervencaoId == x.Id)
+                .Include(y => y.FormaPagamento).FirstOrDefault();
+
+                prontuarios.Add(new ProntuarioViewModel()
+                {
+                    Tipo = "Procedimento",
+                    Date = x.Date,
+                    Especialidade = x.Procedimento.Nome,
+                    NomeEspecialista = x.Especialista.Nome,
+                    NomePaciente = x.Paciente.Nome,
+                    FormaPagamento = payment != null ? payment.FormaPagamento.Nome : "-",
+                    Observacao = x.Observacao
+                });
+            });
+
+            prontuarios = prontuarios.OrderByDescending(x => x.Date).ToList();
+
+            return View(prontuarios);
         }
 
         protected override void Dispose(bool disposing)

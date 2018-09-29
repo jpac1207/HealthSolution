@@ -30,3 +30,7 @@ textarea {
 .phoneCell {
     min-width: 150px;
 }
+
+.textAreaObs {
+    max-width: 650px;
+}

@@ -221,7 +221,8 @@ namespace HealthSolution.Controllers
                     try
                     {
                         /* Especialista */
-                        var especialista = db.Especialistas.Where(x => x.Id == especialistaViewModel.Id).FirstOrDefault();
+                        var especialista = db.Especialistas.Where(x => x.Id == especialistaViewModel.Id)
+                            .Include(x => x.Telefone).FirstOrDefault();
 
                         if (especialista != null)
                         {
@@ -299,7 +300,6 @@ namespace HealthSolution.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-
             using (var transaction = db.Database.BeginTransaction())
             {
                 try
@@ -312,7 +312,6 @@ namespace HealthSolution.Controllers
                         especialistaespecialidade.ForEach(x => db.EspecialistasEspecialidades.Remove(x));
                         db.Especialistas.Remove(especialista);
                         db.SaveChanges();
-
                     }
 
                     if (especialista.Endereco!= null)

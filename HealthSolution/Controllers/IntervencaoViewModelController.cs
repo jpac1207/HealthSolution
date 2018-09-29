@@ -31,7 +31,8 @@ namespace HealthSolution.Controllers
 
         private IntervencaoViewModel GetIntervencaoViewModel(Intervencao x)
         {
-            var paymentWay = db.PagamentosProcedimentos.Where(y => y.IntervencaoId == x.Id).Include(y => y.FormaPagamento).FirstOrDefault();
+            var paymentWay = db.PagamentosProcedimentos.Where(y => y.IntervencaoId == x.Id)
+                .Include(y => y.FormaPagamento).FirstOrDefault();
 
             var intervencaoViewModel = new IntervencaoViewModel();
             intervencaoViewModel.Date = x.Date;
@@ -46,7 +47,7 @@ namespace HealthSolution.Controllers
 
             if (paymentWay != null)
             {
-                intervencaoViewModel.FormaPagamentoId = paymentWay.Id;
+                intervencaoViewModel.FormaPagamentoId = paymentWay.FormaPagamento.Id;
                 intervencaoViewModel.FormaPagamento = paymentWay.FormaPagamento;
             }
             else

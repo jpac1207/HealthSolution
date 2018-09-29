@@ -91,8 +91,8 @@
         </div>
 
         <div class="row">
-            <div class="form-group">
-                <label class="control-label col-md-2">Telefone</label>
+            <div class="col-md-4">
+                <label class="control-label">Telefone</label>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.NumeroTelefone, new { htmlAttributes = new { @class = "form-control phone" } })
                     @Html.ValidationMessageFor(model => model.NumeroTelefone, "", new { @class = "text-danger" })

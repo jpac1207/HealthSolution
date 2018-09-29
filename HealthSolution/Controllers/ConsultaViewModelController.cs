@@ -33,7 +33,8 @@ namespace HealthSolution.Controllers
 
         private ConsultaViewModel GetConsultaViewModel(Consulta x)
         {
-            var paymentWay = db.PagamentosConsultas.Where(y => y.ConsultaId == x.Id).Include(y => y.FormaPagamento).FirstOrDefault();
+            var paymentWay = db.PagamentosConsultas.Where(y => y.ConsultaId == x.Id).
+                Include(y => y.FormaPagamento).FirstOrDefault();
 
             var consultaViewModel = new ConsultaViewModel();
             consultaViewModel.Date = x.Date;
@@ -49,7 +50,7 @@ namespace HealthSolution.Controllers
 
             if (paymentWay != null)
             {
-                consultaViewModel.FormaPagamentoId = paymentWay.Id;
+                consultaViewModel.FormaPagamentoId = paymentWay.FormaPagamento.Id;
                 consultaViewModel.FormaPagamento = paymentWay.FormaPagamento;
             }
             else
@@ -72,7 +73,8 @@ namespace HealthSolution.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var consulta = db.Consultas.Where(x => x.Id == id).Include(x => x.Especialidade).Include(x => x.Especialista).
+            var consulta = db.Consultas.Where(x => x.Id == id).
+                Include(x => x.Especialidade).Include(x => x.Especialista).
                 Include(x => x.Paciente).FirstOrDefault();
             if (consulta == null)
             {
@@ -93,7 +95,7 @@ namespace HealthSolution.Controllers
             paymentWays.Insert(0, new FormaPagamento() { Id = -1, Nome = "-" });
 
             ViewBag.EspecialidadeId = new SelectList(db.Especialidades, "Id", "Nome");
-            ViewBag.EspecialistaId = new SelectList(db.Especialistas, "Id", "Crm");
+            ViewBag.EspecialistaId = new SelectList(db.Especialistas, "Id", "Nome");
             ViewBag.FormaPagamentoId = new SelectList(paymentWays, "Id", "Nome");
             ViewBag.PacienteId = new SelectList(db.Pacientes, "Id", "Nome");
             return View();
@@ -144,7 +146,7 @@ namespace HealthSolution.Controllers
             paymentWays.Insert(0, new FormaPagamento() { Id = -1, Nome = "-" });
 
             ViewBag.EspecialidadeId = new SelectList(db.Especialidades, "Id", "Nome", consultaViewModel.EspecialidadeId);
-            ViewBag.EspecialistaId = new SelectList(db.Especialistas, "Id", "Crm", consultaViewModel.EspecialistaId);
+            ViewBag.EspecialistaId = new SelectList(db.Especialistas, "Id", "Nome", consultaViewModel.EspecialistaId);
             ViewBag.FormaPagamentoId = new SelectList(paymentWays, "Id", "Nome", consultaViewModel.FormaPagamentoId);
             ViewBag.PacienteId = new SelectList(db.Pacientes, "Id", "Nome", consultaViewModel.PacienteId);
             return View(consultaViewModel);
@@ -166,7 +168,7 @@ namespace HealthSolution.Controllers
             paymentWays.Insert(0, new FormaPagamento() { Id = -1, Nome = "-" });
 
             ViewBag.EspecialidadeId = new SelectList(db.Especialidades, "Id", "Nome", consultaViewModel.EspecialidadeId);
-            ViewBag.EspecialistaId = new SelectList(db.Especialistas, "Id", "Crm", consultaViewModel.EspecialistaId);
+            ViewBag.EspecialistaId = new SelectList(db.Especialistas, "Id", "Nome", consultaViewModel.EspecialistaId);
             ViewBag.FormaPagamentoId = new SelectList(paymentWays, "Id", "Nome", consultaViewModel.FormaPagamentoId);
             ViewBag.PacienteId = new SelectList(db.Pacientes, "Id", "Nome", consultaViewModel.PacienteId);
             return View(consultaViewModel);
@@ -227,7 +229,7 @@ namespace HealthSolution.Controllers
             paymentWays.Insert(0, new FormaPagamento() { Id = -1, Nome = "-" });
 
             ViewBag.EspecialidadeId = new SelectList(db.Especialidades, "Id", "Nome", consultaViewModel.EspecialidadeId);
-            ViewBag.EspecialistaId = new SelectList(db.Especialistas, "Id", "Crm", consultaViewModel.EspecialistaId);
+            ViewBag.EspecialistaId = new SelectList(db.Especialistas, "Id", "Nome", consultaViewModel.EspecialistaId);
             ViewBag.FormaPagamentoId = new SelectList(paymentWays, "Id", "Nome", consultaViewModel.FormaPagamentoId);
             ViewBag.PacienteId = new SelectList(db.Pacientes, "Id", "Nome", consultaViewModel.PacienteId);
             return View(consultaViewModel);

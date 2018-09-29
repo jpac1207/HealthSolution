@@ -116,8 +116,7 @@ namespace HealthSolution.Controllers
                         paciente.ComoConheceu = pacienteViewModel.ComoConheceu;
                         paciente.EnderecoId = endereco.Id;
                         paciente.TelefoneId = telefone.Id;
-                        db.Pacientes.Add(paciente);
-                        
+                        db.Pacientes.Add(paciente);                        
 
                         db.SaveChanges();
                         transaction.Commit();

@@ -9,6 +9,27 @@
 <p>
     @Html.ActionLink("Agendar Nova Consulta", "Create" , new { }, new { @class ="btn btn-primary btn-block"})
 </p>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "jumbotron" }))
+{
+    <div class="row">
+        <div class="col-md-2">
+            @Html.TextBox("doutor", null, new { @class = "form-control", placeholder = "Doutor", onchange = "form.submit()" })
+        </div>
+        <div class="col-md-2">
+            @Html.TextBox("paciente", null, new { @class = "form-control", placeholder = "Paciente", onchange = "form.submit()" })
+        </div>
+        <div class="col-md-2">
+            @Html.TextBox("especialidade", null, new { @class = "form-control", placeholder = "Especialidade", onchange = "form.submit()" })
+        </div>
+        <div class="col-md-2">
+            @Html.TextBox("data", null, new { @class = "form-control date datepicker", placeholder = "Data", onchange = "form.submit()" })
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-success">Buscar</button>
+        </div>
+    </div>
+}
 <div class="table-responsive">
     <table class="table">
         <tr class="bg-dark text-white">

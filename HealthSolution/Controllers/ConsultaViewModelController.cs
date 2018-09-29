@@ -17,11 +17,27 @@ namespace HealthSolution.Controllers
         private HealthContext db = new HealthContext();
 
         // GET: ConsultaViewModel
-        public ActionResult Index()
+        public ActionResult Index(string doutor, string paciente, string especialidade, string data)
         {
             var consultasViewModels = new List<ConsultaViewModel>();
             var consultas = db.Consultas.Include(x => x.Especialista).Include(x => x.Especialidade)
                 .Include(x => x.Paciente).ToList();
+
+            if (!string.IsNullOrEmpty(doutor))
+                consultas = consultas.Where(x => x.Especialista.Nome.Contains(doutor)).ToList();
+            if (!string.IsNullOrEmpty(paciente))
+                consultas = consultas.Where(x => x.Paciente.Nome.Contains(paciente)).ToList();
+            if (!string.IsNullOrEmpty(especialidade))
+                consultas = consultas.Where(x => x.Especialidade.Nome.Contains(especialidade)).ToList();
+            if (!string.IsNullOrEmpty(data))
+            {
+                DateTime lvDateTime = DateTime.MinValue;
+
+                if (DateTime.TryParse(data, out lvDateTime))
+                {
+                    consultas = consultas.Where(x => x.Date == lvDateTime).ToList();
+                }
+            }
 
             consultas.ForEach(x =>
             {
@@ -30,6 +46,7 @@ namespace HealthSolution.Controllers
 
             return View(consultasViewModels);
         }
+        
 
         private ConsultaViewModel GetConsultaViewModel(Consulta x)
         {

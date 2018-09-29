@@ -305,6 +305,7 @@
     <Content Include="Content\Images\logo.png" />
     <Content Include="Content\Images\mainImage.png" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Scripts\health-solution\consultas.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Content\open-iconic-bootstrap.css" />
     <Content Include="Content\open-iconic.css" />

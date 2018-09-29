@@ -350,6 +350,13 @@ namespace HealthSolution.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public ActionResult GetEspecialistasById(int especialidadeId)
+        {
+            List<EspecialistaEspecialidade> especialistaEspecialidade = db.EspecialistasEspecialidades.Where(x => x.EspecialidadeId == especialidadeId).Include(x => x.Especialista).ToList();
+            return Json(especialistaEspecialidade);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

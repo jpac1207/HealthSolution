@@ -9,6 +9,21 @@
 <p>
     @Html.ActionLink("Novo Cadastro", "Create", new { }, new { @class = "btn btn-primary btn-block" })
 </p>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "jumbotron" }))
+{
+    <div class="row">
+        <div class="col-md-4">
+            @Html.TextBox("nome", null, new { @class = "form-control", placeholder = "Paciente", onchange = "form.submit()" })
+        </div>
+        <div class="col-md-4">
+            @Html.TextBox("cpf", null, new { @class = "form-control cpf", placeholder = "Cpf", onchange = "form.submit()" })
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-success">Buscar</button>
+        </div>
+    </div>
+}
 <div class="table-responsive">
     <table class="table">
         <tr class="bg-dark text-white">
@@ -54,11 +69,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Cpf)
                 </td>
-                <td>                    
+                <td>
                     @(item.DataNascimento != null ? item.DataNascimento.Date.ToString("dd/MM/yyyy") : "")
                 </td>
                 <td>
-                   @(item.DataCadastro != null ? item.DataCadastro.Date.ToString("dd/MM/yyyy") : "")
+                    @(item.DataCadastro != null ? item.DataCadastro.Date.ToString("dd/MM/yyyy") : "")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ComoConheceu)

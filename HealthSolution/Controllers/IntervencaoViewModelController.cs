@@ -18,11 +18,27 @@ namespace HealthSolution.Controllers
         private HealthContext db = new HealthContext();
 
         // GET: IntervencaoViewModels
-        public ActionResult Index()
+        public ActionResult Index(string doutor, string paciente, string procedimento, string data)
         {
             var intervencaoViewModels = new List<IntervencaoViewModel>();
             var intervencoes = db.Intervencoes.Include(i => i.Especialista).
                 Include(i => i.Paciente).Include(i => i.Procedimento).ToList();
+
+            if (!string.IsNullOrEmpty(doutor))
+                intervencoes = intervencoes.Where(x => x.Especialista.Nome.Contains(doutor)).ToList();
+            if (!string.IsNullOrEmpty(paciente))
+                intervencoes = intervencoes.Where(x => x.Paciente.Nome.Contains(paciente)).ToList();
+            if (!string.IsNullOrEmpty(procedimento))
+                intervencoes = intervencoes.Where(x => x.Procedimento.Nome.Contains(procedimento)).ToList();
+            if (!string.IsNullOrEmpty(data))
+            {
+                DateTime lvDateTime = DateTime.MinValue;
+
+                if(DateTime.TryParse(data, out lvDateTime))
+                {
+                    intervencoes = intervencoes.Where(x => x.Date == lvDateTime).ToList();
+                }
+            }
 
             intervencoes.ForEach(x => intervencaoViewModels.Add(GetIntervencaoViewModel(x)));
 

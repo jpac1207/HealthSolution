@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<HealthSolution.ViewModels.IntervencaoViewModel>
 
 @{
-    ViewBag.Title = "Index";   
+    ViewBag.Title = "Index";
 }
 
 <h2 class="text-center">Procedimentos</h2>
@@ -9,6 +9,26 @@
 <p>
     @Html.ActionLink("Agendar Novo Procedimento", "Create", new { }, new { @class = "btn btn-primary btn-block" })
 </p>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "jumbotron" }))
+{
+    <div class="row">
+        <div class="col-md-2">
+            @Html.TextBox("doutor", null, new { @class = "form-control", placeholder = "Doutor", onchange = "form.submit()" })
+        </div>
+        <div class="col-md-2">
+            @Html.TextBox("paciente", null, new { @class = "form-control", placeholder = "Paciente", onchange = "form.submit()" })
+        </div>
+        <div class="col-md-2">
+            @Html.TextBox("procedimento", null, new { @class = "form-control", placeholder = "Procedimento", onchange = "form.submit()" })
+        </div>
+        <div class="col-md-2">
+            @Html.TextBox("data", null, new { @class = "form-control date datepicker", placeholder = "Data", onchange= "form.submit()" })
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-success">Buscar</button>
+        </div>
+    </div>
+}
 <div class="table-responsive">
     <table class="table">
         <tr class="bg-dark text-white">
@@ -34,7 +54,7 @@
         </tr>
 
         @foreach (var item in Model)
-    {
+        {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Especialista.Nome)
@@ -60,7 +80,7 @@
                     @Html.ActionLink("Excluir", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
                 </td>
             </tr>
-    }
+        }
 
     </table>
 </div>

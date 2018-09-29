@@ -17,11 +17,25 @@ namespace HealthSolution.Controllers
         private HealthContext db = new HealthContext();
 
         // GET: PacienteViewModel
-        public ActionResult Index()
+        public ActionResult Index(string nome, string cpf)
         {
             var pacientesViewModel = new List<PacienteViewModel>();
-            var pacientes = db.Pacientes.ToList();
+            var pacientes = new List<Paciente>();
 
+            if (!string.IsNullOrEmpty(nome))
+            {
+                pacientes = db.Pacientes.Where(x => x.Nome.Contains(nome)).ToList();
+            }
+            else
+            {
+                pacientes = db.Pacientes.ToList();
+            }
+
+            if (!string.IsNullOrEmpty(cpf))
+            {
+                pacientes = pacientes.Where(x => x.Cpf.Equals(cpf)).ToList();
+            }
+                        
             pacientes.ForEach(x =>
             {
                 PacienteViewModel pacienteViewModel = GetPacienteViewModel(x);

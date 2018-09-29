@@ -17,12 +17,26 @@ namespace HealthSolution.Controllers
         private HealthContext db = new HealthContext();
 
         // GET: EspecialistaViewModel
-        public ActionResult Index()
+        public ActionResult Index(string nome, string crm)
         {
             var especialistasViewModel = new List<EspecialistaViewModel>();
-            var especialista = db.Especialistas.ToList();
+            var especialistas = new List<Especialista>();
 
-            especialista.ForEach(x =>
+            if (!string.IsNullOrEmpty(nome))
+            {
+                especialistas = db.Especialistas.Where(x => x.Nome.Contains(nome)).ToList();
+            }
+            else
+            {
+                especialistas = db.Especialistas.ToList();
+            }
+
+            if (!string.IsNullOrEmpty(crm))
+            {
+                especialistas = especialistas.Where(x => x.Crm.Equals(crm)).ToList();
+            }
+
+            especialistas.ForEach(x =>
             {
                 EspecialistaViewModel especialistaViewModel = GetEspecialistaViewModel(x);
                 especialistasViewModel.Add(especialistaViewModel);

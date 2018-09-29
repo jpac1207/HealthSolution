@@ -12,65 +12,87 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="card border-primary rounded">
-            <div class="card-body p-4">
-                <a class="btn btn-light btn-success btn-block" href="/PacienteViewModel">
-                    <span class="oi oi-people"></span>
-                    Cadastrar Paciente
-                </a>
+            <div class="card-body p-2">
+                <h4 class="text-center">
+                    <span class="oi oi-person"></span>
+                    Pacientes
+                </h4>
+                <div class="pt-2">
+                    <a class="btn btn-primary" href="/PacienteViewModel">
+                        <span class="oi oi-people"></span>
+                        Buscar
+                    </a>
+                    <a class="btn btn-success" href="/PacienteViewModel/Create">
+                        <span class="oi oi-people"></span>
+                        Cadastrar
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="card border-primary rounded">
-            <div class="card-body p-4">
-                <a class="btn btn-light btn-success btn-block" href="/ConsultaViewModel">
+            <div class="card-body p-2">
+                <h4 class="text-center">
                     <span class="oi oi-calendar"></span>
-                    Agendar Consulta
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card border-primary rounded">
-            <div class="card-body p-4">
-                <a class="btn btn-light btn-success btn-block" href="/IntervencaoViewModel">
-                    <span class="oi oi-medical-cross"></span>
-                    Agendar Procedimento
-                </a>
+                    Consultas
+                </h4>
+                <div class="pt-2">
+                    <a class="btn btn-primary" href="/ConsultaViewModel">
+                        <span class="oi oi-calendar"></span>
+                        Buscar
+                    </a>
+                    <a class="btn btn-success" href="/ConsultaViewModel/Create">
+                        <span class="oi oi-calendar"></span>
+                        Cadastrar
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Second Row -->
-<div class="row">
-    <div class="col-md-4">
+<div class="row mt-3">
+    <div class="col-md-6">
         <div class="card border-primary rounded">
-            <div class="card-body p-4">
-                <a class="btn btn-light btn-success btn-block" href="/EspecialistaViewModel">
+            <div class="card-body p-2">
+                <h4 class="text-center">
+                    <span class="oi oi-medical-cross"></span>
+                    Procedimentos
+                </h4>
+                <div class="pt-2">
+                    <a class="btn btn-primary" href="/IntervencaoViewModel">
+                        <span class="oi oi-medical-cross"></span>
+                        Buscar
+                    </a>
+                    <a class="btn btn-success" href="/IntervencaoViewModel/Create">
+                        <span class="oi oi-medical-cross"></span>
+                        Agendar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-primary rounded">
+            <div class="card-body p-2">
+                <h4 class="text-center">
                     <span class="oi oi-people"></span>
-                    Cadastrar Especialista
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card border-primary rounded">
-            <div class="card-body p-4">
-                <a class="btn btn-light btn-success btn-block">
-                    <span class="oi oi-person"></span>                                       
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card border-primary rounded">
-            <div class="card-body p-4">
-                <button class="btn btn-light btn-success btn-block">
-                    <span class="oi oi-medical-cross"></span>                   
-                </button>
+                    Especialistas
+                </h4>
+                <div class="pt-2">
+                    <a class="btn btn-primary" href="/EspecialistaViewModel">
+                        <span class="oi oi-person"></span>
+                        Buscar
+                    </a>
+                    <a class="btn btn-success" href="/EspecialistaViewModel/Create">
+                        <span class="oi oi-person"></span>
+                        Cadastrar
+                    </a>
+                </div>
             </div>
         </div>
     </div>

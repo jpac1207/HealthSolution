@@ -1,0 +1,50 @@
+﻿@model IEnumerable<HealthSolution.ViewModels.ProntuarioViewModel>
+@{
+    ViewBag.Title = "Prontuario";
+}
+
+<h2 class="text-center">Prontuário</h2>
+
+<div class="container">
+
+    <table class="table table-bordered">
+        <tr class="bg-dark text-white">
+            <th>
+                Tipo
+            </th>
+            <th>
+                Paciente
+            </th>
+            <th>
+                Doutor
+            </th>
+            <th>
+                Data
+            </th>
+            <th>
+                Especialidade
+            </th>
+            <th>
+                Observação
+            </th>
+            <th>
+                Forma Pagamento
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Tipo</td>
+                <td>@item.NomePaciente</td>
+                <td>@item.NomeEspecialista</td>
+                <td>@(item.Date != null ? item.Date.Date.ToString("dd/MM/yyyy") : "")</td>
+                <td>@item.Especialidade</td>
+                <td>@item.Observacao</td>
+                <td>@item.FormaPagamento</td>
+            </tr>
+        }
+    </table>
+</div>
+<div>
+    @Html.ActionLink("Voltar para a Lista", "Index")
+</div>

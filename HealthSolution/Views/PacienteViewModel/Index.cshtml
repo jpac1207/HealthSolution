@@ -28,6 +28,9 @@
     <table class="table">
         <tr class="bg-dark text-white">
             <th>
+                Prontuário
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Nome)
             </th>
             <th>
@@ -63,6 +66,9 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    @Html.ActionLink("Prontuário", "Prontuario", new { id = item.Id }, new { @class = "btn btn-dark" })
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Nome)
                 </td>

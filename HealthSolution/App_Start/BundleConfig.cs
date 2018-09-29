@@ -13,6 +13,9 @@ namespace HealthSolution
                         "~/Scripts/jquery.mask.js",
                         "~/Scripts/jquery-ui.min.js"));
 
+            bundles.Add(new ScriptBundle("~/Scripts/util").Include(
+                "~/Scripts/Util.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 

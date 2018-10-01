@@ -17,9 +17,9 @@ function fnGetPacienteByCPF(cpf) {
     var util = new Util();
     var method = 'GetPacienteByCPF';
   
-    util.doAjax(baseUrlPaciente + method, "{cpf:" + cpf + "}").then(function (data) {
+    util.doAjax(baseUrlPaciente + method, "{cpf:'" + cpf + "'}").then(function (data) {
         console.log(data);  
-    }), function (err) { consoleg.log(err) }; 1
+    }, function (err) { console.log(err) });
 
 }
 

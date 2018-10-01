@@ -355,7 +355,14 @@ namespace HealthSolution.Controllers
         [HttpPost]
         public ActionResult GetPacienteByCPF(string cpf)
         {
-            var paciente = db.Pacientes.Where(x => x.Cpf == cpf).FirstOrDefault();
+            Paciente paciente = null;
+            if (!string.IsNullOrEmpty(cpf))
+            {
+                paciente = db.Pacientes.Where(x => x.Cpf == cpf).FirstOrDefault();
+            }
+
+            if (paciente == null)
+                paciente = new Paciente();
 
             return Json(paciente);
         }

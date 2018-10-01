@@ -1,5 +1,5 @@
 ﻿using HealthSolution.Models;
-using MySql.Data.Entity;
+using MySql.Data.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

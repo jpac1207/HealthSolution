@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using HealthSolution.Dal;
 using HealthSolution.ViewModels;
 using HealthSolution.Models;
+using System.Web.ModelBinding;
 
 namespace HealthSolution.Controllers
 {
@@ -17,7 +18,7 @@ namespace HealthSolution.Controllers
         private HealthContext db = new HealthContext();
 
         // GET: PacienteViewModel
-        public ActionResult Index(string nome, string cpf)
+        public ActionResult Index([Form] QueryOptions queryOptions, string nome, string cpf)
         {
             var pacientesViewModel = new List<PacienteViewModel>();
             var pacientes = new List<Paciente>();
@@ -25,6 +26,7 @@ namespace HealthSolution.Controllers
             if (!string.IsNullOrEmpty(nome))
             {
                 pacientes = db.Pacientes.Where(x => x.Nome.Contains(nome)).ToList();
+                ViewBag.nome = nome;
             }
             else
             {
@@ -34,7 +36,15 @@ namespace HealthSolution.Controllers
             if (!string.IsNullOrEmpty(cpf))
             {
                 pacientes = pacientes.Where(x => x.Cpf.Equals(cpf)).ToList();
+                ViewBag.cpf = cpf;
             }
+
+            queryOptions.SortOrder = SortOrder.DESC;
+            var start = (queryOptions.CurrentPage - 1) * queryOptions.PageSize;
+            queryOptions.TotalPages = (int)Math.Ceiling((double)pacientes.Count() / queryOptions.PageSize);
+            ViewBag.QueryOptions = queryOptions;
+           
+            pacientes = pacientes.OrderBy(queryOptions.Sort).Skip(start).Take(queryOptions.PageSize).ToList();
 
             pacientes.ForEach(x =>
             {

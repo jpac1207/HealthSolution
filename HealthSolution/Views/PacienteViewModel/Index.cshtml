@@ -1,7 +1,11 @@
 ﻿@model IEnumerable<HealthSolution.ViewModels.PacienteViewModel>
+@using HealthSolution.Extensions
+@using HealthSolution.Models
+@using System.Linq
 
 @{
     ViewBag.Title = "Index";
+    var queryOptions = (QueryOptions)ViewBag.QueryOptions;
 }
 
 <h2 class="text-center">Pacientes</h2>
@@ -109,3 +113,20 @@
 
     </table>
 </div>
+@{
+    string lvparams = "";
+    var nome = "";
+    if (ViewBag.nome != null)
+    {
+        nome = ViewBag.nome;
+    }
+
+    var cpf = "";
+    if (ViewBag.cpf != null)
+    {
+        cpf = ViewBag.cpf;
+    }
+
+    lvparams = string.Format("nome={0}&cpf={1}", nome, cpf);
+}
+@Html.BuildNextPreviousLinks(queryOptions, "Index", lvparams)

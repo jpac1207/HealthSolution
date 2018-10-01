@@ -123,7 +123,7 @@ namespace HealthSolution.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date,EspecialidadeId,EspecialistaId,PacienteId,Observacao,FormaPagamentoId")] ConsultaViewModel consultaViewModel)
+        public ActionResult Create([Bind(Include = "Id,Date,EspecialidadeId,EspecialistaId,PacienteId,Observacao,FormaPagamentoId, Paciente")] ConsultaViewModel consultaViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -131,11 +131,37 @@ namespace HealthSolution.Controllers
                 {
                     try
                     {
+                        var paciente = db.Pacientes.Where(x => x.Cpf == consultaViewModel.Paciente.Cpf).First();
+                        if (paciente == null)
+                        {
+
+                            var telefone = new Telefone();
+                            telefone.Numero = consultaViewModel.Paciente.Telefone.Numero;
+                            db.Telefones.Add(telefone);
+
+                            var endereco = new Endereco();
+                            endereco.Cidade = consultaViewModel.Paciente.Telefone.Numero;
+                            endereco.Bairro = consultaViewModel.Paciente.Telefone.Numero;
+                            endereco.Rua = consultaViewModel.Paciente.Telefone.Numero;
+                            endereco.Numero = consultaViewModel.Paciente.Telefone.Numero;
+                            db.Enderecos.Add(endereco);
+                            db.SaveChanges();
+
+                            paciente = new Paciente();
+                            paciente.Nome = consultaViewModel.Paciente.Nome;
+                            paciente.DataNascimento = consultaViewModel.Paciente.DataNascimento;
+                            paciente.DataCadastro = DateTime.Now;
+                            paciente.Cpf = consultaViewModel.Paciente.Cpf;
+                            paciente.TelefoneId = telefone.Id;
+                            paciente.EnderecoId = endereco.Id;
+                            db.SaveChanges();
+                        }
+
                         var consulta = new Consulta();
                         consulta.Date = consultaViewModel.Date;
                         consulta.EspecialidadeId = consultaViewModel.EspecialidadeId;
                         consulta.EspecialistaId = consultaViewModel.EspecialistaId;
-                        consulta.PacienteId = consultaViewModel.PacienteId;
+                        consulta.PacienteId = paciente.Id;
                         consulta.Observacao = consultaViewModel.Observacao;
                         db.Consultas.Add(consulta);
                         db.SaveChanges();

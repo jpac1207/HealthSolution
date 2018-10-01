@@ -57,19 +57,11 @@
         <div class="row">
 
             <div class="col-md-4">
-                <label class="control-label">Paciente</label>
-                <div class="col-md-10">
-                    @Html.Editor("PacienteNome", new { htmlAttributes = new { @class = "form-control cpf" } })
-                    @Html.ValidationMessage("PacienteNome", "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="col-md-4">
                 @Html.Label("CPF", htmlAttributes: new { @class = "control-label" })
                 <div class="row">
                     <div class="col-md-10">
-                        @Html.Editor("CPF", new { htmlAttributes = new { @class = "form-control cpf"  } })
-                        @Html.ValidationMessage("CPF", "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Paciente.Cpf, new { htmlAttributes = new { @class = "form-control cpf" } })
+                        @Html.ValidationMessageFor(model => model.Paciente.Cpf, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-1">
                         <span class="oi oi-magnifying-glass"></span>
@@ -78,10 +70,18 @@
             </div>
 
             <div class="col-md-4">
+                <label class="control-label">Paciente</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Paciente.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(Model => Model.Paciente.Nome, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-4">
                 <label class="control-label">Data Nascimento</label>
                 <div class="col-md-10">
-                    @Html.DropDownList("PacienteId", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.PacienteId, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Paciente.DataNascimento, new { htmlAttributes = new { @class = "form-control date datepicker" } })
+                    @Html.ValidationMessageFor(model => model.Paciente.DataNascimento, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -93,16 +93,16 @@
             <div class="col-md-4">
                 <label class="control-label">Cidade</label>
                 <div class="col-md-10">
-                    @Html.DropDownList("PacienteId", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.PacienteId, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Paciente.Endereco.Cidade, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Paciente.Endereco.Cidade, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="col-md-4">
                 <label class="control-label">Bairro</label>
                 <div class="col-md-10">
-                    @Html.DropDownList("PacienteId", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.PacienteId, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Paciente.Endereco.Bairro, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Paciente.Endereco.Bairro, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -110,8 +110,8 @@
             <div class="col-md-4">
                 <label class="control-label">Rua</label>
                 <div class="col-md-10">
-                    @Html.DropDownList("PacienteId", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.PacienteId, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Paciente.Endereco.Rua, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Paciente.Endereco.Rua, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -121,16 +121,16 @@
             <div class="col-md-4">
                 <label class="control-label">Número Residência</label>
                 <div class="col-md-10">
-                    @Html.DropDownList("PacienteId", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.PacienteId, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Paciente.Endereco.Numero, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Paciente.Endereco.Numero, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="col-md-4">
                 <label class="control-label">Telefone</label>
                 <div class="col-md-10">
-                    @Html.DropDownList("PacienteId", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.PacienteId, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Paciente.Telefone.Numero, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Paciente.Telefone.Numero, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -139,12 +139,11 @@
 
         <div class="row">
 
-            <div class="col-md-12">
+            <div class="col-sm-9 col-md-6 col-lg-8" style="width:'100%'">
                 <label class="control-label">Observação</label>
-                <div class="col-md-12">
-                    @Html.TextBoxFor(model => model.Observacao,  new { @class = "form-control" } )
+                    @Html.TextAreaFor(model => model.Observacao,  new { @class = "form-control" } )
                     @Html.ValidationMessageFor(model => model.Observacao, "", new { @class = "text-danger" })
-                </div>
+                
             </div>
 
         </div>

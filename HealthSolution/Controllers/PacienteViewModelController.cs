@@ -351,5 +351,13 @@ namespace HealthSolution.Controllers
             }
             base.Dispose(disposing);
         }
+
+        [HttpPost]
+        public ActionResult GetPacienteByCPF(string cpf)
+        {
+            var paciente = db.Pacientes.Where(x => x.Cpf == cpf).FirstOrDefault();
+
+            return Json(paciente);
+        }
     }
 }

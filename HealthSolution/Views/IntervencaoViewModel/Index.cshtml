@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<HealthSolution.ViewModels.IntervencaoViewModel>
+@using HealthSolution.Extensions
+@using HealthSolution.Models
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Procedimentos";
+    var queryOptions = (QueryOptions)ViewBag.QueryOptions;
 }
 
 <h2 class="text-center">Procedimentos</h2>
@@ -22,7 +25,7 @@
             @Html.TextBox("procedimento", null, new { @class = "form-control", placeholder = "Procedimento", onchange = "form.submit()" })
         </div>
         <div class="col-md-2">
-            @Html.TextBox("data", null, new { @class = "form-control date datepicker", placeholder = "Data", onchange= "form.submit()" })
+            @Html.TextBox("data", null, new { @class = "form-control date datepicker", placeholder = "Data", onchange = "form.submit()" })
         </div>
         <div class="col-md-2">
             <button class="btn btn-success">Buscar</button>
@@ -55,32 +58,61 @@
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Especialista.Nome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Paciente.Nome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Procedimento.Nome)
-                </td>
-                <td>
-                    @(item.Date != null ? item.Date.Date.ToString("dd/MM/yyyy") : "")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Observacao)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FormaPagamento.Nome)
-                </td>
-                <td>
-                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) |
-                    @Html.ActionLink("Detalhes", "Details", new { id = item.Id }, new { @class = "btn btn-secondary" }) |
-                    @Html.ActionLink("Excluir", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Especialista.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Paciente.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Procedimento.Nome)
+            </td>
+            <td>
+                @(item.Date != null ? item.Date.Date.ToString("dd/MM/yyyy") : "")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FormaPagamento.Nome)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) |
+                @Html.ActionLink("Detalhes", "Details", new { id = item.Id }, new { @class = "btn btn-secondary" }) |
+                @Html.ActionLink("Excluir", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
         }
 
     </table>
 </div>
+@{
+    string lvparams = "";
+    var doutor = "";
+    if (ViewBag.doutor != null)
+    {
+        doutor = ViewBag.doutor;
+    }
+
+    var paciente = "";
+    if (ViewBag.paciente != null)
+    {
+        paciente = ViewBag.paciente;
+    }
+
+    var procedimento = "";
+    if (ViewBag.procedimento != null)
+    {
+        procedimento = ViewBag.procedimento;
+    }
+
+    var data = "";
+    if (ViewBag.data != null)
+    {
+        data = ViewBag.data;
+    }
+
+    lvparams = string.Format("doutor={0}&paciente={1}&procedimento={2}&data={3}", doutor, paciente, procedimento, data);
+}
+@Html.BuildNextPreviousLinks(queryOptions, "Index", lvparams)

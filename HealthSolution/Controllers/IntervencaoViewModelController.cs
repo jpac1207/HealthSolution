@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -10,6 +11,7 @@ using HealthSolution.Dal;
 using HealthSolution.ViewModels;
 using HealthSolution.Models;
 using HealthSolution.Extensions;
+using System.Web.ModelBinding;
 
 namespace HealthSolution.Controllers
 {
@@ -18,27 +20,44 @@ namespace HealthSolution.Controllers
         private HealthContext db = new HealthContext();
 
         // GET: IntervencaoViewModels
-        public ActionResult Index(string doutor, string paciente, string procedimento, string data)
+        public ActionResult Index([Form] QueryOptions queryOptions, string doutor, string paciente, string procedimento, string data)
         {
             var intervencaoViewModels = new List<IntervencaoViewModel>();
             var intervencoes = db.Intervencoes.Include(i => i.Especialista).
                 Include(i => i.Paciente).Include(i => i.Procedimento).ToList();
 
             if (!string.IsNullOrEmpty(doutor))
+            {
                 intervencoes = intervencoes.Where(x => x.Especialista.Nome.Contains(doutor)).ToList();
+                ViewBag.doutor = doutor;
+            }
             if (!string.IsNullOrEmpty(paciente))
+            {
                 intervencoes = intervencoes.Where(x => x.Paciente.Nome.Contains(paciente)).ToList();
+                ViewBag.paciente = paciente;
+            }
             if (!string.IsNullOrEmpty(procedimento))
+            {
                 intervencoes = intervencoes.Where(x => x.Procedimento.Nome.Contains(procedimento)).ToList();
+                ViewBag.procedimento = procedimento;
+            }
             if (!string.IsNullOrEmpty(data))
             {
                 DateTime lvDateTime = DateTime.MinValue;
 
-                if(DateTime.TryParse(data, out lvDateTime))
+                if (DateTime.TryParse(data, out lvDateTime))
                 {
                     intervencoes = intervencoes.Where(x => x.Date == lvDateTime).ToList();
+                    ViewBag.data = data;
                 }
             }
+
+            queryOptions.SortOrder = SortOrder.DESC;
+            var start = (queryOptions.CurrentPage - 1) * queryOptions.PageSize;
+            queryOptions.TotalPages = (int)Math.Ceiling((double)intervencoes.Count() / queryOptions.PageSize);
+            ViewBag.QueryOptions = queryOptions;
+
+            intervencoes = intervencoes.OrderBy(queryOptions.Sort).Skip(start).Take(queryOptions.PageSize).ToList();
 
             intervencoes.ForEach(x => intervencaoViewModels.Add(GetIntervencaoViewModel(x)));
 
@@ -128,7 +147,7 @@ namespace HealthSolution.Controllers
                     {
                         var intervencao = new Intervencao();
                         intervencao.Date = intervencaoViewModel.Date;
-                        intervencao.ProcedimentoId = intervencaoViewModel.ProcedimentoId;                     
+                        intervencao.ProcedimentoId = intervencaoViewModel.ProcedimentoId;
                         intervencao.EspecialistaId = intervencaoViewModel.EspecialistaId;
                         intervencao.PacienteId = intervencaoViewModel.PacienteId;
                         intervencao.Observacao = intervencaoViewModel.Observacao;
@@ -215,7 +234,7 @@ namespace HealthSolution.Controllers
                             intervencao.ProcedimentoId = intervencaoViewModel.ProcedimentoId;
                             intervencao.EspecialistaId = intervencaoViewModel.EspecialistaId;
                             intervencao.PacienteId = intervencaoViewModel.PacienteId;
-                            intervencao.Observacao = intervencaoViewModel.Observacao;                            
+                            intervencao.Observacao = intervencaoViewModel.Observacao;
                             db.SaveChanges();
 
                             if (intervencaoViewModel.FormaPagamentoId != -1)

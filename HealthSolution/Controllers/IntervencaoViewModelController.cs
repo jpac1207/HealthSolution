@@ -12,6 +12,9 @@ using HealthSolution.ViewModels;
 using HealthSolution.Models;
 using HealthSolution.Extensions;
 using System.Web.ModelBinding;
+using System.Web.UI.WebControls;
+using System.IO;
+using System.Web.UI;
 
 namespace HealthSolution.Controllers
 {
@@ -325,6 +328,99 @@ namespace HealthSolution.Controllers
                 }
             }
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Export([Form] QueryOptions queryOptions, string doutor, string paciente, string procedimento, string data)
+        {
+            try
+            {
+                var intervencaoViewModels = new List<IntervencaoViewModel>();
+                var intervencoes = db.Intervencoes.Include(i => i.Especialista).
+                    Include(i => i.Paciente).Include(i => i.Procedimento).ToList();
+
+                if (!string.IsNullOrEmpty(doutor))
+                {
+                    intervencoes = intervencoes.Where(x => x.Especialista.Nome.Contains(doutor)).ToList();
+                    ViewBag.doutor = doutor;
+                }
+                if (!string.IsNullOrEmpty(paciente))
+                {
+                    intervencoes = intervencoes.Where(x => x.Paciente.Nome.Contains(paciente)).ToList();
+                    ViewBag.paciente = paciente;
+                }
+                if (!string.IsNullOrEmpty(procedimento))
+                {
+                    intervencoes = intervencoes.Where(x => x.Procedimento.Nome.Contains(procedimento)).ToList();
+                    ViewBag.procedimento = procedimento;
+                }
+                if (!string.IsNullOrEmpty(data))
+                {
+                    DateTime lvDateTime = DateTime.MinValue;
+
+                    if (DateTime.TryParse(data, out lvDateTime))
+                    {
+                        intervencoes = intervencoes.Where(x => x.Date == lvDateTime).ToList();
+                        ViewBag.data = data;
+                    }
+                }
+
+                queryOptions.SortOrder = SortOrder.DESC;
+                var start = (queryOptions.CurrentPage - 1) * queryOptions.PageSize;
+                queryOptions.TotalPages = (int)Math.Ceiling((double)intervencoes.Count() / queryOptions.PageSize);
+                ViewBag.QueryOptions = queryOptions;
+
+                intervencoes = intervencoes.OrderBy(queryOptions.Sort).Skip(start).Take(queryOptions.PageSize).ToList();
+
+                intervencoes.ForEach(x => intervencaoViewModels.Add(GetIntervencaoViewModel(x)));
+                DataTable dt = Utility.ExportListToDataTable(intervencaoViewModels);
+
+                int procedimentoCell = 2;
+                int especialistaCell = 3;
+                int pacienteCell = 4;
+                int formaPagamentoCell = 6;
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    var procedimentoId = Int32.Parse(row[procedimentoCell].ToString());
+                    var especialistaId = Int32.Parse(row[especialistaCell].ToString());
+                    var pacienteId = Int32.Parse(row[pacienteCell].ToString());
+                    var formaPagamentoId = Int32.Parse(row[formaPagamentoCell].ToString());
+
+                    var lvprocedimento = db.Procedimentos.Where(x => x.Id == procedimentoId).FirstOrDefault();
+                    var lvespecialista = db.Especialistas.Where(x => x.Id == especialistaId).FirstOrDefault();
+                    var lvpaciente = db.Pacientes.Where(x => x.Id == pacienteId).FirstOrDefault();
+                    var lvformapagamento = db.FormasPagamento.Where(x => x.Id == formaPagamentoId).FirstOrDefault();
+
+                    row[procedimentoCell] = lvprocedimento != null ? lvprocedimento.Nome : "";                   
+                    row[especialistaCell] = lvespecialista != null ? lvespecialista.Nome : "";
+                    row[pacienteCell] = lvpaciente != null ? lvpaciente.Nome : "";
+                    row[formaPagamentoCell] = lvformapagamento != null ? lvformapagamento.Nome : "";
+                }
+
+                var gridView = new GridView();
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                string fileName = "Export_Procedimentos_" + DateTime.Now.ToString("dd.MM.yyyy") + ".xls";
+
+                gridView.DataSource = dt;
+                gridView.DataBind();
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                Response.ContentType = "application/ms-excel";
+                Response.Charset = "";
+                gridView.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+            }
+            catch (Exception e)
+            {
+                DebugLog.Logar(e.Message);
+                DebugLog.Logar(e.StackTrace);
+            }
+
+            return Index(queryOptions, doutor, paciente, procedimento, data);
         }
 
         protected override void Dispose(bool disposing)

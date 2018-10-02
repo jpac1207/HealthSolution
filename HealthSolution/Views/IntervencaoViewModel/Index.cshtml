@@ -116,3 +116,4 @@
     lvparams = string.Format("doutor={0}&paciente={1}&procedimento={2}&data={3}", doutor, paciente, procedimento, data);
 }
 @Html.BuildNextPreviousLinks(queryOptions, "Index", lvparams)
+<a class="btn btn-primary btn-block" href="@Url.Action("")/Export?SortOrder=@queryOptions.SortOrder&SortField=@queryOptions.SortField&CurrentPage=@queryOptions.CurrentPage&PageSize=@queryOptions.PageSize&@lvparams">Exportar</a>

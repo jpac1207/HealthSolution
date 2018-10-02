@@ -10,6 +10,10 @@ using HealthSolution.Dal;
 using HealthSolution.ViewModels;
 using HealthSolution.Models;
 using System.Web.ModelBinding;
+using HealthSolution.Extensions;
+using System.Web.UI.WebControls;
+using System.IO;
+using System.Web.UI;
 
 namespace HealthSolution.Controllers
 {
@@ -43,7 +47,7 @@ namespace HealthSolution.Controllers
             var start = (queryOptions.CurrentPage - 1) * queryOptions.PageSize;
             queryOptions.TotalPages = (int)Math.Ceiling((double)pacientes.Count() / queryOptions.PageSize);
             ViewBag.QueryOptions = queryOptions;
-           
+
             pacientes = pacientes.OrderBy(queryOptions.Sort).Skip(start).Take(queryOptions.PageSize).ToList();
 
             pacientes.ForEach(x =>
@@ -366,5 +370,69 @@ namespace HealthSolution.Controllers
 
             return Json(paciente);
         }
+
+        public ActionResult Export([Form] QueryOptions queryOptions, string nome, string cpf)
+        {
+            try
+            {
+                var pacientesViewModel = new List<PacienteViewModel>();
+                var pacientes = new List<Paciente>();
+
+                if (!string.IsNullOrEmpty(nome))
+                {
+                    pacientes = db.Pacientes.Where(x => x.Nome.Contains(nome)).ToList();
+                    ViewBag.nome = nome;
+                }
+                else
+                {
+                    pacientes = db.Pacientes.ToList();
+                }
+
+                if (!string.IsNullOrEmpty(cpf))
+                {
+                    pacientes = pacientes.Where(x => x.Cpf.Equals(cpf)).ToList();
+                    ViewBag.cpf = cpf;
+                }
+
+                queryOptions.SortOrder = SortOrder.DESC;
+                var start = (queryOptions.CurrentPage - 1) * queryOptions.PageSize;
+                queryOptions.TotalPages = (int)Math.Ceiling((double)pacientes.Count() / queryOptions.PageSize);
+                ViewBag.QueryOptions = queryOptions;
+
+                pacientes = pacientes.OrderBy(queryOptions.Sort).Skip(start).Take(queryOptions.PageSize).ToList();
+
+                pacientes.ForEach(x =>
+                {
+                    PacienteViewModel pacienteViewModel = GetPacienteViewModel(x);
+                    pacientesViewModel.Add(pacienteViewModel);
+                });
+
+                DataTable dt = Utility.ExportListToDataTable(pacientesViewModel);
+                var gridView = new GridView();
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                string fileName = "Export_Pacientes_" + DateTime.Now.ToString("dd.MM.yyyy") + ".xls";
+
+                gridView.DataSource = dt;
+                gridView.DataBind();
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                Response.ContentType = "application/ms-excel";
+                Response.Charset = "";
+                gridView.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+            }
+            catch (Exception e)
+            {
+                DebugLog.Logar(e.Message);
+                DebugLog.Logar(e.StackTrace);
+            }
+
+            return Index(queryOptions, nome, cpf);
+        }
+
     }
 }

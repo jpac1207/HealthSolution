@@ -236,6 +236,7 @@
     <Compile Include="Dal\HealthContext.cs" />
     <Compile Include="Extensions\DebugLog.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
+    <Compile Include="Extensions\Utility.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

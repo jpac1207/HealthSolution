@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using HealthSolution.Dal;
 using HealthSolution.ViewModels;
 using HealthSolution.Models;
+using System.Web.ModelBinding;
+using HealthSolution.Extensions;
+using System.Web.UI.WebControls;
+using System.IO;
+using System.Web.UI;
 
 namespace HealthSolution.Controllers
 {
@@ -17,18 +23,27 @@ namespace HealthSolution.Controllers
         private HealthContext db = new HealthContext();
 
         // GET: ConsultaViewModel
-        public ActionResult Index(string doutor, string paciente, string especialidade, string data)
+        public ActionResult Index([Form] QueryOptions queryOptions, string doutor, string paciente, string especialidade, string data)
         {
             var consultasViewModels = new List<ConsultaViewModel>();
             var consultas = db.Consultas.Include(x => x.Especialista).Include(x => x.Especialidade)
                 .Include(x => x.Paciente).ToList();
 
             if (!string.IsNullOrEmpty(doutor))
+            {
                 consultas = consultas.Where(x => x.Especialista.Nome.Contains(doutor)).ToList();
+                ViewBag.doutor = doutor;
+            }
             if (!string.IsNullOrEmpty(paciente))
+            {
                 consultas = consultas.Where(x => x.Paciente.Nome.Contains(paciente)).ToList();
+                ViewBag.paciente = paciente; 
+            }
             if (!string.IsNullOrEmpty(especialidade))
+            {
                 consultas = consultas.Where(x => x.Especialidade.Nome.Contains(especialidade)).ToList();
+                ViewBag.especialidade = especialidade;
+            }
             if (!string.IsNullOrEmpty(data))
             {
                 DateTime lvDateTime = DateTime.MinValue;
@@ -36,8 +51,16 @@ namespace HealthSolution.Controllers
                 if (DateTime.TryParse(data, out lvDateTime))
                 {
                     consultas = consultas.Where(x => x.Date == lvDateTime).ToList();
+                    ViewBag.data = data;
                 }
             }
+
+            queryOptions.SortOrder = SortOrder.DESC;
+            var start = (queryOptions.CurrentPage - 1) * queryOptions.PageSize;
+            queryOptions.TotalPages = (int)Math.Ceiling((double)consultas.Count() / queryOptions.PageSize);
+            ViewBag.QueryOptions = queryOptions;
+
+            consultas = consultas.OrderBy(queryOptions.Sort).Skip(start).Take(queryOptions.PageSize).ToList();
 
             consultas.ForEach(x =>
             {
@@ -46,7 +69,7 @@ namespace HealthSolution.Controllers
 
             return View(consultasViewModels);
         }
-        
+
 
         private ConsultaViewModel GetConsultaViewModel(Consulta x)
         {
@@ -326,6 +349,102 @@ namespace HealthSolution.Controllers
                 }
             }
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Export([Form] QueryOptions queryOptions, string doutor, string paciente, string especialidade, string data)
+        {
+            try
+            {
+                var consultasViewModels = new List<ConsultaViewModel>();
+                var consultas = db.Consultas.Include(x => x.Especialista).Include(x => x.Especialidade)
+                    .Include(x => x.Paciente).ToList();
+
+                if (!string.IsNullOrEmpty(doutor))
+                {
+                    consultas = consultas.Where(x => x.Especialista.Nome.Contains(doutor)).ToList();
+                    ViewBag.doutor = doutor;
+                }
+                if (!string.IsNullOrEmpty(paciente))
+                {
+                    consultas = consultas.Where(x => x.Paciente.Nome.Contains(paciente)).ToList();
+                    ViewBag.paciente = paciente;
+                }
+                if (!string.IsNullOrEmpty(especialidade))
+                {
+                    consultas = consultas.Where(x => x.Especialidade.Nome.Contains(especialidade)).ToList();
+                    ViewBag.especialidade = especialidade;
+                }
+                if (!string.IsNullOrEmpty(data))
+                {
+                    DateTime lvDateTime = DateTime.MinValue;
+
+                    if (DateTime.TryParse(data, out lvDateTime))
+                    {
+                        consultas = consultas.Where(x => x.Date == lvDateTime).ToList();
+                        ViewBag.data = data;
+                    }
+                }
+
+                queryOptions.SortOrder = SortOrder.DESC;
+                var start = (queryOptions.CurrentPage - 1) * queryOptions.PageSize;
+                queryOptions.TotalPages = (int)Math.Ceiling((double)consultas.Count() / queryOptions.PageSize);
+                ViewBag.QueryOptions = queryOptions;
+
+                consultas = consultas.OrderBy(queryOptions.Sort).Skip(start).Take(queryOptions.PageSize).ToList();
+
+                consultas.ForEach(x =>
+                {
+                    consultasViewModels.Add(GetConsultaViewModel(x));
+                });
+                DataTable dt = Utility.ExportListToDataTable(consultasViewModels);
+
+                int especialidadeCell = 2;
+                int especialistaCell = 3;
+                int pacienteCell = 4;
+                int formaPagamentoCell = 6;
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    var especialidadeId = Int32.Parse(row[especialidadeCell].ToString());
+                    var especialistaId = Int32.Parse(row[especialistaCell].ToString());
+                    var pacienteId = Int32.Parse(row[pacienteCell].ToString());
+                    var formaPagamentoId = Int32.Parse(row[formaPagamentoCell].ToString());
+
+                    var lvespecialidade = db.Especialidades.Where(x => x.Id == especialidadeId).FirstOrDefault();
+                    var lvespecialista = db.Especialistas.Where(x => x.Id == especialistaId).FirstOrDefault();
+                    var lvpaciente = db.Pacientes.Where(x => x.Id == pacienteId).FirstOrDefault();
+                    var lvformapagamento = db.FormasPagamento.Where(x => x.Id == formaPagamentoId).FirstOrDefault();
+
+                    row[especialidadeCell] = lvespecialidade != null ? lvespecialidade.Nome : "";
+                    row[especialistaCell] = lvespecialista != null ? lvespecialista.Nome : "";
+                    row[pacienteCell] = lvpaciente != null ? lvpaciente.Nome : "";
+                    row[formaPagamentoCell] = lvformapagamento != null ? lvformapagamento.Nome : "";
+                }
+
+                var gridView = new GridView();
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                string fileName = "Export_Consultas_" + DateTime.Now.ToString("dd.MM.yyyy") + ".xls";
+
+                gridView.DataSource = dt;
+                gridView.DataBind();
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                Response.ContentType = "application/ms-excel";
+                Response.Charset = "";
+                gridView.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+            }
+            catch (Exception e)
+            {
+                DebugLog.Logar(e.Message);
+                DebugLog.Logar(e.StackTrace);
+            }
+
+            return Index(queryOptions, doutor, paciente, especialidade, data);
         }
 
         protected override void Dispose(bool disposing)

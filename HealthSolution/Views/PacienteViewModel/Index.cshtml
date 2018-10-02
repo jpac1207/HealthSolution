@@ -129,3 +129,4 @@
     lvparams = string.Format("nome={0}&cpf={1}", nome, cpf);
 }
 @Html.BuildNextPreviousLinks(queryOptions, "Index", lvparams)
+<a class="btn btn-primary btn-block" href="@Url.Action("")/Export?SortOrder=@queryOptions.SortOrder&SortField=@queryOptions.SortField&CurrentPage=@queryOptions.CurrentPage&PageSize=@queryOptions.PageSize&@lvparams">Exportar</a>

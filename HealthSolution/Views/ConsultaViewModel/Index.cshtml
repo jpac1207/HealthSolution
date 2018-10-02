@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<HealthSolution.ViewModels.ConsultaViewModel>
+@using HealthSolution.Extensions
+@using HealthSolution.Models
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Consultas";
+    var queryOptions = (QueryOptions)ViewBag.QueryOptions;
 }
 
 <h2 class="text-center">Consultas</h2>
@@ -84,3 +87,33 @@
 
     </table>
 </div>
+@{
+    string lvparams = "";
+    var doutor = "";
+    if (ViewBag.doutor != null)
+    {
+        doutor = ViewBag.doutor;
+    }
+
+    var paciente = "";
+    if (ViewBag.paciente != null)
+    {
+        paciente = ViewBag.paciente;
+    }
+
+    var especialidade = "";
+    if (ViewBag.especialidade != null)
+    {
+        especialidade = ViewBag.especialidade;
+    }
+
+    var data = "";
+    if (ViewBag.data != null)
+    {
+        data = ViewBag.data;
+    }
+
+    lvparams = string.Format("doutor={0}&paciente={1}&especialidade={2}&data={3}", doutor, paciente, especialidade, data);
+}
+@Html.BuildNextPreviousLinks(queryOptions, "Index", lvparams)
+<a class="btn btn-primary btn-block" href="@Url.Action("")/Export?SortOrder=@queryOptions.SortOrder&SortField=@queryOptions.SortField&CurrentPage=@queryOptions.CurrentPage&PageSize=@queryOptions.PageSize&@lvparams">Exportar</a>

@@ -4,7 +4,7 @@ var baseUrlPaciente = '../PacienteViewModel/';
 var dropDoutor = document.getElementById("EspecialistaId");
 var dropEspecialidade = document.getElementById("EspecialidadeId");
 
-var textPacienteCPF = document.getElementById("Paciente_Cpf");
+var textPacienteCPF = document.getElementById("cpf");
 
 var fnMudarDropDoutor =  function () {
     fnGetDoutorByEspecialidadeId(dropEspecialidade.options[dropEspecialidade.selectedIndex].value);
@@ -19,13 +19,13 @@ function fnGetPacienteByCPF(cpf) {
     var method = 'GetPacienteByCPF';
 
 
-    var textNomePaciente = document.getElementById("Paciente_Nome");
-    var textDataAniversario = document.getElementById("Paciente_DataNascimento");
-    var textCidade = document.getElementById("Paciente_Endereco_Cidade");
-    var textBairro = document.getElementById("Paciente_Endereco_Bairro");
-    var textRua = document.getElementById("Paciente_Endereco_Rua");
-    var textResidencia = document.getElementById("Paciente_Endereco_Numero");
-    var textTelefone = document.getElementById("Paciente_Telefone_Numero");
+    var textNomePaciente = document.getElementById("nome");
+    var textDataAniversario = document.getElementById("datanascimento");
+    var textCidade = document.getElementById("cidade");
+    var textBairro = document.getElementById("bairro");
+    var textRua = document.getElementById("rua");
+    var textResidencia = document.getElementById("numero");
+    var textTelefone = document.getElementById("telefoneN");
 
 
     textNomePaciente.value = "";
@@ -36,15 +36,17 @@ function fnGetPacienteByCPF(cpf) {
     textResidencia.value = "";
     textTelefone.value = "";
 
-    util.doAjax(baseUrlPaciente + method, "{cpf:'" + cpf + "'}").then(function (data) {
-        var date = new Date(parseInt(data.DataNascimento.replace(/[^0-9 +]/g, '')));
-        textNomePaciente.value = data.Nome;
-        textDataAniversario.value = date.getDate() + "/" + (date.getMonth() >= 10 ? date.getMonth: '0' + date.getMonth()) + "/" + date.getFullYear();
-        textCidade.value = data.Endereco.Cidade;
-        textBairro.value = data.Endereco.Bairro;
-        textRua.value = data.Endereco.Rua;
-        textResidencia.value = data.Endereco.Numero;
-        textTelefone.value = data.Telefone.Numero;
+    util.doAjax(baseUrlPaciente + method, "{cpf:'" + cpf + "'}").then(function (data) { 
+        if (data.Cpf != null) {
+            var date = new Date(parseInt(data.DataNascimento.replace(/[^0-9 +]/g, '')));
+            textNomePaciente.value = data.Nome;
+            textDataAniversario.value = date.getDate() + "/" + (date.getMonth() >= 10 ? date.getMonth : '0' + date.getMonth()) + "/" + date.getFullYear();
+            textCidade.value = data.Endereco.Cidade;
+            textBairro.value = data.Endereco.Bairro;
+            textRua.value = data.Endereco.Rua;
+            textResidencia.value = data.Endereco.Numero;
+            textTelefone.value = data.Telefone.Numero;
+        }
         
     }), function (err) { consoleg.log(err) }; 
 

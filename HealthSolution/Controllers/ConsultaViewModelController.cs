@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using HealthSolution.Dal;
 using HealthSolution.ViewModels;
 using HealthSolution.Models;
+using HealthSolution.Extensions;
 
 namespace HealthSolution.Controllers
 {
@@ -123,37 +124,45 @@ namespace HealthSolution.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date,EspecialidadeId,EspecialistaId,PacienteId,Observacao,FormaPagamentoId, Paciente")] ConsultaViewModel consultaViewModel)
+        public ActionResult Create([Bind(Include = "Id,Date,EspecialidadeId,EspecialistaId,Observacao,FormaPagamentoId")] ConsultaViewModel consultaViewModel, String nome, String cpf, DateTime datanascimento, String cidade, String bairro
+            , String rua, String numero, String telefoneN)
         {
+
+            DebugLog.Logar(telefoneN);
             if (ModelState.IsValid)
             {
+                
                 using (var transaction = db.Database.BeginTransaction())
                 {
                     try
                     {
-                        var paciente = db.Pacientes.Where(x => x.Cpf == consultaViewModel.Paciente.Cpf).First();
+
+                        var paciente = db.Pacientes.Where(x => x.Cpf == cpf).FirstOrDefault();
+
                         if (paciente == null)
                         {
-
                             var telefone = new Telefone();
-                            telefone.Numero = consultaViewModel.Paciente.Telefone.Numero;
+                            telefone.Numero = telefoneN;
+
                             db.Telefones.Add(telefone);
 
                             var endereco = new Endereco();
-                            endereco.Cidade = consultaViewModel.Paciente.Telefone.Numero;
-                            endereco.Bairro = consultaViewModel.Paciente.Telefone.Numero;
-                            endereco.Rua = consultaViewModel.Paciente.Telefone.Numero;
-                            endereco.Numero = consultaViewModel.Paciente.Telefone.Numero;
+                            endereco.Cidade =  cidade;
+                            endereco.Bairro = bairro;
+                            endereco.Rua = rua;
+                            endereco.Numero = numero;
                             db.Enderecos.Add(endereco);
                             db.SaveChanges();
 
                             paciente = new Paciente();
-                            paciente.Nome = consultaViewModel.Paciente.Nome;
-                            paciente.DataNascimento = consultaViewModel.Paciente.DataNascimento;
+                            paciente.Nome = nome;
+                            paciente.DataNascimento = datanascimento;
                             paciente.DataCadastro = DateTime.Now;
-                            paciente.Cpf = consultaViewModel.Paciente.Cpf;
+                            paciente.Cpf = cpf;
                             paciente.TelefoneId = telefone.Id;
                             paciente.EnderecoId = endereco.Id;
+                            paciente.ComoConheceu = "";
+                            db.Pacientes.Add(paciente);
                             db.SaveChanges();
                         }
 
@@ -175,8 +184,11 @@ namespace HealthSolution.Controllers
                             });
                         }
 
+                        
+
                         db.SaveChanges();
                         transaction.Commit();
+                        consultaViewModel.PacienteId = paciente.Id;
                     }
                     catch (Exception e)
                     {

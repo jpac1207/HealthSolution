@@ -112,6 +112,7 @@ namespace HealthSolution.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Nome,Cpf,DataNascimento,DataCadastro,ComoConheceu,Cidade,Bairro,Rua,NumeroResidencia,NumeroTelefone")] PacienteViewModel pacienteViewModel)
         {
+
             if (ModelState.IsValid)
             {
                 using (var transaction = db.Database.BeginTransaction())
@@ -358,7 +359,7 @@ namespace HealthSolution.Controllers
             Paciente paciente = null;
             if (!string.IsNullOrEmpty(cpf))
             {
-                paciente = db.Pacientes.Where(x => x.Cpf == cpf).FirstOrDefault();
+                paciente = db.Pacientes.Where(x => x.Cpf == cpf).Include(x => x.Telefone).Include(x => x.Endereco).FirstOrDefault();
             }
 
             if (paciente == null)

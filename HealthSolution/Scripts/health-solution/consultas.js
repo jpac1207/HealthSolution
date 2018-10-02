@@ -4,7 +4,7 @@ var baseUrlPaciente = '../PacienteViewModel/';
 var dropDoutor = document.getElementById("EspecialistaId");
 var dropEspecialidade = document.getElementById("EspecialidadeId");
 
-var textPacienteCPF = document.getElementById("cpf");
+var textPacienteCPF = document.getElementById("Cpf");
 
 var fnMudarDropDoutor =  function () {
     fnGetDoutorByEspecialidadeId(dropEspecialidade.options[dropEspecialidade.selectedIndex].value);
@@ -18,15 +18,13 @@ function fnGetPacienteByCPF(cpf) {
     var util = new Util();
     var method = 'GetPacienteByCPF';
 
-
-    var textNomePaciente = document.getElementById("nome");
-    var textDataAniversario = document.getElementById("datanascimento");
+    var textNomePaciente = document.getElementById("Nome");
+    var textDataAniversario = document.getElementById("DataNascimento");
     var textCidade = document.getElementById("cidade");
     var textBairro = document.getElementById("bairro");
     var textRua = document.getElementById("rua");
     var textResidencia = document.getElementById("numero");
-    var textTelefone = document.getElementById("telefoneN");
-
+    var textTelefone = document.getElementById("telefone");
 
     textNomePaciente.value = "";
     textDataAniversario.value = "";

@@ -37,7 +37,7 @@ namespace HealthSolution.Controllers
             if (!string.IsNullOrEmpty(paciente))
             {
                 consultas = consultas.Where(x => x.Paciente.Nome.Contains(paciente)).ToList();
-                ViewBag.paciente = paciente; 
+                ViewBag.paciente = paciente;
             }
             if (!string.IsNullOrEmpty(especialidade))
             {
@@ -146,7 +146,10 @@ namespace HealthSolution.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date,EspecialidadeId,EspecialistaId,PacienteId,Observacao,FormaPagamentoId, Paciente")] ConsultaViewModel consultaViewModel)
+        public ActionResult Create([Bind(Include = "Id,Date,EspecialidadeId,EspecialistaId,"+
+            "PacienteId,Observacao,FormaPagamentoId")] ConsultaViewModel consultaViewModel,
+            [Bind(Include = "Cpf,Nome,DataNascimento")]Paciente formPaciente, string cidade, string bairro, string rua, string numero,
+            string telefone)
         {
             if (ModelState.IsValid)
             {
@@ -154,29 +157,31 @@ namespace HealthSolution.Controllers
                 {
                     try
                     {
-                        var paciente = db.Pacientes.Where(x => x.Cpf == consultaViewModel.Paciente.Cpf).First();
+                        var paciente = db.Pacientes.Where(x => x.Cpf == formPaciente.Cpf).FirstOrDefault();
+
                         if (paciente == null)
                         {
-
-                            var telefone = new Telefone();
-                            telefone.Numero = consultaViewModel.Paciente.Telefone.Numero;
-                            db.Telefones.Add(telefone);
+                            var lvtelefone = new Telefone();
+                            lvtelefone.Numero = telefone;
+                            db.Telefones.Add(lvtelefone);
+                            db.SaveChanges();
 
                             var endereco = new Endereco();
-                            endereco.Cidade = consultaViewModel.Paciente.Telefone.Numero;
-                            endereco.Bairro = consultaViewModel.Paciente.Telefone.Numero;
-                            endereco.Rua = consultaViewModel.Paciente.Telefone.Numero;
-                            endereco.Numero = consultaViewModel.Paciente.Telefone.Numero;
+                            endereco.Cidade = cidade;
+                            endereco.Bairro = bairro;
+                            endereco.Rua = rua;
+                            endereco.Numero = numero;
                             db.Enderecos.Add(endereco);
                             db.SaveChanges();
 
                             paciente = new Paciente();
-                            paciente.Nome = consultaViewModel.Paciente.Nome;
-                            paciente.DataNascimento = consultaViewModel.Paciente.DataNascimento;
+                            paciente.Nome = formPaciente.Nome;
+                            paciente.DataNascimento = formPaciente.DataNascimento;
                             paciente.DataCadastro = DateTime.Now;
-                            paciente.Cpf = consultaViewModel.Paciente.Cpf;
-                            paciente.TelefoneId = telefone.Id;
+                            paciente.Cpf = formPaciente.Cpf;
+                            paciente.TelefoneId = lvtelefone.Id;
                             paciente.EnderecoId = endereco.Id;
+                            db.Pacientes.Add(paciente);
                             db.SaveChanges();
                         }
 
@@ -203,6 +208,9 @@ namespace HealthSolution.Controllers
                     }
                     catch (Exception e)
                     {
+                        DebugLog.Logar(e.Message);
+                        DebugLog.Logar(e.StackTrace);
+                        DebugLog.Logar(Utility.Details(e));
                         transaction.Rollback();
                     }
                 }

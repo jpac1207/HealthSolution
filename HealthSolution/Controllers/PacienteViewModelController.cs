@@ -363,7 +363,8 @@ namespace HealthSolution.Controllers
             Paciente paciente = null;
             if (!string.IsNullOrEmpty(cpf))
             {
-                paciente = db.Pacientes.Where(x => x.Cpf == cpf).Include(x => x.Telefone).Include(x => x.Endereco).FirstOrDefault();
+                paciente = db.Pacientes.Where(x => x.Cpf == cpf).
+                    Include(x => x.Telefone).Include(x => x.Endereco).FirstOrDefault();
             }
 
             if (paciente == null)

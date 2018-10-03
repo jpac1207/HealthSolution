@@ -36,6 +36,7 @@ namespace HealthSolution
                       "~/Content/jquery-ui.css"));
 
             bundles.Add(new ScriptBundle("~/health-solution").Include("~/Scripts/health-solution/consultas.js"));
+            bundles.Add(new ScriptBundle("~/birthay").Include("~/Scripts/health-solution/aniversariantes.js"));
         }
     }
 }

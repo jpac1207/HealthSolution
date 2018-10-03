@@ -260,7 +260,6 @@ namespace HealthSolution.Controllers
                     if (paciente != null)
                     {
                         var endereco = db.Enderecos.Where(x => x.Id == paciente.EnderecoId).FirstOrDefault();
-
                         var telefone = db.Telefones.Where(x => x.Id == paciente.TelefoneId).FirstOrDefault();
 
                         db.Pacientes.Remove(paciente);
@@ -371,6 +370,16 @@ namespace HealthSolution.Controllers
                 paciente = new Paciente();
 
             return Json(paciente);
+        }
+
+        [HttpPost]
+        public ActionResult GetAniversariantes()
+        {
+            int day = DateTime.Now.Day;
+            int month = DateTime.Now.Month;
+            var aniversariantes = db.Pacientes.Where(x => x.DataNascimento.Day == day &&
+            x.DataNascimento.Month == month).Include(x => x.Telefone).ToList();
+            return Json(aniversariantes);
         }
 
         public ActionResult Export([Form] QueryOptions queryOptions, string nome, string cpf)

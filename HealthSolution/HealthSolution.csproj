@@ -284,9 +284,14 @@
     <Compile Include="Migrations\201809280230202_Corrigindo Banco.Designer.cs">
       <DependentUpon>201809280230202_Corrigindo Banco.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810030132464_AdicionandoDiasAtendimento.cs" />
+    <Compile Include="Migrations\201810030132464_AdicionandoDiasAtendimento.Designer.cs">
+      <DependentUpon>201810030132464_AdicionandoDiasAtendimento.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Consulta.cs" />
+    <Compile Include="Models\DiasAtendimento.cs" />
     <Compile Include="Models\Endereco.cs" />
     <Compile Include="Models\Especialidade.cs" />
     <Compile Include="Models\Especialista.cs" />
@@ -319,7 +324,14 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\logo.png" />
     <Content Include="Content\Images\mainImage.png" />
+    <Content Include="Content\Images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\Images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\Images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\Images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\Images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\Images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Scripts\health-solution\aniversariantes.js" />
     <Content Include="Scripts\health-solution\consultas.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Content\open-iconic-bootstrap.css" />
@@ -507,6 +519,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809280230202_Corrigindo Banco.resx">
       <DependentUpon>201809280230202_Corrigindo Banco.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810030132464_AdicionandoDiasAtendimento.resx">
+      <DependentUpon>201810030132464_AdicionandoDiasAtendimento.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

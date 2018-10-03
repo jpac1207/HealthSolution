@@ -36,9 +36,9 @@ function fnGetPacienteByCPF(cpf) {
 
     util.doAjax(baseUrlPaciente + method, "{cpf:'" + cpf + "'}").then(function (data) { 
         if (data.Cpf != null) {
-            var date = new Date(parseInt(data.DataNascimento.replace(/[^0-9 +]/g, '')));
+            var date = new Date(parseInt(data.DataNascimento.replace(/\/Date\((-?\d+)\)\//, '$1')));
             textNomePaciente.value = data.Nome;
-            textDataAniversario.value = date.getDate() + "/" + (date.getMonth() >= 10 ? date.getMonth : '0' + date.getMonth()) + "/" + date.getFullYear();
+            textDataAniversario.value = util.toDateString(date);
             textCidade.value = data.Endereco.Cidade;
             textBairro.value = data.Endereco.Bairro;
             textRua.value = data.Endereco.Rua;

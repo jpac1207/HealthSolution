@@ -1,0 +1,10 @@
+02/10/2018 23:45:02 => A cadeia de caracteres de entrada não estava em um formato correto.
+02/10/2018 23:45:02 =>    em System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   em System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   em System.Int32.Parse(String s)
+   em HealthSolution.Controllers.EspecialistaViewModelController.Export(QueryOptions queryOptions, String nome, String crm, String especialidade) na C:\Users\asus.PC\documents\visual studio 2015\Projects\HealthSolution\HealthSolution\Controllers\EspecialistaViewModelController.cs:linha 509
+02/10/2018 23:46:33 => A cadeia de caracteres de entrada não estava em um formato correto.
+02/10/2018 23:46:33 =>    em System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   em System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   em System.Int32.Parse(String s)
+   em HealthSolution.Controllers.EspecialistaViewModelController.Export(QueryOptions queryOptions, String nome, String crm, String especialidade) na C:\Users\asus.PC\documents\visual studio 2015\Projects\HealthSolution\HealthSolution\Controllers\EspecialistaViewModelController.cs:linha 509

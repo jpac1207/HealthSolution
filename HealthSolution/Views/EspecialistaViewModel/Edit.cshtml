@@ -64,8 +64,7 @@
             <div class="col-md-4">
                 <label class="control-label">UF Conselho</label>
                 <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.ConselhoUF, ((List<SelectListItem>)ViewBag.ListaUF),
-                   htmlAttributes: new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.ConselhoUF, ((List<SelectListItem>)ViewBag.ListaUF), htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.ConselhoUF, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -110,6 +109,55 @@
                 <div class="col-md-12">
                     @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Numero, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="control-label col-md-2">Dias de Atendimento</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+                <label class="control-label col-md-2">Segunda</label>
+                <div class="col-md-12">
+                    @Html.CheckBoxFor(model => model.AtendeSegunda, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="col-md-1">
+                <label class="control-label col-md-2">Terça</label>
+                <div class="col-md-12">
+                    @Html.CheckBoxFor(model => model.AtendeTerca, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="col-md-1">
+                <label class="control-label col-md-2">Quarta</label>
+                <div class="col-md-12">
+                    @Html.CheckBoxFor(model => model.AtendeQuarta, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="col-md-1">
+                <label class="control-label col-md-2">Quinta</label>
+                <div class="col-md-12">
+                    @Html.CheckBoxFor(model => model.AtendeQuinta, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="col-md-1">
+                <label class="control-label col-md-2">Sexta</label>
+                <div class="col-md-12">
+                    @Html.CheckBoxFor(model => model.AtendeSexta, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="col-md-1">
+                <label class="control-label col-md-2">Sábado</label>
+                <div class="col-md-12">
+                    @Html.CheckBoxFor(model => model.AtendeSabado, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="col-md-1">
+                <label class="control-label col-md-2">Domingo</label>
+                <div class="col-md-12">
+                    @Html.CheckBoxFor(model => model.AtendeDomingo, new { htmlAttributes = new { @class = "form-control" } })
                 </div>
             </div>
         </div>

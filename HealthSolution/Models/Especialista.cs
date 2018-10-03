@@ -11,7 +11,7 @@ namespace HealthSolution.Models
     {
         public int Id { get; set; }
         public string Nome { get; set; }
-        public string Crm { get; set; }     
+        public string Crm { get; set; }
         public string ConselhoUF { get; set; }
         public DateTime DataNascimento { get; set; }
         public string Email { get; set; }
@@ -19,5 +19,7 @@ namespace HealthSolution.Models
         public Endereco Endereco { get; set; }
         public int TelefoneId { get; set; }
         public Telefone Telefone { get; set; }
+        public int DiasAtendimentoId { get; set; }
+        public DiasAtendimento DiasAtendimento { get; set; }
     }
 }

@@ -84,6 +84,20 @@
             @Html.DisplayFor(model => model.Numero)
         </dd>
 
+        <dt>
+            Dias de Atendimento
+        </dt>
+
+        <dd>
+            @((Model.AtendeSegunda ? "|Seg|" : "") +
+                    (Model.AtendeTerca ? "|Ter|" : "") +
+                    (Model.AtendeQuarta ? "|Qua|" : "") +
+                    (Model.AtendeQuinta ? "|Quin|" : "") +
+                    (Model.AtendeSexta ? "|Sex|" : "") +
+                    (Model.AtendeSabado ? "|Sab|" : "") +
+                    (Model.AtendeDomingo ? "|Dom|" : ""))
+        </dd>
+
     </dl>
 
     @using (Html.BeginForm()) {

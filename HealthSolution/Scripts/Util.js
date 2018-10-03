@@ -17,3 +17,14 @@ Util.prototype.stringToDate = function (inputFormat) {
     var date = new Date([dateParts[2], dateParts[1], dateParts[0]].join('/'));
     return date;
 }
+
+Util.prototype.toDateString = function (date) {
+    var year = date.getFullYear();
+    var month = (1 + date.getMonth()).toString();
+    month = month.length > 1 ? month : '0' + month;
+
+    var day = date.getDate().toString();
+    day = day.length > 1 ? day : '0' + day;
+
+    return day + '/' + month + '/' + year;
+}

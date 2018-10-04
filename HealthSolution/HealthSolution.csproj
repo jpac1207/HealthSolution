@@ -48,11 +48,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Google.Protobuf, Version=3.5.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
@@ -225,6 +225,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ConsultaViewModelController.cs" />
     <Compile Include="Controllers\EspecialidadesController.cs" />
     <Compile Include="Controllers\EspecialistaViewModelController.cs" />
@@ -233,10 +234,13 @@
     <Compile Include="Controllers\IntervencaoViewModelController.cs" />
     <Compile Include="Controllers\PacienteViewModelController.cs" />
     <Compile Include="Controllers\ProcedimentosController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Dal\HealthContext.cs" />
     <Compile Include="Extensions\DebugLog.cs" />
+    <Compile Include="Extensions\HashUtil.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\Utility.cs" />
+    <Compile Include="Filters\AuthenticationFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -288,6 +292,10 @@
     <Compile Include="Migrations\201810030132464_AdicionandoDiasAtendimento.Designer.cs">
       <DependentUpon>201810030132464_AdicionandoDiasAtendimento.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810040212542_UsersTable.cs" />
+    <Compile Include="Migrations\201810040212542_UsersTable.Designer.cs">
+      <DependentUpon>201810040212542_UsersTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Consulta.cs" />
@@ -307,6 +315,7 @@
     <Compile Include="Models\QueryOptions.cs" />
     <Compile Include="Models\SortOrder.cs" />
     <Compile Include="Models\Telefone.cs" />
+    <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ConsultaViewModel.cs" />
@@ -472,6 +481,12 @@
     <Content Include="Views\IntervencaoViewModel\Edit.cshtml" />
     <Content Include="Views\IntervencaoViewModel\Index.cshtml" />
     <Content Include="Views\PacienteViewModel\Prontuario.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Usuarios\Create.cshtml" />
+    <Content Include="Views\Usuarios\Delete.cshtml" />
+    <Content Include="Views\Usuarios\Details.cshtml" />
+    <Content Include="Views\Usuarios\Edit.cshtml" />
+    <Content Include="Views\Usuarios\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -522,6 +537,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810030132464_AdicionandoDiasAtendimento.resx">
       <DependentUpon>201810030132464_AdicionandoDiasAtendimento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810040212542_UsersTable.resx">
+      <DependentUpon>201810040212542_UsersTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

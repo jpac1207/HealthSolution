@@ -15,9 +15,11 @@ using System.Web.ModelBinding;
 using System.Web.UI.WebControls;
 using System.Web.UI;
 using System.IO;
+using HealthSolution.Filters;
 
 namespace HealthSolution.Controllers
 {
+    [AuthenticationFilter]
     public class EspecialistaViewModelController : Controller
     {
         private HealthContext db = new HealthContext();

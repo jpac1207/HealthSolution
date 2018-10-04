@@ -8,116 +8,134 @@ using System.Web;
 using System.Web.Mvc;
 using HealthSolution.Dal;
 using HealthSolution.Models;
+using HealthSolution.Extensions;
 using HealthSolution.Filters;
 
 namespace HealthSolution.Controllers
 {
     [AuthenticationFilter]
-    public class EspecialidadesController : Controller
+    public class UsuariosController : Controller
     {
         private HealthContext db = new HealthContext();
 
-        // GET: Especialidades
+        // GET: Usuarios
         public ActionResult Index()
         {
-            return View(db.Especialidades.ToList());
+            return View(db.Usuarios.ToList());
         }
 
-        // GET: Especialidades/Details/5
+        // GET: Usuarios/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Especialidade especialidade = db.Especialidades.Find(id);
-            if (especialidade == null)
+            Usuario usuario = db.Usuarios.Find(id);
+            if (usuario == null)
             {
                 return HttpNotFound();
             }
-            return View(especialidade);
+            return View(usuario);
         }
 
-        // GET: Especialidades/Create
+        // GET: Usuarios/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Especialidades/Create
+        // POST: Usuarios/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nome,ValorConsulta")] Especialidade especialidade)
+        public ActionResult Create([Bind(Include = "Id,Name,HashValue")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
-                db.Especialidades.Add(especialidade);
-                db.SaveChanges();
+                var current = db.Usuarios.Where(x => x.Name.ToUpper() == usuario.Name.ToUpper()).FirstOrDefault();
+
+                if (current == null)
+                {
+                    usuario.HashValue = HashUtil.ComputeHash(usuario.HashValue, null);
+                    db.Usuarios.Add(usuario);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    ViewBag.Message = "Usuário já existe!";
+                    ViewBag.StyleClass = "alert alert-danger";
+                    return View("Index");
+                }
                 return RedirectToAction("Index");
             }
 
-            return View(especialidade);
+            return View(usuario);
         }
 
-        // GET: Especialidades/Edit/5
+        // GET: Usuarios/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Especialidade especialidade = db.Especialidades.Find(id);
-            if (especialidade == null)
+            Usuario usuario = db.Usuarios.Find(id);
+            if (usuario == null)
             {
                 return HttpNotFound();
             }
-            return View(especialidade);
+
+            return View(new Usuario() { Id = usuario.Id, Name = usuario.Name, HashValue = "" });
         }
 
-        // POST: Especialidades/Edit/5
+        // POST: Usuarios/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nome,ValorConsulta")] Especialidade especialidade)
+        public ActionResult Edit([Bind(Include = "Id,Name,HashValue")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(especialidade).State = EntityState.Modified;
-                db.SaveChanges();
+                if (!string.IsNullOrEmpty(usuario.HashValue))
+                {
+                    usuario.HashValue = HashUtil.ComputeHash(usuario.HashValue, null);
+                    db.Entry(usuario).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
-            return View(especialidade);
+            return View(usuario);
         }
 
-        // GET: Especialidades/Delete/5
+        // GET: Usuarios/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Especialidade especialidade = db.Especialidades.Find(id);
-            if (especialidade == null)
+            Usuario usuario = db.Usuarios.Find(id);
+            if (usuario == null)
             {
                 return HttpNotFound();
             }
-            return View(especialidade);
+            return View(usuario);
         }
 
-        // POST: Especialidades/Delete/5
+        // POST: Usuarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Especialidade especialidade = db.Especialidades.Find(id);
-            db.Especialidades.Remove(especialidade);
+            Usuario usuario = db.Usuarios.Find(id);
+            db.Usuarios.Remove(usuario);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

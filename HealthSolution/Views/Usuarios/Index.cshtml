@@ -1,0 +1,32 @@
+﻿@model IEnumerable<HealthSolution.Models.Usuario>
+
+@{
+    ViewBag.Title = "Usuários";
+}
+
+<h2 class="text-center">Usuários</h2>
+
+<p>
+    @Html.ActionLink("Cadastrar Novo Usuário", "Create", new { }, new { @class = "btn btn-block btn-primary"})
+</p>
+<table class="table">
+    <tr class="bg-dark text-white">
+        <th>
+            Nome
+        </th>        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>       
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.Id }, new { @class = "btn btn-primary"}) |           
+            @Html.ActionLink("Excluir", "Delete", new { id=item.Id }, new { @class = "btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>

@@ -14,9 +14,11 @@ using HealthSolution.Extensions;
 using System.Web.UI.WebControls;
 using System.IO;
 using System.Web.UI;
+using HealthSolution.Filters;
 
 namespace HealthSolution.Controllers
 {
+    [AuthenticationFilter]
     public class PacienteViewModelController : Controller
     {
         private HealthContext db = new HealthContext();

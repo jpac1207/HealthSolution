@@ -29,5 +29,6 @@ namespace HealthSolution.Dal
         public IDbSet<PagamentoConsulta> PagamentosConsultas { get; set; }
         public IDbSet<PagamentoProcedimento> PagamentosProcedimentos { get; set; }
         public IDbSet<DiasAtendimento> DiasAtendimentos { get; set; }
+        public IDbSet<Usuario> Usuarios { get; set; }
     }
 }

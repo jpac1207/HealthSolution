@@ -8,9 +8,11 @@ using System.Web;
 using System.Web.Mvc;
 using HealthSolution.Dal;
 using HealthSolution.Models;
+using HealthSolution.Filters;
 
 namespace HealthSolution.Controllers
 {
+    [AuthenticationFilter]
     public class ProcedimentosController : Controller
     {
         private HealthContext db = new HealthContext();

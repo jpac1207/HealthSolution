@@ -15,9 +15,11 @@ using System.Web.ModelBinding;
 using System.Web.UI.WebControls;
 using System.IO;
 using System.Web.UI;
+using HealthSolution.Filters;
 
 namespace HealthSolution.Controllers
 {
+    [AuthenticationFilter]
     public class IntervencaoViewModelController : Controller
     {
         private HealthContext db = new HealthContext();

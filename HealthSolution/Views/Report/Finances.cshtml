@@ -1,9 +1,7 @@
 ﻿@model IEnumerable<HealthSolution.ViewModels.FinancaViewModel>
 @{
-    ViewBag.Title = "Finances";
+    ViewBag.Title = "Finanças";   
 }
-
-<h2>Relatório Financeiro</h2>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "jumbotron" }))
 {
@@ -47,7 +45,7 @@
                 Forma Pagamento
             </th>
             <th>
-                Valor
+                Valor Consulta
             </th>
             <th>
                 Observação
@@ -64,7 +62,7 @@
                 <td>@item.FormaPagamento</td>
                 <td>@item.ValorTabelado</td>
                 <td>@item.Observacao</td>
-            </tr>
+            </tr>          
         }
-    </table>
+    </table>   
 </div>

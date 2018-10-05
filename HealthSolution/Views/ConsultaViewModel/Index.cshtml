@@ -44,8 +44,8 @@
         <a class="btn btn-primary" href="@Url.Action("")/Export?SortOrder=@queryOptions.SortOrder&SortField=@queryOptions.SortField&CurrentPage=@queryOptions.CurrentPage&PageSize=@queryOptions.PageSize&@lvparams">Exportar <span class="oi oi-data-transfer-download"></span></a>
     </span>
 </p>
-<div class="panel panel-default" style="background-color:#F1EDF8">
-    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "panel-body" }))
+<div class="card" style="background-color:#F1EDF8">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "card-body" }))
     {
         <div class="row">
             <div class="col-md-2">
@@ -66,7 +66,7 @@
         </div>
     }
 </div>
-    <div class="table-responsive table-hover">
+    <div class="table-responsive table-hover mt-3">
         <table class="table">
             <tr class="bg-light text-dark">
                 <th>
@@ -122,6 +122,6 @@
         </table>
     </div>
 
-<div style="margin:auto;" class="text-center">
+<div class="m-auto">
     @Html.BuildNextPreviousLinks(queryOptions, "Index", lvparams)
 </div>

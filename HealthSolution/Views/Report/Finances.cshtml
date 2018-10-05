@@ -2,8 +2,8 @@
 @{
     ViewBag.Title = "Finanças";   
 }
-
-@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "jumbotron" }))
+<div class="card mt-3">
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "card-body" }))
 {
     <div class="row">
         <div class="col-md-2">
@@ -17,7 +17,7 @@
         </div>
     </div>
 }
-
+</div>
 <h2 class="text-center text-white bg-dark mt-3 mb-5 p-3">
     Relatório de Finanças
 </h2>

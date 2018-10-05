@@ -6,12 +6,12 @@
     <title>@ViewBag.Title - Administração Clínica</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">*@
 </head>
 <br/>
 <body style="background-color:#E7ECEE">
-    <div class="panel rounded shadow p-3 mb-5" style="width:95%;height:90%;margin:auto">
-        <div class="panel-body">
+    <div class="card rounded shadow p-3 mb-5" style="width:95%;height:90%;margin:auto">
+        <div class="card-body">
             <img src="~/Content/Images/logo1.png" class="logo-central"/>
             <img src="~/Content/Images/information.png" style="float:right;" />
             <br />  
@@ -50,7 +50,7 @@
                                 </div>
                             </li>
                         </ul>
-                        <ul class="nav navbar-nav navbar-right">
+                        <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item">@Html.ActionLink("Logout", "Logout", "Admin", new { }, new { @class = "nav-link" })</li>
                         </ul>    
                     </div>

@@ -4,13 +4,14 @@
     ViewBag.Title = "Usuários";
 }
 
-<h2 class="text-center">Usuários</h2>
-
-<p>
-    @Html.ActionLink("Cadastrar Novo Usuário", "Create", new { }, new { @class = "btn btn-block btn-primary"})
+<p class="mt-3">
+    Usuário
+    <span style='float:right;' ">
+        <a class="btn btn-primary" href="/Usuarios/Create">Cadastrar Usuário <span class="oi oi-plus"></span></a>
+    </span>
 </p>
 <table class="table">
-    <tr class="bg-dark text-white">
+    <tr class="bg-light text-dark">
         <th>
             Nome
         </th>        

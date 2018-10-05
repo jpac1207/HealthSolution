@@ -4,13 +4,14 @@
     ViewBag.Title = "Index";
 }
 
-<h2 class="text-center">Tipos de Procedimento</h2>
-
-<p>
-    @Html.ActionLink("Cadastrar Novo Tipo de Procedimento", "Create", new { }, new { @class = "btn btn-primary btn-block" })
+<p class="mt-3">
+    Tipos de Procedimento
+    <span style='float:right;' ">
+        <a class="btn btn-primary" href="/Procedimentos/Create">Cadastrar Procedimento <span class="oi oi-plus"></span></a>
+    </span>
 </p>
 <table class="table">
-    <tr>
+    <tr class="bg-light text-dark">
         <th>
             @Html.DisplayNameFor(model => model.Nome)
         </th>

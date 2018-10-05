@@ -24,6 +24,43 @@ namespace HealthSolution.Controllers
     {
         private HealthContext db = new HealthContext();
 
+        private IntervencaoViewModel GetIntervencaoViewModel(Intervencao x)
+        {
+            var paymentWay = db.PagamentosProcedimentos.Where(y => y.IntervencaoId == x.Id)
+                .Include(y => y.FormaPagamento).FirstOrDefault();
+
+            var intervencaoViewModel = new IntervencaoViewModel();
+            intervencaoViewModel.Date = x.Date;
+            intervencaoViewModel.Hora = x.Hora;
+            intervencaoViewModel.Minuto = x.Minuto;
+            intervencaoViewModel.Especialista = x.Especialista;
+            intervencaoViewModel.EspecialistaId = x.EspecialistaId;
+            intervencaoViewModel.Id = x.Id;
+            intervencaoViewModel.Observacao = x.Observacao;
+            intervencaoViewModel.ValorPago = x.ValorPago;
+            intervencaoViewModel.Paciente = x.Paciente;
+            intervencaoViewModel.PacienteId = x.PacienteId;
+            intervencaoViewModel.Procedimento = x.Procedimento;
+            intervencaoViewModel.ProcedimentoId = x.ProcedimentoId;
+
+            if (paymentWay != null)
+            {
+                intervencaoViewModel.FormaPagamentoId = paymentWay.FormaPagamento.Id;
+                intervencaoViewModel.FormaPagamento = paymentWay.FormaPagamento;
+            }
+            else
+            {
+                intervencaoViewModel.FormaPagamentoId = -1;
+                intervencaoViewModel.FormaPagamento = new FormaPagamento()
+                {
+                    Id = -1,
+                    Nome = "-"
+                };
+            }
+
+            return intervencaoViewModel;
+        }
+
         // GET: IntervencaoViewModels
         public ActionResult Index([Form] QueryOptions queryOptions, string doutor, string paciente, string procedimento, string data)
         {
@@ -67,41 +104,7 @@ namespace HealthSolution.Controllers
             intervencoes.ForEach(x => intervencaoViewModels.Add(GetIntervencaoViewModel(x)));
 
             return View(intervencaoViewModels);
-        }
-
-        private IntervencaoViewModel GetIntervencaoViewModel(Intervencao x)
-        {
-            var paymentWay = db.PagamentosProcedimentos.Where(y => y.IntervencaoId == x.Id)
-                .Include(y => y.FormaPagamento).FirstOrDefault();
-
-            var intervencaoViewModel = new IntervencaoViewModel();
-            intervencaoViewModel.Date = x.Date;
-            intervencaoViewModel.Especialista = x.Especialista;
-            intervencaoViewModel.EspecialistaId = x.EspecialistaId;
-            intervencaoViewModel.Id = x.Id;
-            intervencaoViewModel.Observacao = x.Observacao;
-            intervencaoViewModel.Paciente = x.Paciente;
-            intervencaoViewModel.PacienteId = x.PacienteId;
-            intervencaoViewModel.Procedimento = x.Procedimento;
-            intervencaoViewModel.ProcedimentoId = x.ProcedimentoId;
-
-            if (paymentWay != null)
-            {
-                intervencaoViewModel.FormaPagamentoId = paymentWay.FormaPagamento.Id;
-                intervencaoViewModel.FormaPagamento = paymentWay.FormaPagamento;
-            }
-            else
-            {
-                intervencaoViewModel.FormaPagamentoId = -1;
-                intervencaoViewModel.FormaPagamento = new FormaPagamento()
-                {
-                    Id = -1,
-                    Nome = "-"
-                };
-            }
-
-            return intervencaoViewModel;
-        }
+        }     
 
         // GET: IntervencaoViewModels/Details/5
         public ActionResult Details(int? id)
@@ -142,7 +145,8 @@ namespace HealthSolution.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date,ProcedimentoId,EspecialistaId,PacienteId,Observacao,FormaPagamentoId")]
+        public ActionResult Create([Bind(Include = "Id,Date,Hora,Minuto,ProcedimentoId,EspecialistaId,"+
+            "PacienteId,Observacao,ValorPago,FormaPagamentoId")]
         IntervencaoViewModel intervencaoViewModel,
             [Bind(Include = "Cpf,Nome,DataNascimento")]Paciente formPaciente,
             string cidade, string bairro, string rua, string numero, string telefone)
@@ -183,10 +187,13 @@ namespace HealthSolution.Controllers
 
                         var intervencao = new Intervencao();
                         intervencao.Date = intervencaoViewModel.Date;
+                        intervencao.Hora = intervencaoViewModel.Hora;
+                        intervencao.Minuto = intervencaoViewModel.Minuto;
                         intervencao.ProcedimentoId = intervencaoViewModel.ProcedimentoId;
                         intervencao.EspecialistaId = intervencaoViewModel.EspecialistaId;
                         intervencao.PacienteId = paciente.Id;
                         intervencao.Observacao = intervencaoViewModel.Observacao;
+                        intervencao.ValorPago = intervencaoViewModel.ValorPago;
                         db.Intervencoes.Add(intervencao);
                         db.SaveChanges();
 
@@ -254,7 +261,8 @@ namespace HealthSolution.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Date,ProcedimentoId,EspecialistaId,PacienteId,Observacao,FormaPagamentoId")] IntervencaoViewModel intervencaoViewModel)
+        public ActionResult Edit([Bind(Include = "Id,Date,Hora,Minuto,ProcedimentoId,EspecialistaId,"+
+            "PacienteId,Observacao,ValorPago,FormaPagamentoId")] IntervencaoViewModel intervencaoViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -267,10 +275,13 @@ namespace HealthSolution.Controllers
                         if (intervencao != null)
                         {
                             intervencao.Date = intervencaoViewModel.Date;
+                            intervencao.Hora = intervencaoViewModel.Hora;
+                            intervencao.Minuto = intervencaoViewModel.Minuto;
                             intervencao.ProcedimentoId = intervencaoViewModel.ProcedimentoId;
                             intervencao.EspecialistaId = intervencaoViewModel.EspecialistaId;
                             intervencao.PacienteId = intervencaoViewModel.PacienteId;
                             intervencao.Observacao = intervencaoViewModel.Observacao;
+                            intervencao.ValorPago = intervencaoViewModel.ValorPago;
                             db.SaveChanges();
 
                             if (intervencaoViewModel.FormaPagamentoId != -1)
@@ -407,10 +418,10 @@ namespace HealthSolution.Controllers
                 intervencoes.ForEach(x => intervencaoViewModels.Add(GetIntervencaoViewModel(x)));
                 DataTable dt = Utility.ExportListToDataTable(intervencaoViewModels);
 
-                int procedimentoCell = 2;
-                int especialistaCell = 3;
-                int pacienteCell = 4;
-                int formaPagamentoCell = 6;
+                int procedimentoCell = 4;
+                int especialistaCell = 5;
+                int pacienteCell = 6;
+                int formaPagamentoCell = 7;
 
                 foreach (DataRow row in dt.Rows)
                 {
@@ -424,7 +435,7 @@ namespace HealthSolution.Controllers
                     var lvpaciente = db.Pacientes.Where(x => x.Id == pacienteId).FirstOrDefault();
                     var lvformapagamento = db.FormasPagamento.Where(x => x.Id == formaPagamentoId).FirstOrDefault();
 
-                    row[procedimentoCell] = lvprocedimento != null ? lvprocedimento.Nome : "";                   
+                    row[procedimentoCell] = lvprocedimento != null ? lvprocedimento.Nome : "";
                     row[especialistaCell] = lvespecialista != null ? lvespecialista.Nome : "";
                     row[pacienteCell] = lvpaciente != null ? lvpaciente.Nome : "";
                     row[formaPagamentoCell] = lvformapagamento != null ? lvformapagamento.Nome : "";

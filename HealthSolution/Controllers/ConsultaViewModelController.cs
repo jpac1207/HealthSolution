@@ -24,6 +24,44 @@ namespace HealthSolution.Controllers
     {
         private HealthContext db = new HealthContext();
 
+        private ConsultaViewModel GetConsultaViewModel(Consulta x)
+        {
+            var paymentWay = db.PagamentosConsultas.Where(y => y.ConsultaId == x.Id).
+                Include(y => y.FormaPagamento).FirstOrDefault();
+
+            var consultaViewModel = new ConsultaViewModel();
+            consultaViewModel.Date = x.Date;
+            consultaViewModel.Hora = x.Hora;
+            consultaViewModel.Minuto = x.Minuto;
+            consultaViewModel.EspecialidadeId = x.EspecialidadeId;
+            consultaViewModel.Especialidade = x.Especialidade;
+            consultaViewModel.EspecialistaId = x.EspecialistaId;
+            consultaViewModel.Especialista = x.Especialista;
+            consultaViewModel.PacienteId = x.PacienteId;
+            consultaViewModel.Paciente = x.Paciente;
+            consultaViewModel.Id = x.Id;
+            consultaViewModel.Observacao = x.Observacao;
+            consultaViewModel.ValorPago = x.ValorPago;
+            consultaViewModel.PacienteId = x.PacienteId;
+
+            if (paymentWay != null)
+            {
+                consultaViewModel.FormaPagamentoId = paymentWay.FormaPagamento.Id;
+                consultaViewModel.FormaPagamento = paymentWay.FormaPagamento;
+            }
+            else
+            {
+                consultaViewModel.FormaPagamentoId = -1;
+                consultaViewModel.FormaPagamento = new FormaPagamento()
+                {
+                    Id = -1,
+                    Nome = "-"
+                };
+            }
+
+            return consultaViewModel;
+        }
+
         // GET: ConsultaViewModel
         public ActionResult Index([Form] QueryOptions queryOptions, string doutor, string paciente, string especialidade, string data)
         {
@@ -72,42 +110,6 @@ namespace HealthSolution.Controllers
             return View(consultasViewModels);
         }
 
-
-        private ConsultaViewModel GetConsultaViewModel(Consulta x)
-        {
-            var paymentWay = db.PagamentosConsultas.Where(y => y.ConsultaId == x.Id).
-                Include(y => y.FormaPagamento).FirstOrDefault();
-
-            var consultaViewModel = new ConsultaViewModel();
-            consultaViewModel.Date = x.Date;
-            consultaViewModel.EspecialidadeId = x.EspecialidadeId;
-            consultaViewModel.Especialidade = x.Especialidade;
-            consultaViewModel.EspecialistaId = x.EspecialistaId;
-            consultaViewModel.Especialista = x.Especialista;
-            consultaViewModel.PacienteId = x.PacienteId;
-            consultaViewModel.Paciente = x.Paciente;
-            consultaViewModel.Id = x.Id;
-            consultaViewModel.Observacao = x.Observacao;
-            consultaViewModel.PacienteId = x.PacienteId;
-
-            if (paymentWay != null)
-            {
-                consultaViewModel.FormaPagamentoId = paymentWay.FormaPagamento.Id;
-                consultaViewModel.FormaPagamento = paymentWay.FormaPagamento;
-            }
-            else
-            {
-                consultaViewModel.FormaPagamentoId = -1;
-                consultaViewModel.FormaPagamento = new FormaPagamento()
-                {
-                    Id = -1,
-                    Nome = "-"
-                };
-            }
-
-            return consultaViewModel;
-        }
-
         // GET: ConsultaViewModel/Details/5
         public ActionResult Details(int? id)
         {
@@ -148,8 +150,8 @@ namespace HealthSolution.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date,EspecialidadeId,EspecialistaId,"+
-            "PacienteId,Observacao,FormaPagamentoId")] ConsultaViewModel consultaViewModel,
+        public ActionResult Create([Bind(Include = "Id,Date,Hora,Minuto,EspecialidadeId,EspecialistaId,"+
+            "PacienteId,Observacao,ValorPago,FormaPagamentoId")] ConsultaViewModel consultaViewModel,
             [Bind(Include = "Cpf,Nome,DataNascimento")]Paciente formPaciente,
             string cidade, string bairro, string rua, string numero, string telefone)
         {
@@ -189,10 +191,13 @@ namespace HealthSolution.Controllers
 
                         var consulta = new Consulta();
                         consulta.Date = consultaViewModel.Date;
+                        consulta.Hora = consultaViewModel.Hora;
+                        consulta.Minuto = consultaViewModel.Minuto;
                         consulta.EspecialidadeId = consultaViewModel.EspecialidadeId;
                         consulta.EspecialistaId = consultaViewModel.EspecialistaId;
                         consulta.PacienteId = paciente.Id;
                         consulta.Observacao = consultaViewModel.Observacao;
+                        consulta.ValorPago = consultaViewModel.ValorPago;
                         db.Consultas.Add(consulta);
                         db.SaveChanges();
 
@@ -255,7 +260,8 @@ namespace HealthSolution.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Date,EspecialidadeId,EspecialistaId,PacienteId,Observacao,FormaPagamentoId")] ConsultaViewModel consultaViewModel)
+        public ActionResult Edit([Bind(Include = "Id,Date,Hora,Minuto,EspecialidadeId,EspecialistaId,PacienteId,"+
+            "Observacao,ValorPago,FormaPagamentoId")] ConsultaViewModel consultaViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -268,10 +274,13 @@ namespace HealthSolution.Controllers
                         if (consulta != null)
                         {
                             consulta.Date = consultaViewModel.Date;
+                            consulta.Hora = consultaViewModel.Hora;
+                            consulta.Minuto = consultaViewModel.Minuto;
                             consulta.EspecialidadeId = consultaViewModel.EspecialidadeId;
                             consulta.EspecialistaId = consultaViewModel.EspecialistaId;
                             consulta.PacienteId = consultaViewModel.PacienteId;
                             consulta.Observacao = consultaViewModel.Observacao;
+                            consulta.ValorPago = consultaViewModel.ValorPago;
                             db.SaveChanges();
 
                             if (consultaViewModel.FormaPagamentoId != -1)
@@ -408,10 +417,10 @@ namespace HealthSolution.Controllers
                 });
                 DataTable dt = Utility.ExportListToDataTable(consultasViewModels);
 
-                int especialidadeCell = 2;
-                int especialistaCell = 3;
-                int pacienteCell = 4;
-                int formaPagamentoCell = 6;
+                int especialidadeCell = 4;
+                int especialistaCell = 5;
+                int pacienteCell = 6;
+                int formaPagamentoCell = 7;
 
                 foreach (DataRow row in dt.Rows)
                 {

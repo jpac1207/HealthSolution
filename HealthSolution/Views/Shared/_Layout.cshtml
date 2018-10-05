@@ -33,10 +33,14 @@
                             @Html.ActionLink("Formas de Pagamento", "Index", "FormasPagamento", new { }, new { @class = "dropdown-item" })
                             @Html.ActionLink("Especialidades", "Index", "Especialidades", new { }, new { @class = "dropdown-item" })
                             @Html.ActionLink("Tipos de Procedimento", "Index", "Procedimentos", new { }, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Usuários", "Index", "Usuarios", new { }, new { @class = "dropdown-item" })
+                            @Html.ActionLink("Finaças", "Finances", "Report", new { }, new { @class = "dropdown-item" })
+                            @Html.ActionLink("Usuários", "Index", "Usuarios", new { }, new { @class = "dropdown-item danger" })
                         </div>
-                    </li>
+                    </li>                   
                 </ul>
+                <span class="ml-auto navbar-nav">
+                    @Html.ActionLink("Logout", "Logout", "Admin", new { }, new { @class = "nav-link" })
+                </span>
             </div>
         </nav>
     </div>

@@ -1,14 +1,5 @@
-﻿var baseUrl = '../EspecialistaViewModel/'; 
-var baseUrlPaciente = '../PacienteViewModel/';
-
-var dropDoutor = document.getElementById("EspecialistaId");
-var dropEspecialidade = document.getElementById("EspecialidadeId");
+﻿var baseUrlPaciente = '../PacienteViewModel/';
 var textPacienteCPF = document.getElementById("Cpf");
-
-var fnMudarDropDoutor =  function () {
-    fnGetDoutorByEspecialidadeId(dropEspecialidade.options[dropEspecialidade.selectedIndex].value);
-}
-
 var fnPesquisarCPF = function () {
     fnGetPacienteByCPF(textPacienteCPF.value);
 }
@@ -33,7 +24,7 @@ function fnGetPacienteByCPF(cpf) {
     textResidencia.value = "";
     textTelefone.value = "";
 
-    util.doAjax(baseUrlPaciente + method, "{cpf:'" + cpf + "'}").then(function (data) { 
+    util.doAjax(baseUrlPaciente + method, "{cpf:'" + cpf + "'}").then(function (data) {
         if (data.Cpf != null) {
             var date = new Date(parseInt(data.DataNascimento.replace(/\/Date\((-?\d+)\)\//, '$1')));
             textNomePaciente.value = data.Nome;
@@ -44,31 +35,9 @@ function fnGetPacienteByCPF(cpf) {
             textResidencia.value = data.Endereco.Numero;
             textTelefone.value = data.Telefone.Numero;
         }
-        
-    }), function (err) { consoleg.log(err) }; 
+
+    }), function (err) { consoleg.log(err) };
 
 }
 
-function fnGetDoutorByEspecialidadeId(especialidadeId) {
-    var util = new Util();
-    var method = 'GetEspecialistasById';
-    
-    util.doAjax(baseUrl + method, "{especialidadeId:" + especialidadeId + "}").then(function (data) {
-       
-        while (dropDoutor.options.length > 0)
-        {
-            dropDoutor.remove(0);
-        }
-
-        for (var i = 0; i < data.length; i++) {
-            var opt = document.createElement("option");
-            opt.value = data[i].Especialista.Id;
-            opt.innerHTML = data[i].Especialista.Nome;
-            dropDoutor.appendChild(opt);
-        } 
-        
-    }), function (err) { consoleg.log(err)}; 
-}
-
-dropEspecialidade.onchange = fnMudarDropDoutor;
 textPacienteCPF.onchange = fnPesquisarCPF;

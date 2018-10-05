@@ -349,15 +349,6 @@ namespace HealthSolution.Controllers
             return View(prontuarios);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         [HttpPost]
         public ActionResult GetPacienteByCPF(string cpf)
         {
@@ -447,5 +438,13 @@ namespace HealthSolution.Controllers
             return Index(queryOptions, nome, cpf);
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

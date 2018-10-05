@@ -234,6 +234,7 @@
     <Compile Include="Controllers\IntervencaoViewModelController.cs" />
     <Compile Include="Controllers\PacienteViewModelController.cs" />
     <Compile Include="Controllers\ProcedimentosController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Dal\HealthContext.cs" />
     <Compile Include="Extensions\DebugLog.cs" />
@@ -320,6 +321,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ConsultaViewModel.cs" />
     <Compile Include="ViewModels\EspecialistaViewModel.cs" />
+    <Compile Include="ViewModels\FinancaViewModel.cs" />
     <Compile Include="ViewModels\IntervencaoViewModel.cs" />
     <Compile Include="ViewModels\PacienteViewModel.cs" />
     <Compile Include="ViewModels\ProntuarioViewModel.cs" />
@@ -342,6 +344,7 @@
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Scripts\health-solution\aniversariantes.js" />
     <Content Include="Scripts\health-solution\consultas.js" />
+    <Content Include="Scripts\health-solution\intervencoes.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Content\open-iconic-bootstrap.css" />
     <Content Include="Content\open-iconic.css" />
@@ -487,6 +490,7 @@
     <Content Include="Views\Usuarios\Details.cshtml" />
     <Content Include="Views\Usuarios\Edit.cshtml" />
     <Content Include="Views\Usuarios\Index.cshtml" />
+    <Content Include="Views\Report\Finances.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

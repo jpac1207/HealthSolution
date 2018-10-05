@@ -1,0 +1,70 @@
+﻿@model IEnumerable<HealthSolution.ViewModels.FinancaViewModel>
+@{
+    ViewBag.Title = "Finances";
+}
+
+<h2>Relatório Financeiro</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "jumbotron" }))
+{
+    <div class="row">
+        <div class="col-md-2">
+            @Html.TextBox("dataInicio", null, new { @class = "form-control date datepicker", placeholder = "Data Inicial", onchange = "form.submit()" })
+        </div>
+        <div class="col-md-2">
+            @Html.TextBox("dataFim", null, new { @class = "form-control  date datepicker", placeholder = "Data Final", onchange = "form.submit()" })
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-success">Buscar</button>
+        </div>
+    </div>
+}
+
+<h2 class="text-center text-white bg-dark mt-3 mb-5 p-3">
+    Relatório de Finanças
+</h2>
+
+<div class="container">
+
+    <table class="table table-bordered">
+        <tr class="bg-dark text-white">
+            <th>
+                Data
+            </th>
+            <th>
+                Tipo
+            </th>
+            <th>
+                Especialidade
+            </th>
+            <th>
+                Doutor
+            </th>
+            <th>
+                Paciente
+            </th>
+            <th>
+                Forma Pagamento
+            </th>
+            <th>
+                Valor
+            </th>
+            <th>
+                Observação
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@(item.Data != null ? item.Data.Date.ToString("dd/MM/yyyy") : "")</td>
+                <td>@item.Tipo</td>
+                <td>@item.Especialidade</td>
+                <td>@item.Doutor</td>
+                <td>@item.NomePaciente</td>
+                <td>@item.FormaPagamento</td>
+                <td>@item.ValorTabelado</td>
+                <td>@item.Observacao</td>
+            </tr>
+        }
+    </table>
+</div>

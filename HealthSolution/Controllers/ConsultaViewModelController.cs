@@ -150,8 +150,8 @@ namespace HealthSolution.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Date,EspecialidadeId,EspecialistaId,"+
             "PacienteId,Observacao,FormaPagamentoId")] ConsultaViewModel consultaViewModel,
-            [Bind(Include = "Cpf,Nome,DataNascimento")]Paciente formPaciente, string cidade, string bairro, string rua, string numero,
-            string telefone)
+            [Bind(Include = "Cpf,Nome,DataNascimento")]Paciente formPaciente,
+            string cidade, string bairro, string rua, string numero, string telefone)
         {
             if (ModelState.IsValid)
             {

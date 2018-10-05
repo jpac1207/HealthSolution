@@ -15,6 +15,8 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+        <div><h4>Dados do Agendamento</h4></div>
+
         <div class="row">
             <div class="col-md-4">
                 <label class="control-label col-md-2">Procedimento</label>
@@ -33,16 +35,6 @@
             </div>
 
             <div class="col-md-4">
-                <label class="control-label col-md-2">Paciente</label>
-                <div class="col-md-10">
-                    @Html.DropDownList("PacienteId", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.PacienteId, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-4">
                 <label class="control-label col-md-2">Data</label>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control date datepicker" } })
@@ -51,18 +43,104 @@
             </div>
 
             <div class="col-md-4">
-                <label class="control-label col-md-2">Observação</label>
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Observacao, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Observacao, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="col-md-4">
                 <label class="control-label"> Forma de Pagamento</label>
                 <div class="col-md-10">
                     @Html.DropDownList("FormaPagamentoId", null, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.FormaPagamentoId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5"><h4>Dados do  Paciente</h4></div>
+
+        <div class="row">
+
+            <div class="col-md-4">
+                @Html.Label("CPF", htmlAttributes: new { @class = "control-label" })
+                <div class="row">
+                    <div class="col-md-10 mr-0 pr-0">
+                        @Html.Editor("Cpf", new { htmlAttributes = new { @class = "form-control cpf" } })
+                        @Html.ValidationMessage("Cpf", "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-1 ml-0 pl-0">
+                        <span class="oi oi-magnifying-glass"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="control-label">Paciente</label>
+                <div class="col-md-10">
+                    @Html.Editor("Nome", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessage("Nome", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="control-label">Data Nascimento</label>
+                <div class="col-md-10">
+                    @Html.Editor("DataNascimento", new { htmlAttributes = new { @class = "form-control date datepicker" } })
+                    @Html.ValidationMessage("DataNascimento", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <label class="control-label">Cidade</label>
+                <div class="col-md-10">
+                    @Html.Editor("cidade", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessage("cidade", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="control-label">Bairro</label>
+                <div class="col-md-10">
+                    @Html.Editor("bairro", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessage("bairro", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="col-md-4">
+                <label class="control-label">Rua</label>
+                <div class="col-md-10">
+                    @Html.Editor("rua", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessage("rua", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <label class="control-label">Número Residência</label>
+                <div class="col-md-10">
+                    @Html.Editor("numero", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessage("numero", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="control-label">Telefone</label>
+                <div class="col-md-10">
+                    @Html.Editor("telefone", new { htmlAttributes = new { @class = "form-control phone" } })
+                    @Html.ValidationMessage("telefone", "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5"><h4>Dados Gerais</h4></div>
+
+        <div class="row">
+            <div class="col-sm-9 col-md-6 col-lg-8" style="width:100%">
+                <label class="control-label col-md-2">Observação</label>
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Observacao, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Observacao, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -80,4 +158,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/intervencoes")
 }

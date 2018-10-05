@@ -1,9 +1,11 @@
 ﻿@model IEnumerable<HealthSolution.ViewModels.ProntuarioViewModel>
 @{
-    ViewBag.Title = "Prontuario";
+    ViewBag.Title = "Prontuário";
 }
 
-<h2 class="text-center">Prontuário</h2>
+<h2 class="text-center text-white bg-dark mt-3 mb-5 p-3">
+    Prontuário @(Model.Count() > 0 ? Model.ElementAt(0).NomePaciente : "")
+</h2>
 
 <div class="container">
 

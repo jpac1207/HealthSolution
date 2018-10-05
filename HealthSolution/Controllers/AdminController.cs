@@ -30,7 +30,7 @@ namespace HealthSolution.Controllers
             {
                 var lvUser = db.Usuarios.Where(x => x.Name == user).FirstOrDefault();
 
-                if(lvUser == null)
+                if (lvUser == null)
                 {
                     ViewBag.Message = "Usuário não encontrado!";
                     ViewBag.StyleClass = "alert alert-danger";
@@ -38,7 +38,7 @@ namespace HealthSolution.Controllers
                 }
                 else
                 {
-                    if(HashUtil.VerifyHash(password, lvUser.HashValue))
+                    if (HashUtil.VerifyHash(password, lvUser.HashValue))
                     {
                         ViewBag.Message = "Logado com sucesso!";
                         ViewBag.StyleClass = "alert alert-success";
@@ -54,6 +54,12 @@ namespace HealthSolution.Controllers
                 }
             }
             return RedirectToAction("Index");
+        }
+                
+        public ActionResult Logout()
+        {
+            Session["userId"] = null;
+            return RedirectToAction("Index", "Admin");
         }
 
         protected override void Dispose(bool disposing)

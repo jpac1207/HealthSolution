@@ -3,53 +3,31 @@
 }
 
 <!-- First Row -->
-<div class="jumbotron" style="background-color:black">
-    <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <img src="~/Content/Images/mainImage.png" />
-        </div>
-    </div>
+<div class="row text-center" style="margin:auto">
+       <div class="col-md-3"></div>
+       <h2>Sistema de Gestão Clínica Santa Rita</h2>
+       <div class="col-md-3"></div>
 </div>
+<br />
 <div class="row">
     <div class="col-md-6">
-        <div class="card border-primary rounded text-center">
-            <div class="card-body p-2">
-                <h4 class="text-center card-header">
-                    <span class="oi oi-person"></span>
-                    Pacientes
-                </h4>
-                <div class="pt-2">
-                    <a class="btn btn-primary" href="/PacienteViewModel">
-                        <span class="oi oi-people"></span>
-                        Buscar
-                    </a>
-                    <a class="btn btn-success" href="/PacienteViewModel/Create">
-                        <span class="oi oi-people"></span>
-                        Cadastrar
-                    </a>
+        <div class="panel panel-default" style="background-color:#F1EDF8">
+            <a class ="btn-click" href="/PacienteViewModel" >
+                <div class="panel-body shadow text-center">
+                    <img src="~/Content/Images/person.png" />
+                    <h4>Pacientes</h4>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
     <div class="col-md-6">
-        <div class="card border-primary rounded text-center">
-            <div class="card-body p-2">
-                <h4 class="text-center card-header">
-                    <span class="oi oi-calendar"></span>
-                    Consultas
-                </h4>
-                <div class="pt-2">
-                    <a class="btn btn-primary" href="/ConsultaViewModel">
-                        <span class="oi oi-calendar"></span>
-                        Buscar
-                    </a>
-                    <a class="btn btn-success" href="/ConsultaViewModel/Create">
-                        <span class="oi oi-calendar"></span>
-                        Agendar
-                    </a>
+        <div class="panel panel-default">
+            <a class="btn-click" href="/ConsultaViewModel">
+                <div class="panel-body shadow text-center" style="background-color:#F1EDF8">
+                    <img src="~/Content/Images/calendar.png" />
+                    <h4>Consultas</h4>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 </div>
@@ -57,48 +35,28 @@
 <!-- Second Row -->
 <div class="row mt-3">
     <div class="col-md-6">
-        <div class="card border-primary rounded text-center">
-            <div class="card-body p-2">
-                <h4 class="text-center card-header">
-                    <span class="oi oi-medical-cross"></span>
-                    Procedimentos
-                </h4>
-                <div class="pt-2">
-                    <a class="btn btn-primary" href="/IntervencaoViewModel">
-                        <span class="oi oi-medical-cross"></span>
-                        Buscar
-                    </a>
-                    <a class="btn btn-success" href="/IntervencaoViewModel/Create">
-                        <span class="oi oi-medical-cross"></span>
-                        Agendar
-                    </a>
+        <div class="panel panel-default">
+            <a class="btn-click" href="/IntervencaoViewModel">
+                <div class="panel-body shadow text-center" style="background-color:#F1EDF8">
+                    <img src="~/Content/Images/cross.png" />
+                    <h4>Procedimentos</h4>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
     <div class="col-md-6">
-        <div class="card border-primary rounded text-center">
-            <div class="card-body p-2">
-                <h4 class="text-center card-header">
-                    <span class="oi oi-people"></span>
-                    Especialistas
-                </h4>
-                <div class="pt-2">
-                    <a class="btn btn-primary" href="/EspecialistaViewModel">
-                        <span class="oi oi-person"></span>
-                        Buscar
-                    </a>
-                    <a class="btn btn-success" href="/EspecialistaViewModel/Create">
-                        <span class="oi oi-person"></span>
-                        Cadastrar
-                    </a>
-                </div>
-            </div>
+        <div class="panel panel-default">
+            <a class="btn-click" href="/EspecialistaViewModel">
+                <div class="panel-body shadow text-center" style="background-color:#F1EDF8">
+                    <img src="~/Content/Images/people.png" />
+                    <h4>Especialistas</h4>
+                </div>  
+            </a>
         </div>
     </div>
 </div>
 
-<h3 class="text-center mt-5">Aniversariantes do Dia</h3>
+<h3 class="text-center mt-5">Aniversariantes do Dia <img src="~/Content/Images/balao.png" /></h3>
 <div class="row mt-2 text-center" >   
     <div class="col-md-12" id="tableWrapper"></div>
 </div>

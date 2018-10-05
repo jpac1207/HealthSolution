@@ -11,7 +11,8 @@ function run() {
             var table = document.createElement("table");
             table.classList.add("table", "table-bordered");
             var headerRow = document.createElement("tr");
-            headerRow.classList.add("bg-primary", "text-white");
+            headerRow.classList.add('bg-light');
+            headerRow.classList.add("bg-primary", "text-dark");
             var nameCell = headerRow.insertCell(0);
             nameCell.innerHTML = "Nome";
             var dateCell = headerRow.insertCell(1);

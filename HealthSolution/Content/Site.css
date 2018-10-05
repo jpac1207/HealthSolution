@@ -34,3 +34,47 @@ textarea {
 .textAreaObs {
     max-width: 650px;
 }
+
+hr {
+    display: block;
+    height: 1.5px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    padding: 0;
+    box-shadow: 0 20px 20px -20px #333;
+}
+
+.nav-link {
+    color: white;
+}
+
+.btn-click {
+    Text-decoration: none;
+}
+
+.Title-Page{
+    color:dimgray;
+    text-decoration:underline underline;
+}
+
+.Title-Link{
+    color:white;
+    font-size: medium;
+}
+p {
+    font-weight: normal;
+    font-size: 24px;
+    color: #777;
+    border-bottom: 1px solid #d5d9da;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+}
+
+.logo-central {
+    position: absolute;
+    top: 2px;
+    z-index: 20000;
+    width: 113px;
+    margin-left: -50px;
+    left: 50%;
+}

@@ -4,7 +4,7 @@
     ViewBag.Title = "Create";
 }
 
-<h2 class="text-center">Criar</h2>
+<h2 class="text-center Title-Page">Criar</h2>
 
 
 @using (Html.BeginForm()) 
@@ -40,7 +40,8 @@
 }
 
 <div>
-    @Html.ActionLink("Voltar para a Lista", "Index")
+    @Html.ActionLink("Voltar", "Index", new { @class = "btn btn-primary" })
+    
 </div>
 
 @section Scripts {

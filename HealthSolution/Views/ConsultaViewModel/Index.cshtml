@@ -7,86 +7,6 @@
     var queryOptions = (QueryOptions)ViewBag.QueryOptions;
 }
 
-<h2 class="text-center">Consultas</h2>
-
-<p>
-    @Html.ActionLink("Agendar Nova Consulta", "Create" , new { }, new { @class ="btn btn-primary btn-block"})
-</p>
-
-@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "jumbotron" }))
-{
-    <div class="row">
-        <div class="col-md-2">
-            @Html.TextBox("doutor", null, new { @class = "form-control", placeholder = "Doutor", onchange = "form.submit()" })
-        </div>
-        <div class="col-md-2">
-            @Html.TextBox("paciente", null, new { @class = "form-control", placeholder = "Paciente", onchange = "form.submit()" })
-        </div>
-        <div class="col-md-2">
-            @Html.TextBox("especialidade", null, new { @class = "form-control", placeholder = "Especialidade", onchange = "form.submit()" })
-        </div>
-        <div class="col-md-2">
-            @Html.TextBox("data", null, new { @class = "form-control date datepicker", placeholder = "Data", onchange = "form.submit()" })
-        </div>
-        <div class="col-md-2">
-            <button class="btn btn-success">Buscar</button>
-        </div>
-    </div>
-}
-<div class="table-responsive">
-    <table class="table">
-        <tr class="bg-dark text-white">
-            <th>
-                Especialidade
-            </th>
-            <th>
-                Doutor
-            </th>           
-            <th>
-                Paciente
-            </th>
-            <th>
-                Data
-            </th>
-            <th>
-                Observação
-            </th>
-            <th>
-                Forma Pagamento
-            </th>
-            <th class="buttonCell"></th>
-        </tr>
-
-        @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Especialidade.Nome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Especialista.Nome)
-                </td>                
-                <td>
-                    @Html.DisplayFor(modelItem => item.Paciente.Nome)
-                </td>
-                <td>
-                    @(item.Date != null ? item.Date.Date.ToString("dd/MM/yyyy") : "")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Observacao)
-                </td>
-                <td>
-                    @(item.FormaPagamento != null ? item.FormaPagamento.Nome : "-")
-                </td>
-                <td>
-                    @Html.ActionLink("Editar", "Edit", new { id=item.Id }, new { @class = "btn btn-primary"}) |
-                    @Html.ActionLink("Detalhes", "Details", new { id=item.Id }, new { @class = "btn btn-secondary" }) |
-                    @Html.ActionLink("Excluir", "Delete", new { id=item.Id }, new { @class = "btn btn-danger" })
-                </td>
-            </tr>
-}
-
-    </table>
-</div>
 @{
     string lvparams = "";
     var doutor = "";
@@ -115,5 +35,93 @@
 
     lvparams = string.Format("doutor={0}&paciente={1}&especialidade={2}&data={3}", doutor, paciente, especialidade, data);
 }
-@Html.BuildNextPreviousLinks(queryOptions, "Index", lvparams)
-<a class="btn btn-primary btn-block" href="@Url.Action("")/Export?SortOrder=@queryOptions.SortOrder&SortField=@queryOptions.SortField&CurrentPage=@queryOptions.CurrentPage&PageSize=@queryOptions.PageSize&@lvparams">Exportar</a>
+
+<br />
+<p>
+    Consultas
+    <span style='float:right;'>
+        <a class="btn btn-primary" href="/ConsultaViewModel/Create">Agendar Nova Consulta <span class="oi oi-plus"></span></a>
+        <a class="btn btn-primary" href="@Url.Action("")/Export?SortOrder=@queryOptions.SortOrder&SortField=@queryOptions.SortField&CurrentPage=@queryOptions.CurrentPage&PageSize=@queryOptions.PageSize&@lvparams">Exportar <span class="oi oi-data-transfer-download"></span></a>
+    </span>
+</p>
+<div class="panel panel-default" style="background-color:#F1EDF8">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "panel-body" }))
+    {
+        <div class="row">
+            <div class="col-md-2">
+                @Html.TextBox("doutor", null, new { @class = "form-control", placeholder = "Doutor", onchange = "form.submit()" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBox("paciente", null, new { @class = "form-control", placeholder = "Paciente", onchange = "form.submit()" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBox("especialidade", null, new { @class = "form-control", placeholder = "Especialidade", onchange = "form.submit()" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBox("data", null, new { @class = "form-control date datepicker", placeholder = "Data", onchange = "form.submit()" })
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-success">Buscar</button>
+            </div>
+        </div>
+    }
+</div>
+    <div class="table-responsive table-hover">
+        <table class="table">
+            <tr class="bg-light text-dark">
+                <th>
+                    Especialidade
+                </th>
+                <th>
+                    Doutor
+                </th>
+                <th>
+                    Paciente
+                </th>
+                <th>
+                    Data
+                </th>
+                <th>
+                    Observação
+                </th>
+                <th>
+                    Forma Pagamento
+                </th>
+                <th class="buttonCell"></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Especialidade.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Especialista.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Paciente.Nome)
+                    </td>
+                    <td>
+                        @(item.Date != null ? item.Date.Date.ToString("dd/MM/yyyy") : "")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Observacao)
+                    </td>
+                    <td>
+                        @(item.FormaPagamento != null ? item.FormaPagamento.Nome : "-")
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) |
+                        @Html.ActionLink("Detalhes", "Details", new { id = item.Id }, new { @class = "btn btn-secondary" }) |
+                        @Html.ActionLink("Excluir", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+
+<div style="margin:auto;" class="text-center">
+    @Html.BuildNextPreviousLinks(queryOptions, "Index", lvparams)
+</div>

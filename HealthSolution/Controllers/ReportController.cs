@@ -70,7 +70,7 @@ namespace HealthSolution.Controllers
                     Doutor = x.Especialista.Nome,
                     NomePaciente = x.Paciente.Nome,
                     FormaPagamento = paymentWay != null ? paymentWay.FormaPagamento.Nome : "-",
-                    ValorTabelado = x.Especialidade.ValorConsulta,
+                    ValorPago = x.ValorPago,
                     Observacao = x.Observacao
                 });
             });
@@ -88,7 +88,7 @@ namespace HealthSolution.Controllers
                     Doutor = x.Especialista.Nome,
                     NomePaciente = x.Paciente.Nome,
                     FormaPagamento = payment != null ? payment.FormaPagamento.Nome : "-",
-                    ValorTabelado = x.Procedimento.Valor,
+                    ValorPago = x.ValorPago,
                     Observacao = x.Observacao
                 });
             });

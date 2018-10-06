@@ -12,7 +12,7 @@ namespace HealthSolution.ViewModels
         public string Especialidade { get; set; }
         public string Doutor { get; set; }
         public string NomePaciente { get; set; }
-        public double ValorTabelado { get; set; }
+        public double ValorPago { get; set; }
         public string FormaPagamento { get; set; }
         public string Observacao { get; set; }
     }

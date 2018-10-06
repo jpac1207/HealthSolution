@@ -137,7 +137,7 @@ namespace HealthSolution.Controllers
 
             return View(especialistasViewModel);
         }
-                
+
         private List<SelectListItem> GetListUF()
         {
             List<SelectListItem> lista_UF = new List<SelectListItem>();
@@ -459,6 +459,57 @@ namespace HealthSolution.Controllers
         {
             List<EspecialistaEspecialidade> especialistaEspecialidade = db.EspecialistasEspecialidades.Where(x => x.EspecialidadeId == especialidadeId).Include(x => x.Especialista).ToList();
             return Json(especialistaEspecialidade);
+        }
+
+        [HttpPost]
+        public ActionResult VerifyDoctorTime(string data, int hora, int minuto, int doutorId)
+        {
+            var especialista = db.Especialistas.Where(x => x.Id == doutorId).FirstOrDefault();
+
+            if (especialista != null)
+            {
+                if (!string.IsNullOrEmpty(data))
+                {
+                    DateTime lvDateTime = DateTime.MinValue;
+
+                    if (DateTime.TryParse(data, out lvDateTime))
+                    {
+                        var diasAtendimento = db.DiasAtendimentos.Where(x => x.Id == especialista.DiasAtendimentoId).FirstOrDefault();
+
+                        if (diasAtendimento != null)
+                        {
+                            if (lvDateTime.DayOfWeek == DayOfWeek.Monday && !diasAtendimento.AtendeSegunda)
+                                return Json(false);
+                            else if (lvDateTime.DayOfWeek == DayOfWeek.Tuesday && !diasAtendimento.AtendeTerca)
+                                return Json(false);
+                            else if (lvDateTime.DayOfWeek == DayOfWeek.Wednesday && !diasAtendimento.AtendeQuarta)
+                                return Json(false);
+                            else if (lvDateTime.DayOfWeek == DayOfWeek.Thursday && !diasAtendimento.AtendeQuinta)
+                                return Json(false);
+                            else if (lvDateTime.DayOfWeek == DayOfWeek.Friday && !diasAtendimento.AtendeSexta)
+                                return Json(false);
+                            else if (lvDateTime.DayOfWeek == DayOfWeek.Saturday && !diasAtendimento.AtendeSabado)
+                                return Json(false);
+                            else if (lvDateTime.DayOfWeek == DayOfWeek.Sunday && !diasAtendimento.AtendeDomingo)
+                                return Json(false);
+
+                            if (hora >= especialista.HoraInicial && hora <= especialista.HoraFinal)
+                            {
+                                if (hora == especialista.HoraInicial && minuto >= especialista.MinutoInicial)
+                                    return Json(true);
+                                else if (hora > especialista.HoraInicial && hora < especialista.HoraInicial)
+                                    return Json(true);
+                                else if (hora == especialista.HoraFinal && minuto <= especialista.MinutoFinal)
+                                    return Json(true);
+                            }
+
+                        }
+
+                    }
+                }
+            }
+
+            return Json(false);
         }
 
         public ActionResult Export([Form] QueryOptions queryOptions, string nome, string crm, string especialidade)

@@ -28,3 +28,16 @@ Util.prototype.toDateString = function (date) {
 
     return day + '/' + month + '/' + year;
 }
+
+Util.prototype.getHour = function (hora, minuto) {
+
+    var lvHour = hora < 10 ? ("0" + hora) : hora.toString();
+    var lvMinute = minuto < 10 ? ("0" + minuto.toString()) : minuto.toString();
+    return (lvHour + ":" + lvMinute);
+}
+
+Util.prototype.sendMessage = function(styleClass, message){
+    var div = document.getElementById("globalMessage");
+    div.setAttribute("class", styleClass);
+    div.innerHTML = message;
+}

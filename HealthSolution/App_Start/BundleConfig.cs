@@ -38,6 +38,7 @@ namespace HealthSolution
             bundles.Add(new ScriptBundle("~/consulta").Include("~/Scripts/health-solution/consultas.js"));
             bundles.Add(new ScriptBundle("~/intervencoes").Include("~/Scripts/health-solution/intervencoes.js"));
             bundles.Add(new ScriptBundle("~/home").Include("~/Scripts/health-solution/home.js"));
+            bundles.Add(new ScriptBundle("~/specialistTime").Include("~/Scripts/health-solution/specialistTimeValidation.js"));
         }
     }
 }

@@ -353,6 +353,7 @@
     <Content Include="Scripts\health-solution\home.js" />
     <Content Include="Scripts\health-solution\consultas.js" />
     <Content Include="Scripts\health-solution\intervencoes.js" />
+    <Content Include="Scripts\health-solution\specialistTimeValidation.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Content\open-iconic-bootstrap.css" />
     <Content Include="Content\open-iconic.css" />

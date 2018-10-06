@@ -13,7 +13,7 @@ function run() {
     var methodProcedimento = 'GetIntervencaoHoje';
 
     util.doAjax(baseUrlPaciente + method, null).then(function (data) {
-        
+
         if (data && data.length > 0) {
             var table = document.createElement("table");
             table.classList.add("table", "table-bordered");
@@ -51,6 +51,7 @@ function run() {
 
     util.doAjax(baseUrlConsulta + methodConsulta, null).then(function (data) {
         listConsultas = data;
+       
         if (data && data.length > 0) {
             var table = document.createElement("table");
             table.classList.add("table", "table-bordered");
@@ -80,9 +81,9 @@ function run() {
 
                 var lvPhoneCell = row.insertCell(2);
                 lvPhoneCell.innerHTML = data[i].Especialista.Nome;
-                
+
                 var lvPhoneCell = row.insertCell(3);
-                lvPhoneCell.innerHTML = "";
+                lvPhoneCell.innerHTML = util.getHour(parseInt(data[i].Hora), parseInt(data[i].Minuto));
                 table.appendChild(row);
             }
 
@@ -105,8 +106,7 @@ function run() {
             var phoneCell = headerRow.insertCell(2);
             phoneCell.innerHTML = "Especialista";
             var phoneCell = headerRow.insertCell(3);
-            phoneCell.innerHTML = "Horário";
-            console.log(data);
+            phoneCell.innerHTML = "Horário";          
             table.appendChild(headerRow);
 
             for (var i = 0; i < data.length; i++) {
@@ -119,13 +119,13 @@ function run() {
                 var lvDateCell = row.insertCell(1);
                 var especialidade = data[i].Procedimento.Nome;
                 lvDateCell.innerHTML = especialidade;
-              
+
 
                 var lvPhoneCell = row.insertCell(2);
                 lvPhoneCell.innerHTML = data[i].Especialista.Nome;
 
                 var lvPhoneCell = row.insertCell(3);
-                lvPhoneCell.innerHTML = "";
+                lvPhoneCell.innerHTML = util.getHour(parseInt(data[i].Hora), parseInt(data[i].Minuto));
                 table.appendChild(row);
             }
 

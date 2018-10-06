@@ -1,7 +1,22 @@
 ﻿var baseUrlPaciente = '../PacienteViewModel/';
+var baseUrlEspecialista = '../EspecialistaViewModel/';
+
 var textPacienteCPF = document.getElementById("Cpf");
+var dropDoutor = document.getElementById("EspecialistaId");
+var textDate = document.getElementById("Date");
+var textHora = document.getElementById("Hora");
+var textMinuto = document.getElementById("Minuto");
+
 var fnPesquisarCPF = function () {
     fnGetPacienteByCPF(textPacienteCPF.value);
+}
+
+var fnVerificarHorario = function () {
+
+    if (textDate.value && textHora.value && textMinuto.value && dropDoutor) {
+        fnVerifyHour(textDate.value, textHora.value, textMinuto.value,
+            dropDoutor.options[dropDoutor.selectedIndex].value);
+    }
 }
 
 function fnGetPacienteByCPF(cpf) {
@@ -40,4 +55,26 @@ function fnGetPacienteByCPF(cpf) {
 
 }
 
+function fnVerifyHour(data, hora, minuto, doutorId) {
+    var util = new Util();
+    var method = 'VerifyDoctorTime';
+    var params = "{data:'" + data + "', hora: '" + hora + "', minuto: '" + minuto + "', doutorId:'" + doutorId + "'}";
+
+    util.doAjax(baseUrlEspecialista + method, params).then(function (data) {
+        if (data != null) {
+            if (!data) {
+                util.sendMessage("alert alert-danger", "O especialista escolhido não atende na data ou horário selecionado! <br/> Verifique se deseja confirmar a consulta.")
+            }
+            else {
+                util.sendMessage(" ", " ")
+            }
+        }
+
+    }), function (err) { consoleg.log(err) };
+}
+
 textPacienteCPF.onchange = fnPesquisarCPF;
+textDate.onchange = fnVerificarHorario;
+textHora.onchange = fnVerificarHorario;
+textMinuto.onchange = fnVerificarHorario;
+dropDoutor.onchange = fnVerificarHorario;

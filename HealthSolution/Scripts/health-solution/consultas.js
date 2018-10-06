@@ -4,6 +4,9 @@ var baseUrlPaciente = '../PacienteViewModel/';
 var dropDoutor = document.getElementById("EspecialistaId");
 var dropEspecialidade = document.getElementById("EspecialidadeId");
 var textPacienteCPF = document.getElementById("Cpf");
+var textDate = document.getElementById("Date");
+var textHora = document.getElementById("Hora");
+var textMinuto = document.getElementById("Minuto");
 
 var fnMudarDropDoutor =  function () {
     fnGetDoutorByEspecialidadeId(dropEspecialidade.options[dropEspecialidade.selectedIndex].value);
@@ -11,6 +14,14 @@ var fnMudarDropDoutor =  function () {
 
 var fnPesquisarCPF = function () {
     fnGetPacienteByCPF(textPacienteCPF.value);
+}
+
+var fnVerificarHorario = function () {
+
+    if (textDate.value && textHora.value && textMinuto.value && dropDoutor) {        
+        fnVerifyHour(textDate.value, textHora.value, textMinuto.value,
+            dropDoutor.options[dropDoutor.selectedIndex].value);
+    }
 }
 
 function fnGetPacienteByCPF(cpf) {
@@ -70,5 +81,27 @@ function fnGetDoutorByEspecialidadeId(especialidadeId) {
     }), function (err) { consoleg.log(err)}; 
 }
 
+function fnVerifyHour(data, hora, minuto, doutorId) {
+    var util = new Util();
+    var method = 'VerifyDoctorTime';
+    var params = "{data:'" + data + "', hora: '" + hora + "', minuto: '" + minuto + "', doutorId:'" + doutorId + "'}";
+
+    util.doAjax(baseUrl + method, params).then(function (data) {
+        if (data!= null) {
+            if (!data) {
+                util.sendMessage("alert alert-danger", "O especialista escolhido não atende na data ou horário selecionado! <br/> Verifique se deseja confirmar a consulta.")
+            }
+            else {
+                util.sendMessage(" ", " ")
+            }
+        }
+
+    }), function (err) { consoleg.log(err) };
+}
+
 dropEspecialidade.onchange = fnMudarDropDoutor;
 textPacienteCPF.onchange = fnPesquisarCPF;
+textDate.onchange = fnVerificarHorario;
+textHora.onchange = fnVerificarHorario;
+textMinuto.onchange = fnVerificarHorario;
+dropDoutor.onchange = fnVerificarHorario;

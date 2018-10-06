@@ -22,8 +22,8 @@
     </div>
     <div class="col-md-6">
         <div class="card">
-            <a class="btn-click" href="/ConsultaViewModel">
-                <div class="card-body shadow text-center" style="background-color:#F1EDF8">
+            <a  href="/ConsultaViewModel">
+                <div class="card-body shadow text-center btn-click" style="background-color:#F1EDF8">
                     <img src="~/Content/Images/calendar.png" />
                     <h6>Consultas</h6>
                 </div>
@@ -56,11 +56,28 @@
     </div>
 </div>
 
+<p class="mt-5 row col-md-12 ml-auto mr-auto" >
+        Consultas do Dia  @Html.TextBox("nome", null, new { @class = "form-control ml-auto", placeholder="Nome"})
+</p>
+
+            <div class="row mt-2 text-center">
+                <div class="col-md-12" id="tableConsultas"></div>
+            </div>
+       
+
+
+<p class="mt-5 row col-md-12 ml-auto mr-auto">
+    Procedimentos do Dia  @Html.TextBox("nome", null, new { @class = "form-control ml-auto", placeholder = "Nome" })
+</p>
+<div class="row mt-2 text-center">
+    <div class="col-md-12" id="tableProcedimentos"></div>
+</div>
+
 <h5 class="text-center mt-5">Aniversariantes do Dia <img src="~/Content/Images/balao.png" /></h5>
 <div class="row mt-2 text-center" >   
     <div class="col-md-12" id="tableWrapper"></div>
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/birthay")
+    @Scripts.Render("~/home")
 }

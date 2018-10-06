@@ -350,7 +350,7 @@
     <Content Include="Content\Images\ui-icons_cc0000_256x240.png" />
     <Content Include="Content\Images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\jquery-ui.css" />
-    <Content Include="Scripts\health-solution\aniversariantes.js" />
+    <Content Include="Scripts\health-solution\home.js" />
     <Content Include="Scripts\health-solution\consultas.js" />
     <Content Include="Scripts\health-solution\intervencoes.js" />
     <Content Include="Scripts\jquery-ui.min.js" />

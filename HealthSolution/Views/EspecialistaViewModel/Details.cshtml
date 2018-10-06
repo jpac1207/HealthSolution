@@ -1,4 +1,5 @@
 ﻿@model HealthSolution.ViewModels.EspecialistaViewModel
+@using HealthSolution.Extensions
 
 @{
     ViewBag.Title = "Detalhes";
@@ -110,6 +111,14 @@
                     (Model.AtendeSexta ? "|Sex|" : "") +
                     (Model.AtendeSabado ? "|Sab|" : "") +
                     (Model.AtendeDomingo ? "|Dom|" : ""))
+        </dd>
+
+        <dt>
+            Horário Atendimento
+        </dt>
+
+        <dd>
+           @Html.GetFormatedHour(Model.HoraInicial, Model.MinutoInicial) - @Html.GetFormatedHour(Model.HoraFinal, Model.MinutoFinal)
         </dd>
     </dl>
 </div>

@@ -36,6 +36,14 @@
         </dd>
 
         <dt>
+            Valor Pago
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValorPago)
+        </dd>
+
+        <dt>
             Paciente
         </dt>
 
@@ -49,6 +57,14 @@
 
         <dd>
             @(Model.Date != null ? Model.Date.ToString("dd/MM/yyy") : "-")
+        </dd>
+
+        <dt>
+            Horário
+        </dt>
+
+        <dd>
+            @(Model.Hora + ":" + Model.Minuto)
         </dd>
 
         <dt>

@@ -98,6 +98,9 @@
             <th>
                 Dias de Atendimento
             </th>
+            <th>
+                Horário de Atendimento
+            </th>
             <th class="buttonCell"></th>
         </tr>
 
@@ -145,6 +148,9 @@
                     (item.AtendeSexta ? "|Sex|" : "") +
                     (item.AtendeSabado ? "|Sab|" : "") +
                     (item.AtendeDomingo ? "|Dom|" : ""))
+                </td>
+                <td>
+                    @Html.GetFormatedHour(item.HoraInicial, item.MinutoInicial) - @Html.GetFormatedHour(item.HoraFinal, item.MinutoFinal)
                 </td>
                 <td>
                     @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) 

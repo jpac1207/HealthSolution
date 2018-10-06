@@ -420,7 +420,7 @@ namespace HealthSolution.Controllers
                 int especialidadeCell = 4;
                 int especialistaCell = 5;
                 int pacienteCell = 6;
-                int formaPagamentoCell = 7;
+                int formaPagamentoCell = 9;
 
                 foreach (DataRow row in dt.Rows)
                 {

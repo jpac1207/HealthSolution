@@ -301,6 +301,10 @@
     <Compile Include="Migrations\201810052143231_AdicionaValorPagoAndHoraMinuto.Designer.cs">
       <DependentUpon>201810052143231_AdicionaValorPagoAndHoraMinuto.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810060054295_HorarioAtendimento.cs" />
+    <Compile Include="Migrations\201810060054295_HorarioAtendimento.Designer.cs">
+      <DependentUpon>201810060054295_HorarioAtendimento.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Consulta.cs" />
@@ -551,6 +555,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810052143231_AdicionaValorPagoAndHoraMinuto.resx">
       <DependentUpon>201810052143231_AdicionaValorPagoAndHoraMinuto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810060054295_HorarioAtendimento.resx">
+      <DependentUpon>201810060054295_HorarioAtendimento.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

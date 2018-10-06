@@ -21,5 +21,9 @@ namespace HealthSolution.Models
         public Telefone Telefone { get; set; }
         public int DiasAtendimentoId { get; set; }
         public DiasAtendimento DiasAtendimento { get; set; }
+        public int HoraInicial { get; set; }
+        public int MinutoInicial { get; set; }
+        public int HoraFinal { get; set; }
+        public int MinutoFinal { get; set; }
     }
 }

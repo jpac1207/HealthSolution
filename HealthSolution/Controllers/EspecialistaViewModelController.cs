@@ -24,6 +24,64 @@ namespace HealthSolution.Controllers
     {
         private HealthContext db = new HealthContext();
 
+        private EspecialistaViewModel GetEspecialistaViewModel(Especialista x)
+        {
+            var myespeciality = db.EspecialistasEspecialidades.Where(y => y.EspecialistaId == x.Id).FirstOrDefault();
+
+            var especialistaViewModel = new EspecialistaViewModel();
+            especialistaViewModel.Id = x.Id;
+            especialistaViewModel.Nome = x.Nome;
+            especialistaViewModel.Crm = x.Crm;
+            especialistaViewModel.Email = x.Email;
+            especialistaViewModel.DataNascimento = x.DataNascimento;
+            especialistaViewModel.ConselhoUF = x.ConselhoUF;
+            especialistaViewModel.HoraInicial = x.HoraInicial;
+            especialistaViewModel.MinutoInicial = x.MinutoInicial;
+            especialistaViewModel.HoraFinal = x.HoraFinal;
+            especialistaViewModel.MinutoFinal = x.MinutoFinal;
+
+            if (myespeciality != null)
+            {
+                var especiality = db.Especialidades.Where(y => y.Id == myespeciality.EspecialidadeId).FirstOrDefault();
+
+                if (especiality != null)
+                {
+                    especialistaViewModel.Especialidade = especiality.Nome;
+                    especialistaViewModel.EspecialidadeId = especiality.Id;
+                }
+            }
+
+            if (x.EnderecoId != -1)
+            {
+                var endereco = db.Enderecos.Where(y => y.Id == x.EnderecoId).FirstOrDefault();
+                especialistaViewModel.Bairro = endereco.Bairro;
+                especialistaViewModel.Cidade = endereco.Cidade;
+                especialistaViewModel.Numero = endereco.Numero;
+                especialistaViewModel.Rua = endereco.Rua;
+            }
+
+            if (x.TelefoneId != -1)
+            {
+                var telefone = db.Telefones.Where(y => y.Id == x.TelefoneId).FirstOrDefault();
+                especialistaViewModel.Telefone = telefone.Numero;
+            }
+
+            if (x.DiasAtendimentoId != -1)
+            {
+                var diasAtendimento = db.DiasAtendimentos.Where(y => y.Id == x.DiasAtendimentoId).FirstOrDefault();
+                especialistaViewModel.AtendeSegunda = diasAtendimento.AtendeSegunda;
+                especialistaViewModel.AtendeTerca = diasAtendimento.AtendeTerca;
+                especialistaViewModel.AtendeQuarta = diasAtendimento.AtendeQuarta;
+                especialistaViewModel.AtendeQuinta = diasAtendimento.AtendeQuinta;
+                especialistaViewModel.AtendeSexta = diasAtendimento.AtendeSexta;
+                especialistaViewModel.AtendeSabado = diasAtendimento.AtendeSabado;
+                especialistaViewModel.AtendeDomingo = diasAtendimento.AtendeDomingo;
+            }
+
+            return especialistaViewModel;
+        }
+
+
         // GET: EspecialistaViewModel
         public ActionResult Index([Form] QueryOptions queryOptions, string nome, string crm, string especialidade)
         {
@@ -79,60 +137,7 @@ namespace HealthSolution.Controllers
 
             return View(especialistasViewModel);
         }
-
-        private EspecialistaViewModel GetEspecialistaViewModel(Especialista x)
-        {
-            var myespeciality = db.EspecialistasEspecialidades.Where(y => y.EspecialistaId == x.Id).FirstOrDefault();
-
-            var especialistaViewModel = new EspecialistaViewModel();
-            especialistaViewModel.Id = x.Id;
-            especialistaViewModel.Nome = x.Nome;
-            especialistaViewModel.Crm = x.Crm;
-            especialistaViewModel.Email = x.Email;
-            especialistaViewModel.DataNascimento = x.DataNascimento;
-            especialistaViewModel.ConselhoUF = x.ConselhoUF;
-
-            if (myespeciality != null)
-            {
-                var especiality = db.Especialidades.Where(y => y.Id == myespeciality.EspecialidadeId).FirstOrDefault();
-
-                if (especiality != null)
-                {
-                    especialistaViewModel.Especialidade = especiality.Nome;
-                    especialistaViewModel.EspecialidadeId = especiality.Id;
-                }
-            }
-
-            if (x.EnderecoId != -1)
-            {
-                var endereco = db.Enderecos.Where(y => y.Id == x.EnderecoId).FirstOrDefault();
-                especialistaViewModel.Bairro = endereco.Bairro;
-                especialistaViewModel.Cidade = endereco.Cidade;
-                especialistaViewModel.Numero = endereco.Numero;
-                especialistaViewModel.Rua = endereco.Rua;
-            }
-
-            if (x.TelefoneId != -1)
-            {
-                var telefone = db.Telefones.Where(y => y.Id == x.TelefoneId).FirstOrDefault();
-                especialistaViewModel.Telefone = telefone.Numero;
-            }
-
-            if (x.DiasAtendimentoId != -1)
-            {
-                var diasAtendimento = db.DiasAtendimentos.Where(y => y.Id == x.DiasAtendimentoId).FirstOrDefault();
-                especialistaViewModel.AtendeSegunda = diasAtendimento.AtendeSegunda;
-                especialistaViewModel.AtendeTerca = diasAtendimento.AtendeTerca;
-                especialistaViewModel.AtendeQuarta = diasAtendimento.AtendeQuarta;
-                especialistaViewModel.AtendeQuinta = diasAtendimento.AtendeQuinta;
-                especialistaViewModel.AtendeSexta = diasAtendimento.AtendeSexta;
-                especialistaViewModel.AtendeSabado = diasAtendimento.AtendeSabado;
-                especialistaViewModel.AtendeDomingo = diasAtendimento.AtendeDomingo;
-            }
-
-            return especialistaViewModel;
-        }
-
+                
         private List<SelectListItem> GetListUF()
         {
             List<SelectListItem> lista_UF = new List<SelectListItem>();
@@ -197,7 +202,8 @@ namespace HealthSolution.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Nome,Crm,ConselhoUF,EspecialidadeId,Especialidade,"+
             "DataNascimento,Email,Rua,Bairro,Cidade,Numero,Telefone,"+
-            "AtendeSegunda,AtendeTerca,AtendeQuarta,AtendeQuinta,AtendeSexta,AtendeSabado,AtendeDomingo")] EspecialistaViewModel especialistaViewModel)
+            "AtendeSegunda,AtendeTerca,AtendeQuarta,AtendeQuinta,AtendeSexta,AtendeSabado,AtendeDomingo," +
+            "HoraInicial,MinutoInicial,HoraFinal,MinutoFinal")] EspecialistaViewModel especialistaViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -241,6 +247,10 @@ namespace HealthSolution.Controllers
                         especialista.TelefoneId = telefone.Id;
                         especialista.DiasAtendimentoId = diasAtendimento.Id;
                         especialista.DataNascimento = especialistaViewModel.DataNascimento;
+                        especialista.HoraInicial = especialistaViewModel.HoraInicial;
+                        especialista.MinutoInicial = especialistaViewModel.MinutoInicial;
+                        especialista.HoraFinal = especialistaViewModel.HoraFinal;
+                        especialista.MinutoFinal = especialistaViewModel.MinutoFinal;
                         db.Especialistas.Add(especialista);
                         db.SaveChanges();
 
@@ -290,7 +300,8 @@ namespace HealthSolution.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Nome,Crm,ConselhoUF,EspecialidadeId,Especialidade,DataNascimento"+
             ",Email,Rua,Bairro,Cidade,Numero,Telefone,"+
-            "AtendeSegunda,AtendeTerca,AtendeQuarta,AtendeQuinta,AtendeSexta,AtendeSabado,AtendeDomingo")] EspecialistaViewModel especialistaViewModel)
+            "AtendeSegunda,AtendeTerca,AtendeQuarta,AtendeQuinta,AtendeSexta,AtendeSabado,AtendeDomingo,"+
+            "HoraInicial,MinutoInicial,HoraFinal,MinutoFinal")] EspecialistaViewModel especialistaViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -309,6 +320,10 @@ namespace HealthSolution.Controllers
                             especialista.Email = especialistaViewModel.Email;
                             especialista.ConselhoUF = especialistaViewModel.ConselhoUF;
                             especialista.DataNascimento = especialistaViewModel.DataNascimento;
+                            especialista.HoraInicial = especialistaViewModel.HoraInicial;
+                            especialista.MinutoInicial = especialistaViewModel.MinutoInicial;
+                            especialista.HoraFinal = especialistaViewModel.HoraFinal;
+                            especialista.MinutoFinal = especialistaViewModel.MinutoFinal;
                             db.SaveChanges();
 
                             /*Dias de Atendimento*/

@@ -67,6 +67,13 @@ namespace HealthSolution.Extensions
             ));
         }
 
+        public static string GetFormatedHour(this HtmlHelper htmlHelper, int hora, int minuto)
+        {
+            string lvHour = hora < 10 ? ("0" + hora) : hora.ToString();
+            string lvMinute = minuto < 10 ? ("0" + minuto.ToString()) : minuto.ToString();
+            return string.Format("{0}:{1}", lvHour, lvMinute);
+        }
+
         private static string IsPreviousDisabled(QueryOptions queryOptions)
         {
             return (queryOptions.CurrentPage == 1)
@@ -79,7 +86,7 @@ namespace HealthSolution.Extensions
             ? "disabled" : string.Empty;
         }
 
-        private static string BuildPreviousLink(UrlHelper urlHelper, QueryOptions queryOptions, 
+        private static string BuildPreviousLink(UrlHelper urlHelper, QueryOptions queryOptions,
             string actionName, string parameters)
         {
             return string.Format(
@@ -93,7 +100,7 @@ namespace HealthSolution.Extensions
             }), "&" + parameters);
         }
 
-        private static string BuildNextLink(UrlHelper urlHelper, QueryOptions queryOptions, 
+        private static string BuildNextLink(UrlHelper urlHelper, QueryOptions queryOptions,
             string actionName, string parameters)
         {
             return string.Format(

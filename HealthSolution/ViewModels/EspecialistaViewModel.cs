@@ -31,5 +31,10 @@ namespace HealthSolution.ViewModels
         public bool AtendeSexta { get; set; }
         public bool AtendeSabado { get; set; }
         public bool AtendeDomingo { get; set; }
+
+        public int HoraInicial { get; set; }
+        public int MinutoInicial { get; set; }
+        public int HoraFinal { get; set; }
+        public int MinutoFinal { get; set; }
     }
 }

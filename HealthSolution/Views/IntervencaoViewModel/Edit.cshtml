@@ -10,15 +10,15 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">        
+
+    <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
 
         <div class="row">
             <div class="col-md-4">
-                <label class="control-label col-md-2">Procedimento</label>
+                <label class="control-label">Procedimento</label>
                 <div class="col-md-10">
                     @Html.DropDownList("ProcedimentoId", null, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.ProcedimentoId, "", new { @class = "text-danger" })
@@ -26,7 +26,7 @@
             </div>
 
             <div class="col-md-4">
-                <label class="control-label col-md-2">Especialista</label>
+                <label class="control-label">Especialista</label>
                 <div class="col-md-10">
                     @Html.DropDownList("EspecialistaId", null, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.EspecialistaId, "", new { @class = "text-danger" })
@@ -34,7 +34,7 @@
             </div>
 
             <div class="col-md-4">
-                <label class="control-label col-md-2">Paciente</label>
+                <label class="control-label">Paciente</label>
                 <div class="col-md-10">
                     @Html.DropDownList("PacienteId", null, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.PacienteId, "", new { @class = "text-danger" })
@@ -49,7 +49,17 @@
                     @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control date datepicker" } })
                     @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
                 </div>
-            </div>          
+            </div>
+
+            <div class="col-md-4">
+                <label class="control-label">Horário</label>
+                <div class="form-inline">
+                    <div class="form-group">
+                        @Html.EditorFor(model => model.Hora, new { htmlAttributes = new { @class = "form-control col-md-2 mr-1" } }):
+                        @Html.EditorFor(model => model.Minuto, new { htmlAttributes = new { @class = "form-control col-md-2 ml-1" } })
+                    </div>
+                </div>
+            </div>
 
             <div class="col-md-4">
                 <label class="control-label"> Forma de Pagamento</label>
@@ -57,7 +67,15 @@
                     @Html.DropDownList("FormaPagamentoId", null, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.FormaPagamentoId, "", new { @class = "text-danger" })
                 </div>
-            </div>           
+            </div>
+
+            <div class="col-md-4">
+                <label class="control-label">Valor Pago</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ValorPago, new { htmlAttributes = new { @class = "form-control", @Value = 0 } })
+                    @Html.ValidationMessageFor(model => model.ValorPago, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
 
         <div class="row">

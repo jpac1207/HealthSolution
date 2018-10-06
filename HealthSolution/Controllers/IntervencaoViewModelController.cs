@@ -104,7 +104,7 @@ namespace HealthSolution.Controllers
             intervencoes.ForEach(x => intervencaoViewModels.Add(GetIntervencaoViewModel(x)));
 
             return View(intervencaoViewModels);
-        }     
+        }
 
         // GET: IntervencaoViewModels/Details/5
         public ActionResult Details(int? id)
@@ -421,7 +421,7 @@ namespace HealthSolution.Controllers
                 int procedimentoCell = 4;
                 int especialistaCell = 5;
                 int pacienteCell = 6;
-                int formaPagamentoCell = 7;
+                int formaPagamentoCell = 9;
 
                 foreach (DataRow row in dt.Rows)
                 {

@@ -5,15 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Administração Clínica</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">*@
+    @Scripts.Render("~/bundles/modernizr")    
 </head>
 <br/>
 <body style="background-color:#E7ECEE">
     <div class="card rounded shadow p-3 mb-5" style="width:95%;height:90%;margin:auto">
         <div class="card-body">
             <img src="~/Content/Images/logo1.png" class="logo-central"/>
-            <img src="~/Content/Images/information.png" style="float:right;" />
+            <img src="~/Content/Images/information.png" style="float:right;" id="imgInformation" />
             <br />  
             <hr/>
             <div class="">
@@ -32,10 +31,10 @@
                         <ul class="navbar-nav">
                             <li class="nav-item active">@Html.ActionLink("Home", "Index", "Home", new { }, new { @class = "nav-link" })</li>
                             <li class="nav-item">@Html.ActionLink("Sobre", "About", "Home", new { }, new { @class = "nav-link" })</li>
-                            <li class="nav-item">@Html.ActionLink("Pacientes", "About", "Home", new { }, new { @class = "nav-link" })</li>
-                            <li class="nav-item">@Html.ActionLink("Consultas", "About", "Home", new { }, new { @class = "nav-link" })</li>
-                            <li class="nav-item">@Html.ActionLink("Procedimentos", "About", "Home", new { }, new { @class = "nav-link" })</li>
-                            <li class="nav-item">@Html.ActionLink("Especialistas", "About", "Home", new { }, new { @class = "nav-link" })</li>
+                            <li class="nav-item">@Html.ActionLink("Pacientes", "Index", "PacienteViewModel", new { }, new { @class = "nav-link" })</li>
+                            <li class="nav-item">@Html.ActionLink("Consultas", "Index", "ConsultaViewModel", new { }, new { @class = "nav-link" })</li>
+                            <li class="nav-item">@Html.ActionLink("Procedimentos", "Index", "IntervencaoViewModel", new { }, new { @class = "nav-link" })</li>
+                            <li class="nav-item">@Html.ActionLink("Especialistas", "Index", "EspecialistaViewModel", new { }, new { @class = "nav-link" })</li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
                                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

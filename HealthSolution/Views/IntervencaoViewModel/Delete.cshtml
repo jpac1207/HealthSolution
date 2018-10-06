@@ -44,6 +44,14 @@
         </dd>
 
         <dt>
+            Horário
+        </dt>
+
+        <dd>
+            @(Model.Hora + ":" + Model.Minuto)
+        </dd>
+
+        <dt>
             Observação
         </dt>
 
@@ -57,6 +65,15 @@
 
         <dd>
             @Html.DisplayFor(model => model.FormaPagamento.Nome)
+        </dd>
+
+
+        <dt>
+            Valor Pago
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValorPago)
         </dd>
     </dl>
 

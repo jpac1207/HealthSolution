@@ -165,8 +165,9 @@
                 <label class="control-label">Inicio Atendimento </label>
                 <div class="form-inline">
                     <div class="row border-dark">
-                        @Html.EditorFor(model => model.HoraInicial, new { htmlAttributes = new { @class = "form-control col-md-4 mr-1", placeholder = "00" } }):
-                        @Html.EditorFor(model => model.MinutoInicial, new { htmlAttributes = new { @class = "form-control col-md-4 ml-1", placeholder = "00" } })
+                        @Html.DropDownListFor(model => model.HoraInicial, ((List<SelectListItem>)ViewBag.Hora), htmlAttributes: new { @class = "form-control" })
+                        :
+                        @Html.DropDownListFor(model => model.MinutoInicial, ((List<SelectListItem>)ViewBag.Minuto), htmlAttributes: new { @class = "form-control" })
                     </div>
                 </div>
             </div>
@@ -175,8 +176,9 @@
                 <label class="control-label">Fim Atendimento </label>
                 <div class="form-inline">
                     <div class="row border-dark">
-                        @Html.EditorFor(model => model.HoraFinal, new { htmlAttributes = new { @class = "form-control col-md-4 mr-1", placeholder = "00" } }):
-                        @Html.EditorFor(model => model.MinutoFinal, new { htmlAttributes = new { @class = "form-control col-md-4 ml-1", placeholder = "00" } })
+                        @Html.DropDownListFor(model => model.HoraFinal, ((List<SelectListItem>)ViewBag.Hora), htmlAttributes: new { @class = "form-control" })
+                        :
+                        @Html.DropDownListFor(model => model.MinutoFinal, ((List<SelectListItem>)ViewBag.Minuto), htmlAttributes: new { @class = "form-control" })
                     </div>
                 </div>
             </div>

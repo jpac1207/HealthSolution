@@ -61,6 +61,30 @@ namespace HealthSolution.Controllers
             return intervencaoViewModel;
         }
 
+        private List<SelectListItem> GetListHour()
+        {
+            List<SelectListItem> lista_UF = new List<SelectListItem>();
+
+            for (int i = 0; i < 24; i++)
+            {
+                var text = i < 10 ? "0" + i : i.ToString();
+                var item = new SelectListItem() { Text = text, Value = i.ToString() };
+                lista_UF.Add(item);
+            }
+
+            return lista_UF;
+        }
+
+        private List<SelectListItem> GetListMinute()
+        {
+            List<SelectListItem> lista_UF = new List<SelectListItem>();
+            lista_UF.Add(new SelectListItem() { Text = "00", Value = "0" });
+            lista_UF.Add(new SelectListItem() { Text = "15", Value = "15" });
+            lista_UF.Add(new SelectListItem() { Text = "30", Value = "30" });
+            lista_UF.Add(new SelectListItem() { Text = "45", Value = "45" });
+            return lista_UF;
+        }
+
         // GET: IntervencaoViewModels
         public ActionResult Index([Form] QueryOptions queryOptions, string doutor, string paciente, string procedimento, string data)
         {
@@ -98,6 +122,9 @@ namespace HealthSolution.Controllers
             var start = (queryOptions.CurrentPage - 1) * queryOptions.PageSize;
             queryOptions.TotalPages = (int)Math.Ceiling((double)intervencoes.Count() / queryOptions.PageSize);
             ViewBag.QueryOptions = queryOptions;
+
+            if (queryOptions.SortField == "Id")
+                queryOptions.SortField = "Date";
 
             intervencoes = intervencoes.OrderBy(queryOptions.Sort).Skip(start).Take(queryOptions.PageSize).ToList();
 
@@ -137,6 +164,8 @@ namespace HealthSolution.Controllers
             ViewBag.FormaPagamentoId = new SelectList(paymentWays, "Id", "Nome");
             ViewBag.PacienteId = new SelectList(db.Pacientes, "Id", "Nome");
             ViewBag.ProcedimentoId = new SelectList(db.Procedimentos, "Id", "Nome");
+            ViewBag.Hora = GetListHour();
+            ViewBag.Minuto = GetListMinute();
             return View();
         }
 
@@ -253,6 +282,8 @@ namespace HealthSolution.Controllers
             ViewBag.FormaPagamentoId = new SelectList(paymentWays, "Id", "Nome", intervencaoViewModel.FormaPagamentoId);
             ViewBag.PacienteId = new SelectList(db.Pacientes, "Id", "Nome", intervencaoViewModel.PacienteId);
             ViewBag.ProcedimentoId = new SelectList(db.Procedimentos, "Id", "Nome", intervencaoViewModel.ProcedimentoId);
+            ViewBag.Hora = GetListHour();
+            ViewBag.Minuto = GetListMinute();
             return View(intervencaoViewModel);
         }
 
@@ -321,6 +352,8 @@ namespace HealthSolution.Controllers
             ViewBag.FormaPagamentoId = new SelectList(paymentWays, "Id", "Nome", intervencaoViewModel.FormaPagamentoId);
             ViewBag.PacienteId = new SelectList(db.Pacientes, "Id", "Nome", intervencaoViewModel.PacienteId);
             ViewBag.ProcedimentoId = new SelectList(db.Procedimentos, "Id", "Nome", intervencaoViewModel.ProcedimentoId);
+            ViewBag.Hora = GetListHour();
+            ViewBag.Minuto = GetListMinute();
             return View(intervencaoViewModel);
         }
 

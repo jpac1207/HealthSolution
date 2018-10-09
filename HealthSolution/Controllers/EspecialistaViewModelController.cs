@@ -79,8 +79,7 @@ namespace HealthSolution.Controllers
             }
 
             return especialistaViewModel;
-        }
-
+        }            
 
         // GET: EspecialistaViewModel
         public ActionResult Index([Form] QueryOptions queryOptions, string nome, string crm, string especialidade)
@@ -141,7 +140,7 @@ namespace HealthSolution.Controllers
         private List<SelectListItem> GetListUF()
         {
             List<SelectListItem> lista_UF = new List<SelectListItem>();
-
+            
             lista_UF.Add(new SelectListItem() { Text = "AC", Value = "AC" });
             lista_UF.Add(new SelectListItem() { Text = "AL", Value = "AL" });
             lista_UF.Add(new SelectListItem() { Text = "AM", Value = "AM" });
@@ -172,6 +171,30 @@ namespace HealthSolution.Controllers
             return lista_UF;
         }
 
+        private List<SelectListItem> GetListHour()
+        {
+            List<SelectListItem> lista_UF = new List<SelectListItem>();
+
+            for (int i = 0; i < 24; i++)
+            {
+                var text = i < 10 ? "0" + i : i.ToString();
+                var item = new SelectListItem() { Text = text, Value = i.ToString() };
+                lista_UF.Add(item);
+            }
+
+            return lista_UF;
+        }
+
+        private List<SelectListItem> GetListMinute()
+        {
+            List<SelectListItem> lista_UF = new List<SelectListItem>();
+            lista_UF.Add(new SelectListItem() { Text = "00", Value = "0" });
+            lista_UF.Add(new SelectListItem() { Text = "15", Value = "15" });
+            lista_UF.Add(new SelectListItem() { Text = "30", Value = "30" });
+            lista_UF.Add(new SelectListItem() { Text = "45", Value = "45" });
+            return lista_UF;
+        }
+
         // GET: EspecialistaViewModel/Details/5
         public ActionResult Details(int? id)
         {
@@ -192,6 +215,8 @@ namespace HealthSolution.Controllers
         {
             ViewBag.Especialidades = db.Especialidades.ToList();
             ViewBag.ListaUF = GetListUF();
+            ViewBag.Hora = GetListHour();
+            ViewBag.Minuto = GetListMinute();
             return View();
         }
 
@@ -277,7 +302,6 @@ namespace HealthSolution.Controllers
         // GET: EspecialistaViewModel/Edit/5
         public ActionResult Edit(int? id)
         {
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -288,6 +312,8 @@ namespace HealthSolution.Controllers
                 return HttpNotFound();
             }
             ViewBag.ListaUF = GetListUF();
+            ViewBag.Hora = GetListHour();
+            ViewBag.Minuto = GetListMinute();
             ViewBag.Especialidades = db.Especialidades.ToList();
 
             return View(especialistaViewModel);
@@ -479,37 +505,69 @@ namespace HealthSolution.Controllers
                         if (diasAtendimento != null)
                         {
                             if (lvDateTime.DayOfWeek == DayOfWeek.Monday && !diasAtendimento.AtendeSegunda)
-                                return Json(false);
+                                return Json(new object[] { false, "O médico não atende no dia selecionado!" });
                             else if (lvDateTime.DayOfWeek == DayOfWeek.Tuesday && !diasAtendimento.AtendeTerca)
-                                return Json(false);
+                                return Json(new object[] { false, "O médico não atende no dia selecionado!" });
                             else if (lvDateTime.DayOfWeek == DayOfWeek.Wednesday && !diasAtendimento.AtendeQuarta)
-                                return Json(false);
+                                return Json(new object[] { false, "O médico não atende no dia selecionado!" });
                             else if (lvDateTime.DayOfWeek == DayOfWeek.Thursday && !diasAtendimento.AtendeQuinta)
-                                return Json(false);
+                                return Json(new object[] { false, "O médico não atende no dia selecionado!" });
                             else if (lvDateTime.DayOfWeek == DayOfWeek.Friday && !diasAtendimento.AtendeSexta)
-                                return Json(false);
+                                return Json(new object[] { false, "O médico não atende no dia selecionado!" });
                             else if (lvDateTime.DayOfWeek == DayOfWeek.Saturday && !diasAtendimento.AtendeSabado)
-                                return Json(false);
+                                return Json(new object[] { false, "O médico não atende no dia selecionado!" });
                             else if (lvDateTime.DayOfWeek == DayOfWeek.Sunday && !diasAtendimento.AtendeDomingo)
-                                return Json(false);
+                                return Json(new object[] { false, "O médico não atende no dia selecionado!" });
 
                             if (hora >= especialista.HoraInicial && hora <= especialista.HoraFinal)
                             {
+                                var consultas = db.Consultas.Where(y => y.EspecialistaId == especialista.Id && y.Date == lvDateTime &&
+                                ((Math.Abs(y.Hora - hora) < 1) && (Math.Abs(y.Minuto - minuto) <= 30))).ToList();
+
+                                var procedimentos = db.Intervencoes.Where(y => y.EspecialistaId == especialista.Id && y.Date == lvDateTime &&
+                                ((Math.Abs(y.Hora - hora) < 1) && (Math.Abs(y.Minuto - minuto) <= 30))).ToList();
+
+                                if (consultas.Count() > 0 || procedimentos.Count() > 0)
+                                    return Json(new object[] { false, "Possível conflito no horário do médico selecionado! <br/> "+
+                                        "Por favor, verifique a agenda do especialista antes de marcar a consulta!" });
+
                                 if (hora == especialista.HoraInicial && minuto >= especialista.MinutoInicial)
-                                    return Json(true);
-                                else if (hora > especialista.HoraInicial && hora < especialista.HoraInicial)
-                                    return Json(true);
+                                    return Json(new object[] { true, "" });
+                                else if (hora > especialista.HoraInicial && hora < especialista.HoraFinal)
+                                    return Json(new object[] { true, "" });
                                 else if (hora == especialista.HoraFinal && minuto <= especialista.MinutoFinal)
-                                    return Json(true);
+                                    return Json(new object[] { true, "" });
+                                else
+                                    return Json(new object[] { false, "O médico não atende no horário selecionado! <br/>" +
+                                        "Por favor, verifique a agenda do especialista antes de marcar a consulta! " });
+                            }
+                            else if (hora < especialista.HoraInicial || hora > especialista.HoraFinal)
+                            {
+                                return Json(new object[] { false, "O médico não atende no horário selecionado! <br/>" +
+                                        "Por favor, verifique a agenda do especialista antes de marcar a consulta! " });
                             }
 
                         }
+                        else
+                        {
+                            return Json(new object[] { false, "Não foi possível encontrar o horário do especialista! <br/>"+
+                            " Por favor, verifique antes de consultar!" });
+                        }
 
                     }
+                    else
+                    {
+                        return Json(new object[] { false, "Informe uma data válida! <br/>" });
+                    }
+                }
+                else
+                {
+                    return Json(new object[] { false, "Informe uma data válida! <br/>" });
                 }
             }
 
-            return Json(false);
+            return Json(new object[] { false, "Não foi possível encontrar o horário do especialista! <br/>"+
+                " Por favor, verifique antes de consultar!" });
         }
 
         public ActionResult Export([Form] QueryOptions queryOptions, string nome, string crm, string especialidade)

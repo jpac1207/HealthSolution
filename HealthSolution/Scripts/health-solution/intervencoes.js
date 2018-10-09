@@ -61,9 +61,11 @@ function fnVerifyHour(data, hora, minuto, doutorId) {
     var params = "{data:'" + data + "', hora: '" + hora + "', minuto: '" + minuto + "', doutorId:'" + doutorId + "'}";
 
     util.doAjax(baseUrlEspecialista + method, params).then(function (data) {
+        console.log(data);
         if (data != null) {
-            if (!data) {
-                util.sendMessage("alert alert-danger", "O especialista escolhido não atende na data ou horário selecionado! <br/> Verifique se deseja confirmar a consulta.")
+            var lvdata = data;
+            if (!lvdata[0]) {
+                util.sendMessage("alert alert-danger", lvdata[1]);
             }
             else {
                 util.sendMessage(" ", " ")

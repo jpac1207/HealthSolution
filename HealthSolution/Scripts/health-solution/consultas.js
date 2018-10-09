@@ -1,4 +1,4 @@
-﻿var baseUrl = '../EspecialistaViewModel/'; 
+﻿var baseUrl = '../EspecialistaViewModel/';
 var baseUrlPaciente = '../PacienteViewModel/';
 
 var dropDoutor = document.getElementById("EspecialistaId");
@@ -8,7 +8,7 @@ var textDate = document.getElementById("Date");
 var textHora = document.getElementById("Hora");
 var textMinuto = document.getElementById("Minuto");
 
-var fnMudarDropDoutor =  function () {
+var fnMudarDropDoutor = function () {
     fnGetDoutorByEspecialidadeId(dropEspecialidade.options[dropEspecialidade.selectedIndex].value);
 }
 
@@ -18,7 +18,7 @@ var fnPesquisarCPF = function () {
 
 var fnVerificarHorario = function () {
 
-    if (textDate.value && textHora.value && textMinuto.value && dropDoutor) {        
+    if (textDate.value && textHora.value && textMinuto.value && dropDoutor) {
         fnVerifyHour(textDate.value, textHora.value, textMinuto.value,
             dropDoutor.options[dropDoutor.selectedIndex].value);
     }
@@ -44,7 +44,7 @@ function fnGetPacienteByCPF(cpf) {
     textResidencia.value = "";
     textTelefone.value = "";
 
-    util.doAjax(baseUrlPaciente + method, "{cpf:'" + cpf + "'}").then(function (data) { 
+    util.doAjax(baseUrlPaciente + method, "{cpf:'" + cpf + "'}").then(function (data) {
         if (data.Cpf != null) {
             var date = new Date(parseInt(data.DataNascimento.replace(/\/Date\((-?\d+)\)\//, '$1')));
             textNomePaciente.value = data.Nome;
@@ -55,19 +55,18 @@ function fnGetPacienteByCPF(cpf) {
             textResidencia.value = data.Endereco.Numero;
             textTelefone.value = data.Telefone.Numero;
         }
-        
-    }), function (err) { consoleg.log(err) }; 
+
+    }), function (err) { consoleg.log(err) };
 
 }
 
 function fnGetDoutorByEspecialidadeId(especialidadeId) {
     var util = new Util();
     var method = 'GetEspecialistasById';
-    
+
     util.doAjax(baseUrl + method, "{especialidadeId:" + especialidadeId + "}").then(function (data) {
-       
-        while (dropDoutor.options.length > 0)
-        {
+
+        while (dropDoutor.options.length > 0) {
             dropDoutor.remove(0);
         }
 
@@ -76,9 +75,9 @@ function fnGetDoutorByEspecialidadeId(especialidadeId) {
             opt.value = data[i].Especialista.Id;
             opt.innerHTML = data[i].Especialista.Nome;
             dropDoutor.appendChild(opt);
-        } 
-        
-    }), function (err) { consoleg.log(err)}; 
+        }
+
+    }), function (err) { consoleg.log(err) };
 }
 
 function fnVerifyHour(data, hora, minuto, doutorId) {
@@ -87,9 +86,11 @@ function fnVerifyHour(data, hora, minuto, doutorId) {
     var params = "{data:'" + data + "', hora: '" + hora + "', minuto: '" + minuto + "', doutorId:'" + doutorId + "'}";
 
     util.doAjax(baseUrl + method, params).then(function (data) {
-        if (data!= null) {
-            if (!data) {
-                util.sendMessage("alert alert-danger", "O especialista escolhido não atende na data ou horário selecionado! <br/> Verifique se deseja confirmar a consulta.")
+        console.log(data);
+        if (data != null) {
+            var lvdata = data;
+            if (!lvdata[0]) {
+                util.sendMessage("alert alert-danger", lvdata[1]);
             }
             else {
                 util.sendMessage(" ", " ")

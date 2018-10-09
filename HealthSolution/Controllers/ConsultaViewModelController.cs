@@ -62,6 +62,30 @@ namespace HealthSolution.Controllers
             return consultaViewModel;
         }
 
+        private List<SelectListItem> GetListHour()
+        {
+            List<SelectListItem> lista_UF = new List<SelectListItem>();
+
+            for (int i = 0; i < 24; i++)
+            {
+                var text = i < 10 ? "0" + i : i.ToString();
+                var item = new SelectListItem() { Text = text, Value = i.ToString() };
+                lista_UF.Add(item);
+            }
+
+            return lista_UF;
+        }
+
+        private List<SelectListItem> GetListMinute()
+        {
+            List<SelectListItem> lista_UF = new List<SelectListItem>();
+            lista_UF.Add(new SelectListItem() { Text = "00", Value = "0" });
+            lista_UF.Add(new SelectListItem() { Text = "15", Value = "15" });
+            lista_UF.Add(new SelectListItem() { Text = "30", Value = "30" });
+            lista_UF.Add(new SelectListItem() { Text = "45", Value = "45" });
+            return lista_UF;
+        }
+
         // GET: ConsultaViewModel
         public ActionResult Index([Form] QueryOptions queryOptions, string doutor, string paciente, string especialidade, string data)
         {
@@ -100,6 +124,8 @@ namespace HealthSolution.Controllers
             queryOptions.TotalPages = (int)Math.Ceiling((double)consultas.Count() / queryOptions.PageSize);
             ViewBag.QueryOptions = queryOptions;
 
+            if (queryOptions.SortField == "Id")
+                queryOptions.SortField = "Date";
             consultas = consultas.OrderBy(queryOptions.Sort).Skip(start).Take(queryOptions.PageSize).ToList();
 
             consultas.ForEach(x =>
@@ -142,6 +168,8 @@ namespace HealthSolution.Controllers
             ViewBag.EspecialistaId = new SelectList(db.Especialistas, "Id", "Nome");
             ViewBag.FormaPagamentoId = new SelectList(paymentWays, "Id", "Nome");
             ViewBag.PacienteId = new SelectList(db.Pacientes, "Id", "Nome");
+            ViewBag.Hora = GetListHour();
+            ViewBag.Minuto = GetListMinute();
             return View();
         }
 
@@ -230,6 +258,8 @@ namespace HealthSolution.Controllers
             ViewBag.EspecialistaId = new SelectList(db.Especialistas, "Id", "Nome", consultaViewModel.EspecialistaId);
             ViewBag.FormaPagamentoId = new SelectList(paymentWays, "Id", "Nome", consultaViewModel.FormaPagamentoId);
             ViewBag.PacienteId = new SelectList(db.Pacientes, "Id", "Nome", consultaViewModel.PacienteId);
+            ViewBag.Hora = new SelectList(GetListHour(), consultaViewModel.Hora);
+            ViewBag.Minuto = new SelectList(GetListMinute(), consultaViewModel.Minuto);
             return View(consultaViewModel);
         }
 
@@ -252,6 +282,8 @@ namespace HealthSolution.Controllers
             ViewBag.EspecialistaId = new SelectList(db.Especialistas, "Id", "Nome", consultaViewModel.EspecialistaId);
             ViewBag.FormaPagamentoId = new SelectList(paymentWays, "Id", "Nome", consultaViewModel.FormaPagamentoId);
             ViewBag.PacienteId = new SelectList(db.Pacientes, "Id", "Nome", consultaViewModel.PacienteId);
+            ViewBag.Hora = GetListHour();
+            ViewBag.Minuto = GetListMinute();
             return View(consultaViewModel);
         }
 
@@ -317,6 +349,8 @@ namespace HealthSolution.Controllers
             ViewBag.EspecialistaId = new SelectList(db.Especialistas, "Id", "Nome", consultaViewModel.EspecialistaId);
             ViewBag.FormaPagamentoId = new SelectList(paymentWays, "Id", "Nome", consultaViewModel.FormaPagamentoId);
             ViewBag.PacienteId = new SelectList(db.Pacientes, "Id", "Nome", consultaViewModel.PacienteId);
+            ViewBag.Hora = GetListHour();
+            ViewBag.Minuto = GetListMinute();
             return View(consultaViewModel);
         }
 

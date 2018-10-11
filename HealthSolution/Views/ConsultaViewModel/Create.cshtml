@@ -78,14 +78,16 @@
 
             <div class="col-md-4">
                 @Html.Label("CPF", htmlAttributes: new { @class = "control-label" })
-                <div class="row">
-                    <div class="col-md-10 mr-0 pr-0">
-                        @Html.Editor("Cpf", new { htmlAttributes = new { @class = "form-control cpf" } })
-                        @Html.ValidationMessage("Cpf", "", new { @class = "text-danger" })
-                    </div>
-                    <div class="col-md-1 ml-0 pl-0">
-                        <span class="oi oi-magnifying-glass"></span>
-                    </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-10">
+                            @Html.Editor("Cpf", new { htmlAttributes = new { @class = "form-control cpf" } })
+                            @Html.ValidationMessage("Cpf", "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-1">
+                            <i class="oi oi-magnifying-glass float-right"></i>
+                        </div>
+                    </div>                  
                 </div>
             </div>
 

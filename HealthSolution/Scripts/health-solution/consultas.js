@@ -1,5 +1,5 @@
-﻿var baseUrl = '../EspecialistaViewModel/';
-var baseUrlPaciente = '../PacienteViewModel/';
+﻿var baseUrl = document.getElementById("EspecialistaViewModelController").value + "/";
+var baseUrlPaciente = document.getElementById("PacienteViewModelController").value + "/";
 
 var dropDoutor = document.getElementById("EspecialistaId");
 var dropEspecialidade = document.getElementById("EspecialidadeId");
@@ -9,6 +9,7 @@ var textHora = document.getElementById("Hora");
 var textMinuto = document.getElementById("Minuto");
 
 var fnMudarDropDoutor = function () {
+
     fnGetDoutorByEspecialidadeId(dropEspecialidade.options[dropEspecialidade.selectedIndex].value);
 }
 
@@ -56,7 +57,7 @@ function fnGetPacienteByCPF(cpf) {
             textTelefone.value = data.Telefone.Numero;
         }
 
-    }), function (err) { consoleg.log(err) };
+    }, function (err) { consoleg.log(err) });
 
 }
 
@@ -77,7 +78,7 @@ function fnGetDoutorByEspecialidadeId(especialidadeId) {
             dropDoutor.appendChild(opt);
         }
 
-    }), function (err) { consoleg.log(err) };
+    }, function (err) { consoleg.log(err) });
 }
 
 function fnVerifyHour(data, hora, minuto, doutorId) {
@@ -106,3 +107,4 @@ textDate.onchange = fnVerificarHorario;
 textHora.onchange = fnVerificarHorario;
 textMinuto.onchange = fnVerificarHorario;
 dropDoutor.onchange = fnVerificarHorario;
+fnMudarDropDoutor();

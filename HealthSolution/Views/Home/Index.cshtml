@@ -4,15 +4,15 @@
 
 <!-- First Row -->
 <div class="row text-center mt-5 mb-4" style="margin:auto">
-       <div class="col-md-4"></div>
-       <h3>Sistema de Gestão Clínica Santa Rita</h3>
-       <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+    <h3>Sistema de Gestão Clínica Santa Rita</h3>
+    <div class="col-md-4"></div>
 </div>
 <br />
 <div class="row">
     <div class="col-md-6">
         <div class="card" style="background-color:#F1EDF8">
-            <a class ="btn-click" href="/PacienteViewModel" >
+            <a class="btn-click" href="/PacienteViewModel">
                 <div class="card-body shadow text-center">
                     <img src="~/Content/Images/person.png" />
                     <h6>Pacientes</h6>
@@ -22,7 +22,7 @@
     </div>
     <div class="col-md-6">
         <div class="card">
-            <a  href="/ConsultaViewModel">
+            <a href="/ConsultaViewModel">
                 <div class="card-body shadow text-center btn-click" style="background-color:#F1EDF8">
                     <img src="~/Content/Images/calendar.png" />
                     <h6>Consultas</h6>
@@ -40,7 +40,7 @@
                 <div class="card-body shadow text-center" style="background-color:#F1EDF8">
                     <img src="~/Content/Images/cross.png" />
                     <h6>Procedimentos</h6>
-                </div>  
+                </div>
             </a>
         </div>
     </div>
@@ -50,21 +50,19 @@
                 <div class="card-body shadow text-center" style="background-color:#F1EDF8">
                     <img src="~/Content/Images/people.png" />
                     <h6>Especialistas</h6>
-                </div>  
+                </div>
             </a>
         </div>
     </div>
 </div>
 
-<p class="mt-5 row col-md-12 ml-auto mr-auto" >
-        Consultas do Dia  @Html.TextBox("nome", null, new { @class = "form-control ml-auto", placeholder="Nome"})
+<p class="mt-5 row col-md-12 ml-auto mr-auto">
+    Consultas do Dia  @Html.TextBox("nome", null, new { @class = "form-control ml-auto", placeholder = "Nome" })
 </p>
 
-            <div class="row mt-2 text-center">
-                <div class="col-md-12" id="tableConsultas"></div>
-            </div>
-       
-
+<div class="row mt-2 text-center">
+    <div class="col-md-12" id="tableConsultas"></div>
+</div>
 
 <p class="mt-5 row col-md-12 ml-auto mr-auto">
     Procedimentos do Dia  @Html.TextBox("nome", null, new { @class = "form-control ml-auto", placeholder = "Nome" })
@@ -74,7 +72,7 @@
 </div>
 
 <h5 class="text-center mt-5">Aniversariantes do Dia <img src="~/Content/Images/balao.png" /></h5>
-<div class="row mt-2 text-center" >   
+<div class="row mt-2 text-center">
     <div class="col-md-12" id="tableWrapper"></div>
 </div>
 

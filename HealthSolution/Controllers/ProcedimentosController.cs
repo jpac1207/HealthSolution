@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using HealthSolution.Dal;
 using HealthSolution.Models;
 using HealthSolution.Filters;
+using HealthSolution.Extensions;
 
 namespace HealthSolution.Controllers
 {
@@ -132,6 +133,14 @@ namespace HealthSolution.Controllers
             Intervencao = db.Intervencoes.Where(x => x.Date == data).Include(x => x.Especialista).Include(x => x.Paciente).Include(x => x.Procedimento).ToList();
             return Json(Intervencao);
             
+        }
+
+        public ActionResult GetProcedimentos(string pesquisar)
+        {
+            DateTime data = DateTime.Now.Date;
+            List<Intervencao> intervencao = new List<Intervencao>();
+            intervencao = db.Intervencoes.Where(x => x.Paciente.Nome.Contains(pesquisar) || x.Procedimento.Nome.Contains(pesquisar) || x.Especialista.Nome.Contains(pesquisar)).Where(x => x.Date == data).Include(x => x.Especialista).Include(x => x.Paciente).Include(x => x.Procedimento).OrderBy(x => x.Date).ToList();
+            return Json(intervencao);
         }
 
         protected override void Dispose(bool disposing)

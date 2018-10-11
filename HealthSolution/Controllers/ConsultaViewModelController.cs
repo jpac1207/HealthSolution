@@ -363,6 +363,14 @@ namespace HealthSolution.Controllers
             return Json(consultas);
         }
 
+        public ActionResult GetConsulta(string pesquisar)
+        {
+            DateTime data = DateTime.Now.Date;
+            List<Consulta> consultas = new List<Consulta>();
+            consultas = db.Consultas.Where(x => x.Paciente.Nome.Contains(pesquisar) || x.Especialidade.Nome.Contains(pesquisar) || x.Especialista.Nome.Contains(pesquisar)).Where(x => x.Date == data).Include(x => x.Especialista).Include(x => x.Paciente).Include(x => x.Especialidade).OrderBy(x => x.Date).ToList();
+            return Json(consultas);
+        }
+
         // GET: ConsultaViewModel/Delete/5
         public ActionResult Delete(int? id)
         {

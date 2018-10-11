@@ -57,19 +57,15 @@
 </div>
 
 <p class="mt-5 row col-md-12 ml-auto mr-auto">
-    Consultas do Dia  @Html.TextBox("consultasdia", null, new { @class = "form-control ml-auto hoverable", placeholder = "Pesquisar" })
-    &ensp;<span class="oi oi-magnifying-glass mt-1 btn-click" id="btnConsultar"></span>
+    Consultas do Dia  @Html.TextBox("nome", null, new { @class = "form-control ml-auto", placeholder = "Nome" })
 </p>
 
 <div class="row mt-2 text-center">
     <div class="col-md-12" id="tableConsultas"></div>
 </div>
 
-
-
 <p class="mt-5 row col-md-12 ml-auto mr-auto">
-    Procedimentos do Dia  @Html.TextBox("procedimentosdia", null, new { @class = "form-control ml-auto", placeholder = "Pesquisar" })
-    &ensp;<span class="oi oi-magnifying-glass mt-1 btn-click" id="btnProcedimento"></span>
+    Procedimentos do Dia  @Html.TextBox("nome", null, new { @class = "form-control ml-auto", placeholder = "Nome" })
 </p>
 <div class="row mt-2 text-center">
     <div class="col-md-12" id="tableProcedimentos"></div>

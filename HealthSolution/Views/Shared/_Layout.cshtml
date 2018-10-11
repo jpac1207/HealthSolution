@@ -5,16 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Administração Clínica</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")    
+    @Scripts.Render("~/bundles/modernizr")
 </head>
-<br/>
 <body style="background-color:#E7ECEE">
     <div class="card rounded shadow p-3 mb-5" style="width:95%;height:90%;margin:auto">
         <div class="card-body">
-            <img src="~/Content/Images/logo1.png" class="logo-central"/>
+            <img src="~/Content/Images/logo1.png" class="logo-central" />
             <img src="~/Content/Images/information.png" style="float:right;" id="imgInformation" />
-            <br />  
-            <hr/>
+            <br />
+            <hr />
             <div class="">
                 <nav class="navbar navbar-expand-xl" style="background-color:#265484">
                     <div class="navbar-header">
@@ -24,8 +23,8 @@
                         </button>
                         @*@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
                         @*<a class="navbar-brand" href="/">
-                            <img src="~/Content/Images/logo.png" />
-                        </a>*@
+                                <img src="~/Content/Images/logo.png" />
+                            </a>*@
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="navbar-nav">
@@ -50,9 +49,8 @@
                             </li>
                         </ul>
                         <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item">@Html.ActionLink("Logout", "Logout", "Admin", new { }, new { @class = "nav-link" }) <span class="fi-account-logout"></span></li>
-                           
-                        </ul>    
+                            <li class="nav-item">@Html.ActionLink("Logout", "Logout", "Admin", new { }, new { @class = "nav-link" })</li>
+                        </ul>
                     </div>
                 </nav>
             </div>
@@ -64,6 +62,8 @@
                 <div id="globalMessage"></div>
                 @RenderBody()
                 <hr />
+                <input type="hidden" id="EspecialistaViewModelController" value="@Url.Action("","EspecialistaViewModel",new { })" />
+                <input type="hidden" id="PacienteViewModelController" value="@Url.Action("","PacienteViewModel",new { })" />
                 <footer class="text-center">
                     <h6>&copy; @DateTime.Now.Year - Santa Rita Centro Médico</h6>
                 </footer>

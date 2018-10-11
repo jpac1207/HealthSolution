@@ -57,7 +57,7 @@
                 <div class="form-inline">
                     <div class="form-group">
                         @Html.DropDownListFor(model => model.Hora, null, htmlAttributes: new { @class = "form-control" })
-                        :                        
+                        :
                         @Html.DropDownListFor(model => model.Minuto, null, htmlAttributes: new { @class = "form-control" })
                     </div>
                 </div>
@@ -104,4 +104,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/intervencaoEdit")
 }

@@ -57,7 +57,7 @@
                         @Html.DropDownListFor(model => model.Hora, null, htmlAttributes: new { @class = "form-control" })
                         @*@Html.EditorFor(model => model.Hora, new { htmlAttributes = new { @class = "form-control col-md-2 mr-1" } })*@:
                         @*@Html.EditorFor(model => model.Minuto, new { htmlAttributes = new { @class = "form-control col-md-2 ml-1" } })*@
-                        @Html.DropDownListFor(model => model.Minuto,null, htmlAttributes: new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.Minuto, null, htmlAttributes: new { @class = "form-control" })
                     </div>
                 </div>
             </div>
@@ -103,4 +103,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/consultaEdit")
 }

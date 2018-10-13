@@ -95,17 +95,17 @@ namespace HealthSolution.Controllers
 
             if (!string.IsNullOrEmpty(doutor))
             {
-                consultas = consultas.Where(x => x.Especialista.Nome.Contains(doutor)).ToList();
+                consultas = consultas.Where(x => x.Especialista.Nome.ToUpper().Contains(doutor.ToUpper())).ToList();
                 ViewBag.doutor = doutor;
             }
             if (!string.IsNullOrEmpty(paciente))
             {
-                consultas = consultas.Where(x => x.Paciente.Nome.Contains(paciente)).ToList();
+                consultas = consultas.Where(x => x.Paciente.Nome.ToUpper().Contains(paciente.ToUpper())).ToList();
                 ViewBag.paciente = paciente;
             }
             if (!string.IsNullOrEmpty(especialidade))
             {
-                consultas = consultas.Where(x => x.Especialidade.Nome.Contains(especialidade)).ToList();
+                consultas = consultas.Where(x => x.Especialidade.Nome.ToUpper().Contains(especialidade.ToUpper())).ToList();
                 ViewBag.especialidade = especialidade;
             }
             if (!string.IsNullOrEmpty(data))
@@ -258,8 +258,8 @@ namespace HealthSolution.Controllers
             ViewBag.EspecialistaId = new SelectList(db.Especialistas, "Id", "Nome", consultaViewModel.EspecialistaId);
             ViewBag.FormaPagamentoId = new SelectList(paymentWays, "Id", "Nome", consultaViewModel.FormaPagamentoId);
             ViewBag.PacienteId = new SelectList(db.Pacientes, "Id", "Nome", consultaViewModel.PacienteId);
-            ViewBag.Hora = new SelectList(GetListHour(), consultaViewModel.Hora);
-            ViewBag.Minuto = new SelectList(GetListMinute(), consultaViewModel.Minuto);
+            ViewBag.Hora = GetListHour();
+            ViewBag.Minuto = GetListMinute();
             return View(consultaViewModel);
         }
 

@@ -327,6 +327,7 @@
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\AgendaViewModel.cs" />
     <Compile Include="ViewModels\ConsultaViewModel.cs" />
     <Compile Include="ViewModels\EspecialistaViewModel.cs" />
     <Compile Include="ViewModels\FinancaViewModel.cs" />
@@ -501,6 +502,7 @@
     <Content Include="Views\Usuarios\Edit.cshtml" />
     <Content Include="Views\Usuarios\Index.cshtml" />
     <Content Include="Views\Report\Finances.cshtml" />
+    <Content Include="Views\EspecialistaViewModel\Agenda.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

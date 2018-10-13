@@ -1,0 +1,50 @@
+﻿@model IEnumerable<HealthSolution.ViewModels.AgendaViewModel>
+    @using HealthSolution.Extensions
+@{
+    ViewBag.Title = "Finanças";
+}
+
+<p class="mt-3">
+    Agenda Médica @DateTime.Now.ToString("dd/MM/yyyy")
+</p>
+
+<div class="container">
+
+    <table class="table table-bordered">
+        <tr class="bg-light text-dark">
+            <th>
+                Data
+            </th>
+            <th>
+                Hora
+            </th>
+            <th>
+                Tipo
+            </th>
+            <th>
+                Especialidade
+            </th>
+            <th>
+                Doutor
+            </th>
+            <th>
+                Paciente
+            </th>
+            <th>
+                Observação
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@(item.Data != null ? item.Data.Date.ToString("dd/MM/yyyy") : "")</td>
+                <td>@Html.GetFormatedHour(item.Hora, item.Minuto)</td>
+                <td>@item.Tipo</td>
+                <td>@item.Especialidade</td>
+                <td>@item.Doutor</td>
+                <td>@item.NomePaciente</td>
+                <td>@item.Observacao</td>
+            </tr>
+        }
+    </table>
+</div>

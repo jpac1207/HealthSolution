@@ -94,17 +94,17 @@ namespace HealthSolution.Controllers
 
             if (!string.IsNullOrEmpty(doutor))
             {
-                intervencoes = intervencoes.Where(x => x.Especialista.Nome.Contains(doutor)).ToList();
+                intervencoes = intervencoes.Where(x => x.Especialista.Nome.ToUpper().Contains(doutor.ToUpper())).ToList();
                 ViewBag.doutor = doutor;
             }
             if (!string.IsNullOrEmpty(paciente))
             {
-                intervencoes = intervencoes.Where(x => x.Paciente.Nome.Contains(paciente)).ToList();
+                intervencoes = intervencoes.Where(x => x.Paciente.Nome.ToUpper().Contains(paciente.ToUpper())).ToList();
                 ViewBag.paciente = paciente;
             }
             if (!string.IsNullOrEmpty(procedimento))
             {
-                intervencoes = intervencoes.Where(x => x.Procedimento.Nome.Contains(procedimento)).ToList();
+                intervencoes = intervencoes.Where(x => x.Procedimento.Nome.ToUpper().Contains(procedimento.ToUpper())).ToList();
                 ViewBag.procedimento = procedimento;
             }
             if (!string.IsNullOrEmpty(data))
@@ -127,7 +127,6 @@ namespace HealthSolution.Controllers
                 queryOptions.SortField = "Date";
 
             intervencoes = intervencoes.OrderBy(queryOptions.Sort).Skip(start).Take(queryOptions.PageSize).ToList();
-
             intervencoes.ForEach(x => intervencaoViewModels.Add(GetIntervencaoViewModel(x)));
 
             return View(intervencaoViewModels);

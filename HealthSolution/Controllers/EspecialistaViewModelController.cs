@@ -79,7 +79,7 @@ namespace HealthSolution.Controllers
             }
 
             return especialistaViewModel;
-        }            
+        }
 
         // GET: EspecialistaViewModel
         public ActionResult Index([Form] QueryOptions queryOptions, string nome, string crm, string especialidade)
@@ -140,7 +140,7 @@ namespace HealthSolution.Controllers
         private List<SelectListItem> GetListUF()
         {
             List<SelectListItem> lista_UF = new List<SelectListItem>();
-            
+
             lista_UF.Add(new SelectListItem() { Text = "AC", Value = "AC" });
             lista_UF.Add(new SelectListItem() { Text = "AL", Value = "AL" });
             lista_UF.Add(new SelectListItem() { Text = "AM", Value = "AM" });
@@ -480,6 +480,66 @@ namespace HealthSolution.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Agenda(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var especialist = db.Especialistas.Where(x => x.Id == id).FirstOrDefault();
+
+            if (especialist == null)
+            {
+                return HttpNotFound();
+            }
+
+            DateTime today = DateTime.Now.Date;
+
+            var consultas = db.Consultas.Where(x => x.EspecialistaId == id && x.Date == today)
+                .Include(x => x.Especialidade).Include(x => x.Especialista).
+                Include(x => x.Paciente).ToList();
+            var procedimentos = db.Intervencoes.Where(x => x.EspecialistaId == id && x.Date == today)
+                .Include(x => x.Procedimento).Include(x => x.Paciente)
+                .Include(x => x.Especialista).ToList();
+            var prontuarios = new List<AgendaViewModel>();
+
+            consultas.ForEach(x =>
+            {
+
+                prontuarios.Add(new AgendaViewModel()
+                {
+                    Tipo = "Consulta",
+                    Data = x.Date,
+                    Hora = x.Hora,
+                    Minuto = x.Minuto,
+                    Doutor = x.Especialista.Nome,
+                    Especialidade = x.Especialidade.Nome,
+                    NomePaciente = x.Paciente.Nome,
+                    Observacao = x.Observacao
+                });
+            });
+
+            procedimentos.ForEach(x =>
+            {
+                prontuarios.Add(new AgendaViewModel()
+                {
+                    Tipo = "Procedimento",
+                    Data = x.Date,
+                    Hora = x.Hora,
+                    Minuto = x.Minuto,
+                    Especialidade = x.Procedimento.Nome,
+                    Doutor = x.Especialista.Nome,
+                    NomePaciente = x.Paciente.Nome,
+                    Observacao = x.Observacao
+                });
+            });
+
+            prontuarios = prontuarios.OrderByDescending(x => x.Data).ToList();
+
+            return View(prontuarios);
+        }
+
         [HttpPost]
         public ActionResult GetEspecialistasById(int especialidadeId)
         {
@@ -521,11 +581,27 @@ namespace HealthSolution.Controllers
 
                             if (hora >= especialista.HoraInicial && hora <= especialista.HoraFinal)
                             {
-                                var consultas = db.Consultas.Where(y => y.EspecialistaId == especialista.Id && y.Date == lvDateTime &&
-                                ((Math.Abs(y.Hora - hora) < 1) && (Math.Abs(y.Minuto - minuto) <= 30))).ToList();
+                                var consultas = new List<Consulta>();
 
-                                var procedimentos = db.Intervencoes.Where(y => y.EspecialistaId == especialista.Id && y.Date == lvDateTime &&
-                                ((Math.Abs(y.Hora - hora) < 1) && (Math.Abs(y.Minuto - minuto) <= 30))).ToList();
+                                foreach (var c in db.Consultas.Where(y => y.EspecialistaId == especialista.Id && y.Date == lvDateTime).ToList())
+                                {
+                                    if (Utility.TimeConflict(c.Date, c.Date, c.Hora, hora, c.Minuto, minuto))
+                                    {
+                                        consultas.Add(c);
+                                        break;
+                                    }
+                                }
+
+                                var procedimentos = new List<Intervencao>();
+
+                                foreach (var p in db.Intervencoes.Where(y => y.EspecialistaId == especialista.Id && y.Date == lvDateTime).ToList())
+                                {
+                                    if (Utility.TimeConflict(p.Date, p.Date, p.Hora, hora, p.Minuto, minuto))
+                                    {
+                                        procedimentos.Add(p);
+                                        break;
+                                    }
+                                }
 
                                 if (consultas.Count() > 0 || procedimentos.Count() > 0)
                                     return Json(new object[] { false, "Possível conflito no horário do médico selecionado! <br/> "+

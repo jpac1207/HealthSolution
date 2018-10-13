@@ -102,6 +102,16 @@ namespace HealthSolution.Extensions
             return "Computador desconectado da rede!";
         }
 
+        internal static bool TimeConflict(DateTime firstDate, DateTime secondDate, int firstHour, 
+                                           int secondHour, int firstMinute, int secondMinute)
+        {
+
+            DateTime myDate = new DateTime(firstDate.Year, firstDate.Month, firstDate.Day, firstHour, firstMinute, 0);
+            DateTime mySecondDate = new DateTime(secondDate.Year, secondDate.Month, secondDate.Day, secondHour, secondMinute, 0);
+           
+            return Math.Abs((myDate - mySecondDate).TotalMinutes) <= 30;
+        }
+
         private static string GetPropertyLabel(string propertyName)
         {
             if (propertyName.Count() > 2)

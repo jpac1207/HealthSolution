@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<HealthSolution.ViewModels.FinancaViewModel>
 @{
-    ViewBag.Title = "Finanças";   
+    ViewBag.Title = "Finanças";
+    double totalPago = 0.0;
 }
 <div class="card mt-3">
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "card-body" }))
@@ -53,6 +54,7 @@
         </tr>
         @foreach (var item in Model)
         {
+            totalPago += item.ValorPago;
             <tr>
                 <td>@(item.Data != null ? item.Data.Date.ToString("dd/MM/yyyy") : "")</td>
                 <td>@item.Tipo</td>
@@ -64,5 +66,9 @@
                 <td>@item.Observacao</td>
             </tr>          
         }
+        <tr>
+            <td colspan="7">Total:</td>
+            <td>@totalPago</td>
+        </tr>
     </table>   
 </div>

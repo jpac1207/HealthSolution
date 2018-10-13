@@ -20,40 +20,48 @@ namespace HealthSolution.Controllers
         [HttpPost]
         public ActionResult Login(string user, string password)
         {
-            if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(password))
+            try
             {
-                ViewBag.Message = "Os campos de usuário e senha são obrigatórios!";
-                ViewBag.StyleClass = "alert alert-danger";
-                return View("Index");
-            }
-            else
-            {
-                var lvUser = db.Usuarios.Where(x => x.Name == user).FirstOrDefault();
-
-                if (lvUser == null)
+                if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(password))
                 {
-                    ViewBag.Message = "Usuário não encontrado!";
+                    ViewBag.Message = "Os campos de usuário e senha são obrigatórios!";
                     ViewBag.StyleClass = "alert alert-danger";
                     return View("Index");
                 }
                 else
                 {
-                    if (HashUtil.VerifyHash(password, lvUser.HashValue))
+                    var lvUser = db.Usuarios.Where(x => x.Name == user).FirstOrDefault();
+
+                    if (lvUser == null)
                     {
-                        ViewBag.Message = "Logado com sucesso!";
-                        ViewBag.StyleClass = "alert alert-success";
-                        Session["userId"] = lvUser.Name;
-                        return RedirectToAction("Index", "Home");
-                    }
-                    else
-                    {
-                        ViewBag.Message = "Senha incorreta!";
+                        ViewBag.Message = "Usuário não encontrado!";
                         ViewBag.StyleClass = "alert alert-danger";
                         return View("Index");
                     }
+                    else
+                    {
+                        if (HashUtil.VerifyHash(password, lvUser.HashValue))
+                        {
+                            ViewBag.Message = "Logado com sucesso!";
+                            ViewBag.StyleClass = "alert alert-success";
+                            Session["userId"] = lvUser.Name;
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            ViewBag.Message = "Senha incorreta!";
+                            ViewBag.StyleClass = "alert alert-danger";
+                            return View("Index");
+                        }
+                    }
                 }
             }
-            return RedirectToAction("Index");
+            catch(Exception e)
+            {
+                ViewBag.Message = "Não foi possível conectar ao banco de dados!";
+                ViewBag.StyleClass = "alert alert-danger";
+            }
+            return View("Index");
         }
                 
         public ActionResult Logout()

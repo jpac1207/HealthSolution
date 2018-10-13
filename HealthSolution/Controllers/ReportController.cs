@@ -42,6 +42,7 @@ namespace HealthSolution.Controllers
                 if (DateTime.TryParse(dataInicio, out lvDateTime))
                 {
                     consultas = consultas.Where(x => x.Date >= lvDateTime).ToList();
+                    procedimentos = procedimentos.Where(x => x.Date >= lvDateTime).ToList();
                     ViewBag.dataInicio = dataInicio;
                 }
             }
@@ -53,6 +54,7 @@ namespace HealthSolution.Controllers
                 if (DateTime.TryParse(dataFim, out lvDateTime))
                 {
                     consultas = consultas.Where(x => x.Date <= lvDateTime).ToList();
+                    procedimentos = procedimentos.Where(x => x.Date <= lvDateTime).ToList();
                     ViewBag.dataInicio = dataInicio;
                 }               
             }

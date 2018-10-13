@@ -4,7 +4,7 @@
     double totalPago = 0.0;
 }
 <div class="card mt-3">
-@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "card-body" }))
+@using (Html.BeginForm("Finances", "Report", FormMethod.Post, new { @class = "card-body" }))
 {
     <div class="row">
         <div class="col-md-2">

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using HealthSolution.Extensions
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -10,8 +11,9 @@
 <body style="background-color:#E7ECEE">
     <div class="card rounded shadow p-3 mb-5" style="width:95%;height:90%;margin:auto">
         <div class="card-body">
+            <label class="float-left infLabel form-control" id="ipLabel" style="display:none">@Utility.GetLocalIPAddress()</label>
             <img src="~/Content/Images/logo1.png" class="logo-central" />
-            <img src="~/Content/Images/information.png" style="float:right;" id="imgInformation" />
+            <img src="~/Content/Images/information.png" style="float:right;" id="imgInformation" />           
             <br />
             <hr />
             <div class="">
@@ -64,7 +66,7 @@
                 <hr />
                 <input type="hidden" id="EspecialistaViewModelController" value="@Url.Action("","EspecialistaViewModel",new { })" />
                 <input type="hidden" id="PacienteViewModelController" value="@Url.Action("","PacienteViewModel",new { })" />
-                <footer class="text-center">
+                <footer class="text-center">                   
                     <h6>&copy; @DateTime.Now.Year - Santa Rita Centro Médico</h6>
                 </footer>
             </div>
@@ -107,6 +109,12 @@
         $(function () {
             $(".datepicker").datepicker();
         });
+
+        document.getElementById("imgInformation").onclick = function () {
+            var label = document.getElementById("ipLabel");
+
+            label.style.display = label.style.display == 'none' ? 'block' : 'none';
+        }
 
     </script>
     @RenderSection("scripts", required: false)

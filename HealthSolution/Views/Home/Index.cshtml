@@ -57,7 +57,8 @@
 </div>
 
 <p class="mt-5 row col-md-12 ml-auto mr-auto">
-    Consultas do Dia  @Html.TextBox("nome", null, new { @class = "form-control ml-auto", placeholder = "Nome" })
+    Consultas do Dia  @Html.TextBox("consultasdia", null, new { @class = "form-control ml-auto", placeholder = "Nome" })
+    <span id="btnConsulta" class="oi oi-magnifying-glass mt-1 ml-2" style="cursor:pointer"></span>
 </p>
 
 <div class="row mt-2 text-center">
@@ -65,7 +66,8 @@
 </div>
 
 <p class="mt-5 row col-md-12 ml-auto mr-auto">
-    Procedimentos do Dia  @Html.TextBox("nome", null, new { @class = "form-control ml-auto", placeholder = "Nome" })
+    Procedimentos do Dia  @Html.TextBox("procedimentosdia", null, new { @class = "form-control ml-auto", placeholder = "Nome" })
+    <span id="btnProcedimento" class="oi oi-magnifying-glass mt-1 ml-2" style="cursor:pointer"></span>
 </p>
 <div class="row mt-2 text-center">
     <div class="col-md-12" id="tableProcedimentos"></div>

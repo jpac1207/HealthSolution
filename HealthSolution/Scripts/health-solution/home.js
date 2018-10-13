@@ -8,7 +8,7 @@ var tableProcedimentos = document.getElementById("tableProcedimentos");
 var txtConsultas = document.getElementById("consultasdia");
 var txtProcedimentos = document.getElementById("procedimentosdia");
 var btnProcedimento = document.getElementById("btnProcedimento");
-var btnConsulta = document.getElementById("btnConsultar");
+var btnConsulta = document.getElementById("btnConsulta");
 var listConsultas;
 
 btnProcedimento.onclick = function () {

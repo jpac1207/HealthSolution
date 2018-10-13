@@ -359,7 +359,6 @@ namespace HealthSolution.Controllers
             DateTime data = DateTime.Now.Date;
             List<Consulta> consultas = new List<Consulta>();
             consultas = db.Consultas.Where(x => x.Date == data).Include(x => x.Paciente).Include(x => x.Especialista).Include(x => x.Especialidade).ToList();
-            DebugLog.Logar(consultas.Count.ToString());
             return Json(consultas);
         }
 

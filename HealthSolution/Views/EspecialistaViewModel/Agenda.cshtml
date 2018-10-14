@@ -1,12 +1,32 @@
 ﻿@model IEnumerable<HealthSolution.ViewModels.AgendaViewModel>
     @using HealthSolution.Extensions
 @{
-    ViewBag.Title = "Finanças";
+    ViewBag.Title = "Agenda";
 }
 
 <p class="mt-3">
-    Agenda Médica @DateTime.Now.ToString("dd/MM/yyyy")
+    Agenda Médica
 </p>
+
+<div class="card mt-3">
+    @using (Html.BeginForm("Agenda", "EspecialistaViewModel", FormMethod.Post, new { @class = "card-body" }))
+    {
+        <div class="row">
+            <div class="col-md-2">
+                @Html.TextBox("dataInicio", null, new { @class = "form-control date datepicker", placeholder = "Data Inicial", onchange = "form.submit()" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBox("dataFim", null, new { @class = "form-control  date datepicker", placeholder = "Data Final", onchange = "form.submit()" })
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownList("especialistaId", null, new { @class = "form-control", onchange = "form.submit()" })
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-success">Buscar</button>
+            </div>
+        </div>
+    }
+</div>
 
 <div class="container">
 

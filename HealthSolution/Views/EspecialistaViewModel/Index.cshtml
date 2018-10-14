@@ -61,10 +61,7 @@
 
 <div class="table-responsive mt-3">
     <table class="table table-hover">
-        <tr class="bg-light text-dark">
-            <th>
-                Agenda
-            </th>
+        <tr class="bg-light text-dark">           
             <th>
                 @Html.DisplayNameFor(model => model.Nome)
             </th>
@@ -109,10 +106,7 @@
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.ActionLink("Agenda", "Agenda", new { id = item.Id }, new { @class = "btn btn-primary" })
-                </td>
+            <tr>              
                 <td>
                     @Html.DisplayFor(modelItem => item.Nome)
                 </td>

@@ -480,33 +480,56 @@ namespace HealthSolution.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Agenda(int? id)
+        public ActionResult Agenda()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            ViewBag.especialistaId = new SelectList(db.Especialistas.ToList(), "Id", "Nome", null);
+            return View(new List<AgendaViewModel>());
+        }
+        
+        [HttpPost]
+        public ActionResult Agenda(string dataInicio, string dataFim, int especialistaId)
+        {
+            var especialist = db.Especialistas.ToList();
 
-            var especialist = db.Especialistas.Where(x => x.Id == id).FirstOrDefault();
-
-            if (especialist == null)
-            {
-                return HttpNotFound();
-            }
-
-            DateTime today = DateTime.Now.Date;
-
-            var consultas = db.Consultas.Where(x => x.EspecialistaId == id && x.Date == today)
-                .Include(x => x.Especialidade).Include(x => x.Especialista).
+            var consultas = db.Consultas.Include(x => x.Especialidade).Include(x => x.Especialista).
                 Include(x => x.Paciente).ToList();
-            var procedimentos = db.Intervencoes.Where(x => x.EspecialistaId == id && x.Date == today)
-                .Include(x => x.Procedimento).Include(x => x.Paciente)
+            var procedimentos = db.Intervencoes.Include(x => x.Procedimento).Include(x => x.Paciente)
                 .Include(x => x.Especialista).ToList();
             var prontuarios = new List<AgendaViewModel>();
 
+            if (!string.IsNullOrEmpty(dataInicio))
+            {
+                DateTime lvDateTime = DateTime.MinValue;
+
+                if (DateTime.TryParse(dataInicio, out lvDateTime))
+                {
+                    consultas = consultas.Where(x => x.Date >= lvDateTime).ToList();
+                    procedimentos = procedimentos.Where(x => x.Date >= lvDateTime).ToList();
+                    ViewBag.dataInicio = dataInicio;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(dataFim))
+            {
+                DateTime lvDateTime = DateTime.MinValue;
+
+                if (DateTime.TryParse(dataFim, out lvDateTime))
+                {
+                    consultas = consultas.Where(x => x.Date <= lvDateTime).ToList();
+                    procedimentos = procedimentos.Where(x => x.Date <= lvDateTime).ToList();
+                    ViewBag.dataInicio = dataInicio;
+                }
+            }
+
+            if (especialistaId > 0)
+            {
+                consultas = consultas.Where(x => x.EspecialistaId == especialistaId).ToList();
+                procedimentos = procedimentos.Where(x => x.EspecialistaId == especialistaId).ToList();
+                ViewBag.especialistaId = new SelectList(db.Especialistas.ToList(), "Id", "Nome", especialistaId);
+            }
+
             consultas.ForEach(x =>
             {
-
                 prontuarios.Add(new AgendaViewModel()
                 {
                     Tipo = "Consulta",

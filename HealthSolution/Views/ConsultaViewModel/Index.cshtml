@@ -93,6 +93,9 @@
             <th>
                 Forma Pagamento
             </th>
+            <th>
+                Link do Arquivo
+            </th>
             <th class="buttonCell"></th>
         </tr>
 
@@ -122,6 +125,9 @@
                 </td>
                 <td>
                     @(item.FormaPagamento != null ? item.FormaPagamento.Nome : "-")
+                </td>
+                <td>                   
+                    @(item.LinkArquivo == "#" ? Html.Raw("<a href='#' class ='btn btn-link'>Baixar Arquivo</a>") : Html.ActionLink("Baixar Arquivo", "GetFile", new { fileName = Url.Content(item.LinkArquivo) }, new { @class = "btn btn-link" }))
                 </td>
                 <td>
                     @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) |

@@ -1,14 +1,14 @@
 ﻿@model HealthSolution.ViewModels.ConsultaViewModel
 
 @{
-    ViewBag.Title = "Criar";
+    ViewBag.Title = "Agendar";
 }
 
 <p class="text-center mt-3">
     Cadastrar Nova Consulta
 </p>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "ConsultaViewModel", FormMethod.Post, htmlAttributes: new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -159,11 +159,14 @@
         <div class="mt-5"><h4>Dados Gerais</h4></div>
 
         <div class="row">
-
-            <div class="col-sm-9 col-md-6 col-lg-8" style="width:100%">
+            <div class="col-md-6">
                 <label class="control-label">Observação</label>
-                @Html.TextAreaFor(model => model.Observacao, new { @class = "form-control" })
+                @Html.TextAreaFor(model => model.Observacao, 6, 400, new { @class = "form-control textAreaObs" })
                 @Html.ValidationMessageFor(model => model.Observacao, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-6">
+                <label class="control-label">Arquivo</label>
+                <input type="file" name="file" class="btn btn-light" />
             </div>
         </div>
 

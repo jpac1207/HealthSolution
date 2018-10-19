@@ -43,6 +43,7 @@ namespace HealthSolution.Controllers
             consultaViewModel.Observacao = x.Observacao;
             consultaViewModel.ValorPago = x.ValorPago;
             consultaViewModel.PacienteId = x.PacienteId;
+            consultaViewModel.LinkArquivo = x.Arquivo.Path;
 
             if (paymentWay != null)
             {
@@ -91,7 +92,7 @@ namespace HealthSolution.Controllers
         {
             var consultasViewModels = new List<ConsultaViewModel>();
             var consultas = db.Consultas.Include(x => x.Especialista).Include(x => x.Especialidade)
-                .Include(x => x.Paciente).ToList();
+                .Include(x => x.Paciente).Include(x => x.Arquivo).ToList();
 
             if (!string.IsNullOrEmpty(doutor))
             {
@@ -145,7 +146,7 @@ namespace HealthSolution.Controllers
             }
             var consulta = db.Consultas.Where(x => x.Id == id).
                 Include(x => x.Especialidade).Include(x => x.Especialista).
-                Include(x => x.Paciente).FirstOrDefault();
+                Include(x => x.Paciente).Include(x => x.Arquivo).FirstOrDefault();
             if (consulta == null)
             {
                 return HttpNotFound();
@@ -181,12 +182,14 @@ namespace HealthSolution.Controllers
         public ActionResult Create([Bind(Include = "Id,Date,Hora,Minuto,EspecialidadeId,EspecialistaId,"+
             "PacienteId,Observacao,ValorPago,FormaPagamentoId")] ConsultaViewModel consultaViewModel,
             [Bind(Include = "Cpf,Nome,DataNascimento")]Paciente formPaciente,
-            string cidade, string bairro, string rua, string numero, string telefone)
+            string cidade, string bairro, string rua, string numero, string telefone, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
                 using (var transaction = db.Database.BeginTransaction())
                 {
+                    string path = "";
+
                     try
                     {
                         var paciente = db.Pacientes.Where(x => x.Cpf == formPaciente.Cpf).FirstOrDefault();
@@ -217,6 +220,12 @@ namespace HealthSolution.Controllers
                             db.SaveChanges();
                         }
 
+                        Arquivo arquivo = new Arquivo();
+                        arquivo.OriginalName = "";
+                        arquivo.Path = "#";
+                        db.Arquivos.Add(arquivo);
+                        db.SaveChanges();
+
                         var consulta = new Consulta();
                         consulta.Date = consultaViewModel.Date;
                         consulta.Hora = consultaViewModel.Hora;
@@ -226,8 +235,17 @@ namespace HealthSolution.Controllers
                         consulta.PacienteId = paciente.Id;
                         consulta.Observacao = consultaViewModel.Observacao;
                         consulta.ValorPago = consultaViewModel.ValorPago;
+                        consulta.ArquivoId = arquivo.Id;
                         db.Consultas.Add(consulta);
                         db.SaveChanges();
+
+                        if (file != null)
+                        {
+                            path = Path.Combine(@Server.MapPath(@"~\Files\Clientes"), string.Format("c_{0}_{1}", consulta.Id, file.FileName));
+                            file.SaveAs(path);
+                            arquivo.Path = path;
+                            arquivo.OriginalName = file.FileName;
+                        }
 
                         if (consultaViewModel.FormaPagamentoId != -1)
                         {
@@ -246,6 +264,11 @@ namespace HealthSolution.Controllers
                         DebugLog.Logar(e.Message);
                         DebugLog.Logar(e.StackTrace);
                         DebugLog.Logar(Utility.Details(e));
+
+                        if (System.IO.File.Exists(path))
+                        {
+                            System.IO.File.Delete(path);
+                        }
                         transaction.Rollback();
                     }
                 }
@@ -270,7 +293,13 @@ namespace HealthSolution.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ConsultaViewModel consultaViewModel = GetConsultaViewModel(db.Consultas.Find(id));
+            var consulta = db.Consultas.Where(x => x.Id == id).Include(x => x.Especialidade)
+                .Include(x => x.Especialista).Include(x => x.Paciente).Include(x => x.Arquivo).FirstOrDefault();
+            if (consulta == null)
+            {
+                return HttpNotFound();
+            }
+            ConsultaViewModel consultaViewModel = GetConsultaViewModel(consulta);
             if (consultaViewModel == null)
             {
                 return HttpNotFound();
@@ -293,12 +322,14 @@ namespace HealthSolution.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Date,Hora,Minuto,EspecialidadeId,EspecialistaId,PacienteId,"+
-            "Observacao,ValorPago,FormaPagamentoId")] ConsultaViewModel consultaViewModel)
+            "Observacao,ValorPago,FormaPagamentoId")] ConsultaViewModel consultaViewModel, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
                 using (var transaction = db.Database.BeginTransaction())
                 {
+                    string path = "";
+
                     try
                     {
                         var consulta = db.Consultas.Where(x => x.Id == consultaViewModel.Id).FirstOrDefault();
@@ -314,6 +345,25 @@ namespace HealthSolution.Controllers
                             consulta.Observacao = consultaViewModel.Observacao;
                             consulta.ValorPago = consultaViewModel.ValorPago;
                             db.SaveChanges();
+
+                            Arquivo arquivo = db.Arquivos.Where(x => x.Id == consulta.ArquivoId).FirstOrDefault();
+
+                            if(arquivo != null)
+                            {
+                                if (file != null)
+                                {
+
+                                    if (System.IO.File.Exists(arquivo.Path))
+                                    {
+                                        System.IO.File.Delete(arquivo.Path);
+                                    }
+
+                                    path = Path.Combine(@Server.MapPath(@"~\Files\Clientes"), string.Format("c_{0}_{1}", consulta.Id, file.FileName));
+                                    file.SaveAs(path);
+                                    arquivo.Path = path;
+                                    arquivo.OriginalName = file.FileName;
+                                }
+                            }                     
 
                             if (consultaViewModel.FormaPagamentoId != -1)
                             {
@@ -337,6 +387,14 @@ namespace HealthSolution.Controllers
                     }
                     catch (Exception e)
                     {
+                        DebugLog.Logar(e.Message);
+                        DebugLog.Logar(e.StackTrace);
+                        DebugLog.Logar(DebugLog.Details(e));
+
+                        if (System.IO.File.Exists(path))
+                        {
+                            System.IO.File.Delete(path);
+                        }
                         transaction.Rollback();
                     }
                 }
@@ -377,8 +435,8 @@ namespace HealthSolution.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var consulta = db.Consultas.Where(x => x.Id == id).Include(x => x.Especialidade).Include(x => x.Especialista).
-                Include(x => x.Paciente).FirstOrDefault();
+            var consulta = db.Consultas.Where(x => x.Id == id).Include(x => x.Especialidade).
+                            Include(x => x.Especialista).Include(x => x.Paciente).Include(x => x.Arquivo).FirstOrDefault();
             if (consulta == null)
             {
                 return HttpNotFound();
@@ -404,10 +462,24 @@ namespace HealthSolution.Controllers
 
                     if (consulta != null)
                     {
+                        int fileId = consulta.ArquivoId;
+
                         db.PagamentosConsultas.Where(x => x.ConsultaId == id).ToList().
                             ForEach(x => db.PagamentosConsultas.Remove(x));
                         db.SaveChanges();
                         db.Consultas.Remove(consulta);
+                        db.SaveChanges();
+
+                        var file = db.Arquivos.Where(x => x.Id == fileId).FirstOrDefault();
+
+                        if(file != null)
+                        {
+                            if (System.IO.File.Exists(file.Path))
+                            {
+                                System.IO.File.Delete(file.Path);
+                            }
+                            db.Arquivos.Remove(file);
+                        }
                         db.SaveChanges();
                         transaction.Commit();
                     }
@@ -426,7 +498,7 @@ namespace HealthSolution.Controllers
             {
                 var consultasViewModels = new List<ConsultaViewModel>();
                 var consultas = db.Consultas.Include(x => x.Especialista).Include(x => x.Especialidade)
-                    .Include(x => x.Paciente).ToList();
+                    .Include(x => x.Paciente).Include(x => x.Arquivo).ToList();
 
                 if (!string.IsNullOrEmpty(doutor))
                 {
@@ -465,29 +537,24 @@ namespace HealthSolution.Controllers
                 {
                     consultasViewModels.Add(GetConsultaViewModel(x));
                 });
-                DataTable dt = Utility.ExportListToDataTable(consultasViewModels);
-
-                int especialidadeCell = 4;
-                int especialistaCell = 5;
-                int pacienteCell = 6;
-                int formaPagamentoCell = 9;
+                DataTable dt = Utility.ExportListToDataTable(consultasViewModels);                             
 
                 foreach (DataRow row in dt.Rows)
                 {
-                    var especialidadeId = Int32.Parse(row[especialidadeCell].ToString());
-                    var especialistaId = Int32.Parse(row[especialistaCell].ToString());
-                    var pacienteId = Int32.Parse(row[pacienteCell].ToString());
-                    var formaPagamentoId = Int32.Parse(row[formaPagamentoCell].ToString());
+                    var especialidadeId = Int32.Parse(row["Especialidade"].ToString());
+                    var especialistaId = Int32.Parse(row["Especialista"].ToString());
+                    var pacienteId = Int32.Parse(row["Paciente"].ToString());
+                    var formaPagamentoId = Int32.Parse(row["Forma Pagamento"].ToString());
 
                     var lvespecialidade = db.Especialidades.Where(x => x.Id == especialidadeId).FirstOrDefault();
                     var lvespecialista = db.Especialistas.Where(x => x.Id == especialistaId).FirstOrDefault();
                     var lvpaciente = db.Pacientes.Where(x => x.Id == pacienteId).FirstOrDefault();
                     var lvformapagamento = db.FormasPagamento.Where(x => x.Id == formaPagamentoId).FirstOrDefault();
 
-                    row[especialidadeCell] = lvespecialidade != null ? lvespecialidade.Nome : "";
-                    row[especialistaCell] = lvespecialista != null ? lvespecialista.Nome : "";
-                    row[pacienteCell] = lvpaciente != null ? lvpaciente.Nome : "";
-                    row[formaPagamentoCell] = lvformapagamento != null ? lvformapagamento.Nome : "";
+                    row["Especialidade"] = lvespecialidade != null ? lvespecialidade.Nome : "";
+                    row["Especialista"] = lvespecialista != null ? lvespecialista.Nome : "";
+                    row["Paciente"] = lvpaciente != null ? lvpaciente.Nome : "";
+                    row["Forma Pagamento"] = lvformapagamento != null ? lvformapagamento.Nome : "";
                 }
 
                 var gridView = new GridView();
@@ -514,6 +581,34 @@ namespace HealthSolution.Controllers
             }
 
             return Index(queryOptions, doutor, paciente, especialidade, data);
+        }
+              
+        public ActionResult GetFile(string fileName)
+        {
+            byte[] fileBytes = null;
+
+            try
+            {
+                if (System.IO.File.Exists(fileName))
+                {
+                    fileBytes = System.IO.File.ReadAllBytes(fileName);
+                    string lvfileName = fileName.Split(new string[] { @"Clientes\" }, StringSplitOptions.None)[1];
+                    return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, lvfileName);
+                }
+                Response.ClearContent();
+                Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                Response.Flush();
+                Response.End();
+                return null;
+            }
+            catch (Exception)
+            {
+                Response.ClearContent();
+                Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                Response.Flush();
+                Response.End();
+                return null;
+            }
         }
 
         protected override void Dispose(bool disposing)

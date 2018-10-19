@@ -20,6 +20,7 @@ namespace HealthSolution.ViewModels
         public Paciente Paciente { get; set; }
         public string Observacao { get; set; }
         public double ValorPago { get; set; }
+        public string LinkArquivo { get; set; }
 
         public int FormaPagamentoId { get; set; }
         public FormaPagamento FormaPagamento { get; set; }

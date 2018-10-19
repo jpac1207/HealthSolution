@@ -21,5 +21,7 @@ namespace HealthSolution.Models
         public Paciente Paciente { get; set; }
         public string Observacao { get; set; }
         public double ValorPago { get; set; }
+        public Arquivo Arquivo { get; set; }
+        public int ArquivoId { get; set; }
     }
 }

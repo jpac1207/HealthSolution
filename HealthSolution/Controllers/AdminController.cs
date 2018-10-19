@@ -58,6 +58,7 @@ namespace HealthSolution.Controllers
             }
             catch(Exception e)
             {
+                DebugLog.Logar(e.StackTrace);
                 ViewBag.Message = "Não foi possível conectar ao banco de dados!";
                 ViewBag.StyleClass = "alert alert-danger";
             }

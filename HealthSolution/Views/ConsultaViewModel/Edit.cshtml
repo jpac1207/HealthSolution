@@ -7,7 +7,7 @@
 <h2 class="text-center">Alterar Consulta</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "ConsultaViewModel", FormMethod.Post, htmlAttributes: new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -80,12 +80,16 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-9 col-md-8 col-lg-8" style="width:100%">
+            <div class="col-md-6" style="width:100%">
                 <label class="control-label">Observação</label>
                 <div class="col-md-10">
                     @Html.TextAreaFor(model => model.Observacao, 6, 400, new { @class = "form-control textAreaObs" })
                     @Html.ValidationMessageFor(model => model.Observacao, "", new { @class = "text-danger" })
                 </div>
+            </div>
+            <div class="col-md-6">
+                <label class="control-label">Arquivo</label>
+                <input type="file" name="file" class="btn btn-light" />
             </div>
         </div>
 

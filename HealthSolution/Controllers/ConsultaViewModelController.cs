@@ -502,17 +502,17 @@ namespace HealthSolution.Controllers
 
                 if (!string.IsNullOrEmpty(doutor))
                 {
-                    consultas = consultas.Where(x => x.Especialista.Nome.Contains(doutor)).ToList();
+                    consultas = consultas.Where(x => x.Especialista.Nome.ToUpper().Contains(doutor)).ToList();
                     ViewBag.doutor = doutor;
                 }
                 if (!string.IsNullOrEmpty(paciente))
                 {
-                    consultas = consultas.Where(x => x.Paciente.Nome.Contains(paciente)).ToList();
+                    consultas = consultas.Where(x => x.Paciente.Nome.ToUpper().Contains(paciente)).ToList();
                     ViewBag.paciente = paciente;
                 }
                 if (!string.IsNullOrEmpty(especialidade))
                 {
-                    consultas = consultas.Where(x => x.Especialidade.Nome.Contains(especialidade)).ToList();
+                    consultas = consultas.Where(x => x.Especialidade.Nome.ToUpper().Contains(especialidade)).ToList();
                     ViewBag.especialidade = especialidade;
                 }
                 if (!string.IsNullOrEmpty(data))
@@ -537,6 +537,7 @@ namespace HealthSolution.Controllers
                 {
                     consultasViewModels.Add(GetConsultaViewModel(x));
                 });
+
                 DataTable dt = Utility.ExportListToDataTable(consultasViewModels);                             
 
                 foreach (DataRow row in dt.Rows)

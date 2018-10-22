@@ -1,6 +1,6 @@
-﻿var baseUrlPaciente = '../PacienteViewModel/';
-var baseUrlConsulta = '../ConsultaViewModel/';
-var baseUrlProcedimento = '../Procedimentos/';
+﻿var baseUrlPaciente = document.getElementById("PacienteViewModelController").value + "/";
+var baseUrlConsulta = document.getElementById("ConsultaController").value + "/";
+var baseUrlProcedimento = document.getElementById("ProcedimentosController").value + "/";
 var tableWrapper = document.getElementById("tableWrapper");
 var tableConsultas = document.getElementById("tableConsultas");
 var tableProcedimentos = document.getElementById("tableProcedimentos");

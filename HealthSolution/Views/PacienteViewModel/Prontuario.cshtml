@@ -7,6 +7,26 @@
     Prontuário @(Model.Count() > 0 ? Model.ElementAt(0).NomePaciente : "")
 </p>
 
+<div class="card mb-5" style="background-color:#F1EDF8">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "card-body" }))
+    {
+        <div class="row">
+            <div class="col-md-2">
+                @Html.TextBox("doutor", null, new { @class = "form-control", placeholder = "Doutor", onchange = "form.submit()" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBox("procedimento", null, new { @class = "form-control", placeholder = "Procedimento", onchange = "form.submit()" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBox("data", null, new { @class = "form-control date datepicker", placeholder = "Data", onchange = "form.submit()" })
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-success">Buscar</button>
+            </div>
+        </div>
+    }
+</div>
+
 <div class="container">
 
         @foreach (var item in Model)
@@ -20,16 +40,9 @@
                    <div class="card mt-3">
                        <div class="card-header"> Anotações Especialista</div>
                        <div class="card-body">
-
+                           @item.AnotacaoEspecialista
                        </div>
                    </div>
-
-                    <div class="card mt-3">
-                        <div class="card-header"> Medicamentos</div>
-                        <div class="card-body">
-
-                        </div>
-                    </div>
                    <button class="btn btn-light mt-4 float-right" data-toggle="modal" data-target=".bd-example-modal-lg" id="@item.Tipo-@item.id">Visualizar</button>
                 </div>
             @*<tr>
@@ -67,7 +80,7 @@
                 <div class="card mt-3">
                     <div class="card-header"> Anotações Especialista</div>
                     <div class="card-body">
-
+                        <textarea  id="txtAnotacaoEspecialista"  style="color:gray;width:100%;border:none;" ></textarea><br />
                     </div>
                 </div>
 
@@ -77,6 +90,46 @@
 
                     </div>
                 </div>
+
+
+                <div class="card mt-3">
+                    <div class="card-header"> Observações</div>
+                    <div class="card-body">
+                        <textarea id="txtObservacao"  style="color:gray;width:100%;border:none"></textarea><br />
+                    </div>
+                </div>
+
+                <p class="mt-3 font-weight-bold" style="font-size:medium">Documentos <span class="oi oi-file"></span></p>
+                <table class="table table-striped" style="width:100%;">
+                    <tbody>
+                        <tr>
+                            <td style="width:85%">
+                                <label class="ml-3 mt-2">Documento 1</label>
+                            </td>
+                            <td class="mr-3">
+                                <span class="oi oi-eye mr-1 mt-2" style="font-size:larger;color:dimgrey;cursor:pointer"></span>
+                            </td>
+                            <td class="mr-3">
+                                <span class="ml-4 oi oi-data-transfer-download mt-2" style="font-size:large;color:dimgrey;cursor:pointer"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  style="width:85%">
+                                <label class="ml-3 mt-2">Documento 2</label>
+                            </td>
+
+                            <td class="mr-3">
+                                <span class="oi oi-eye mr-1 mt-2" style="font-size:larger;color:dimgrey;cursor:pointer"></span>
+                            </td>
+                            <td class="mr-3">
+                                <span class="ml-4 oi oi-data-transfer-download mt-2" style="font-size:large;color:dimgrey;cursor:pointer"></span>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button class="btn btn-default float-right mt-5" style="color:dimgrey">Imprimir <span class="oi oi-print"></span></button>
             </div>
         </div>
     </div>

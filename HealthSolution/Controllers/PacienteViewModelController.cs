@@ -324,6 +324,7 @@ namespace HealthSolution.Controllers
                     NomeEspecialista = x.Especialista.Nome,
                     NomePaciente = x.Paciente.Nome,
                     FormaPagamento = paymentWay != null ? paymentWay.FormaPagamento.Nome : "-",
+                    AnotacaoEspecialista = x.AnotacaoEspecialista,
                     Observacao = x.Observacao
                 });
             });
@@ -342,6 +343,7 @@ namespace HealthSolution.Controllers
                     NomeEspecialista = x.Especialista.Nome,
                     NomePaciente = x.Paciente.Nome,
                     FormaPagamento = payment != null ? payment.FormaPagamento.Nome : "-",
+                    AnotacaoEspecialista = x.AnotacaoEspecialista,
                     Observacao = x.Observacao
                 });
             });
@@ -390,6 +392,7 @@ namespace HealthSolution.Controllers
                 prontuario.NomeEspecialista = elemento.Especialista.Nome;
                 prontuario.Observacao = elemento.Observacao;
                 prontuario.NomePaciente = elemento.Paciente.Nome;
+                prontuario.AnotacaoEspecialista = elemento.AnotacaoEspecialista;
                 prontuario.Tipo = "Consulta";
             }
 
@@ -401,6 +404,7 @@ namespace HealthSolution.Controllers
                 prontuario.NomeEspecialista = elemento.Especialista.Nome;
                 prontuario.Observacao = elemento.Observacao;
                 prontuario.NomePaciente = elemento.Paciente.Nome;
+                prontuario.AnotacaoEspecialista = elemento.AnotacaoEspecialista;
                 prontuario.Tipo = "Procedimento";
             }
 

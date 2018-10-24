@@ -309,6 +309,10 @@
     <Compile Include="Migrations\201810172300337_AddArquivo.Designer.cs">
       <DependentUpon>201810172300337_AddArquivo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810241538092_anotacao medico.cs" />
+    <Compile Include="Migrations\201810241538092_anotacao medico.Designer.cs">
+      <DependentUpon>201810241538092_anotacao medico.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Arquivo.cs" />
@@ -573,6 +577,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810172300337_AddArquivo.resx">
       <DependentUpon>201810172300337_AddArquivo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810241538092_anotacao medico.resx">
+      <DependentUpon>201810241538092_anotacao medico.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -19,13 +19,14 @@ function getProntuario (tipo, id, modal) {
 
     util.doAjax(baseUrlPaciente + method, "{tipo:'" + tipo + "', id:'" + id + "'}").then(function (data) {
         
-
         if (data) {
             modal.find("#lblTipo").text(data.Tipo);
             modal.find('#lblEspecialistamd').text(data.NomeEspecialista);
             modal.find('#lblEspecialidademd').text(data.Especialidade);
             var date = new Date(parseInt(data.Date.replace(/\/Date\((-?\d+)\)\//, '$1')));
             modal.find("#lblData").text(util.toDateString(date));
+            modal.find("#txtAnotacaoEspecialista").text(data.AnotacaoEspecialista);
+            modal.find("#txtObservacao").text(data.Observacao);
         }
 
     }, function (err) { });

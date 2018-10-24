@@ -15,5 +15,6 @@ namespace HealthSolution.ViewModels
         public string Especialidade { get; set; }
         public string Observacao { get; set; }
         public string FormaPagamento { get; set; }
+        public string AnotacaoEspecialista { get; set; }
     }
 }

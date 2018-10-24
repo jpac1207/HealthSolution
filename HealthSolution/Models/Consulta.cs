@@ -23,5 +23,6 @@ namespace HealthSolution.Models
         public double ValorPago { get; set; }
         public Arquivo Arquivo { get; set; }
         public int ArquivoId { get; set; }
+        public string AnotacaoEspecialista { get; set; }
     }
 }

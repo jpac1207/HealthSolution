@@ -7,6 +7,7 @@ namespace HealthSolution.ViewModels
 {
     public class ProntuarioViewModel
     {
+        public int id { get; set; }
         public string Tipo { get; set; }
         public string NomePaciente { get; set; }
         public string NomeEspecialista { get; set; }

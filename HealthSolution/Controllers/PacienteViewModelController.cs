@@ -317,6 +317,7 @@ namespace HealthSolution.Controllers
 
                 prontuarios.Add(new ProntuarioViewModel()
                 {
+                    id = x.Id,
                     Tipo = "Consulta",
                     Date = x.Date,
                     Especialidade = x.Especialidade.Nome,
@@ -334,6 +335,7 @@ namespace HealthSolution.Controllers
 
                 prontuarios.Add(new ProntuarioViewModel()
                 {
+                    id = x.Id,
                     Tipo = "Procedimento",
                     Date = x.Date,
                     Especialidade = x.Procedimento.Nome,
@@ -373,6 +375,36 @@ namespace HealthSolution.Controllers
             var aniversariantes = db.Pacientes.Where(x => x.DataNascimento.Day == day &&
             x.DataNascimento.Month == month).Include(x => x.Telefone).ToList();
             return Json(aniversariantes);
+        }
+
+        [HttpPost]
+        public ActionResult GetDetailsProntuario(string tipo, int id)
+        {
+
+            var prontuario = new ProntuarioViewModel();
+            if (tipo.Equals("Consulta"))
+            {
+                var elemento = db.Consultas.Where(x => x.Id == id).Include(x => x.Paciente).Include(x => x.Especialista).Include(x => x.Especialidade).FirstOrDefault();
+                prontuario.Date = elemento.Date;
+                prontuario.Especialidade = elemento.Especialidade.Nome;
+                prontuario.NomeEspecialista = elemento.Especialista.Nome;
+                prontuario.Observacao = elemento.Observacao;
+                prontuario.NomePaciente = elemento.Paciente.Nome;
+                prontuario.Tipo = "Consulta";
+            }
+
+            if (tipo.Equals("Procedimento"))
+            {
+                var elemento = db.Intervencoes.Where(x => x.Id == id).Include(x => x.Paciente).Include(x => x.Especialista).Include(x => x.Procedimento).FirstOrDefault();
+                prontuario.Date = elemento.Date;
+                prontuario.Especialidade = elemento.Procedimento.Nome;
+                prontuario.NomeEspecialista = elemento.Especialista.Nome;
+                prontuario.Observacao = elemento.Observacao;
+                prontuario.NomePaciente = elemento.Paciente.Nome;
+                prontuario.Tipo = "Procedimento";
+            }
+
+            return Json(prontuario);
         }
 
         public ActionResult Export([Form] QueryOptions queryOptions, string nome, string cpf)

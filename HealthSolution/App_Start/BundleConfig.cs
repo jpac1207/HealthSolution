@@ -39,7 +39,8 @@ namespace HealthSolution
             bundles.Add(new ScriptBundle("~/consultaEdit").Include("~/Scripts/health-solution/consultasEdit.js"));
             bundles.Add(new ScriptBundle("~/intervencoes").Include("~/Scripts/health-solution/intervencoes.js"));
             bundles.Add(new ScriptBundle("~/intervencaoEdit").Include("~/Scripts/health-solution/intervencaoEdit.js"));
-            bundles.Add(new ScriptBundle("~/home").Include("~/Scripts/health-solution/home.js"));            
+            bundles.Add(new ScriptBundle("~/home").Include("~/Scripts/health-solution/home.js"));
+            bundles.Add(new ScriptBundle("~/prontuario").Include("~/Scripts/health-solution/prontuario.js"));
         }
     }
 }

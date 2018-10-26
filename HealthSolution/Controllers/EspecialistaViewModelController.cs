@@ -485,6 +485,52 @@ namespace HealthSolution.Controllers
             ViewBag.especialistaId = new SelectList(db.Especialistas.ToList(), "Id", "Nome", null);
             return View(new List<AgendaViewModel>());
         }
+
+        public ActionResult Atendimento(int? id, string tipo)
+        {
+
+            if (id == null || string.IsNullOrEmpty(tipo))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var atendimento = new AtendimentoViewModel();
+
+            if( tipo == "Consulta")
+            {
+                var consulta = db.Consultas.Where(x => x.Id == id).Include(x => x.Paciente).Include(x => x.Especialista).Include(x => x.Especialidade).FirstOrDefault();
+                atendimento.NomePaciente = consulta.Paciente.Nome;
+                atendimento.Tipo = "Consulta";
+                atendimento.DataNascimento = consulta.Paciente.DataNascimento;
+                atendimento.NomeEspecialista = consulta.Especialista.Nome;
+                atendimento.AnotacaoEspecialista = consulta.AnotacaoEspecialista;
+                atendimento.IdAtendimento = int.Parse(id.ToString());
+                atendimento.IdPaciente = consulta.Paciente.Id;
+                atendimento.Especialidade = consulta.Especialidade.Nome;
+                atendimento.Observacao = consulta.Observacao;
+            }
+
+            if( tipo == "Procedimento")
+            {
+
+                var procedimento = db.Intervencoes.Where(x => x.Id == id).Include(x => x.Paciente).Include(x => x.Especialista).Include(x => x.Procedimento).FirstOrDefault();
+                atendimento.NomePaciente = procedimento.Paciente.Nome;
+                atendimento.DataNascimento = procedimento.Paciente.DataNascimento;
+                atendimento.Tipo = "Consulta";
+                atendimento.NomeEspecialista = procedimento.Especialista.Nome;
+                atendimento.AnotacaoEspecialista = procedimento.AnotacaoEspecialista;
+                atendimento.IdAtendimento = int.Parse(id.ToString());
+                atendimento.IdPaciente = procedimento.Paciente.Id;
+                atendimento.Especialidade = procedimento.Procedimento.Nome;
+                atendimento.Observacao = procedimento.Observacao;
+            }
+            
+            if (atendimento == null)
+            {
+                return HttpNotFound();
+            }
+            return View(atendimento);
+        }
         
         [HttpPost]
         public ActionResult Agenda(string dataInicio, string dataFim, int especialistaId)
@@ -539,7 +585,8 @@ namespace HealthSolution.Controllers
                     Doutor = x.Especialista.Nome,
                     Especialidade = x.Especialidade.Nome,
                     NomePaciente = x.Paciente.Nome,
-                    Observacao = x.Observacao
+                    Observacao = x.Observacao,
+                    Id = x.Id
                 });
             });
 
@@ -554,7 +601,8 @@ namespace HealthSolution.Controllers
                     Especialidade = x.Procedimento.Nome,
                     Doutor = x.Especialista.Nome,
                     NomePaciente = x.Paciente.Nome,
-                    Observacao = x.Observacao
+                    Observacao = x.Observacao,
+                    Id = x.Id
                 });
             });
 

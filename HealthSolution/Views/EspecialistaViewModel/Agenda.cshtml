@@ -30,7 +30,7 @@
 
 <div class="container">
 
-    <table class="table table-bordered">
+    <table class="table table-bordered mt-3">
         <tr class="bg-light text-dark">
             <th>
                 Data
@@ -64,6 +64,7 @@
                 <td>@item.Doutor</td>
                 <td>@item.NomePaciente</td>
                 <td>@item.Observacao</td>
+                <td>@Html.ActionLink("Iniciar Atendimento", "Atendimento", new { id = item.Id, tipo = item.Tipo }, new { @class = "btn" })
             </tr>
         }
     </table>

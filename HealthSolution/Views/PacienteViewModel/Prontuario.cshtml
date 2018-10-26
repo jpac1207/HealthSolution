@@ -33,7 +33,7 @@
         {
             <div class="card rounded shadow p-3 mb-5" style="width:95%;height:90%;margin:auto">
                 <div class="card-body">
-                   <label class="font-weight-bold" style="color:gray; font-size:larger"> @item.Tipo</label> <label id="lblData" class="ml-auto float-right" style="color:gray;font-size:larger">@(item.Date != null ? item.Date.Date.ToString("dd/MM/yyyy") : "") </label><br /> 
+                   <label class="font-weight-bold" style="color:gray; font-size:larger"> @item.Tipo</label> <label id="lblData" class="ml-auto float-right" style="color:gray;font-size:larger">@(item.Date != null ? item.Date.Date.ToString("dd/MM/yyyy") : "")  @item.Hora:@(item.Minuto >= 10 ? item.Minuto.ToString() : string.Concat("0", item.Minuto.ToString()))</label><br /> 
                    <p></p> 
                    <label class="font-weight-bold" style="color:gray"> Especialista: </label> <label id="lblEspecialista" style="color:gray"> @item.NomeEspecialista </label> <br />
                    <label class="font-weight-bold" style="color:gray"> Especialidade: </label> <label id="lblEspecialista" style="color:gray"> @item.Especialidade </label> <br /> 

@@ -15,5 +15,6 @@ namespace HealthSolution.ViewModels
         public string Doutor { get; set; }
         public string NomePaciente { get; set; }
         public string Observacao { get; set; }
+        public int Id { get; set; }
     }
 }

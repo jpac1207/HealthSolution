@@ -100,3 +100,8 @@ a {
 .modal-wide .modal-body {
     overflow-y: auto;
 }
+
+textarea {
+    min-width: 100%;
+    border:none;
+}

@@ -226,6 +226,7 @@ namespace HealthSolution.Controllers
                         db.Arquivos.Add(arquivo);
                         db.SaveChanges();
 
+
                         var consulta = new Consulta();
                         consulta.Date = consultaViewModel.Date;
                         consulta.Hora = consultaViewModel.Hora;
@@ -237,6 +238,14 @@ namespace HealthSolution.Controllers
                         consulta.ValorPago = consultaViewModel.ValorPago;
                         consulta.ArquivoId = arquivo.Id;
                         db.Consultas.Add(consulta);
+                        db.SaveChanges();
+
+
+                        var atendimentoArquivo = new AtendimentoArquivo();
+                        atendimentoArquivo.ArquivoId = arquivo.Id;
+                        atendimentoArquivo.Tipo = "Consulta";
+                        atendimentoArquivo.AtendimentoId = consulta.Id;
+                        db.AtendimentoArquivo.Add(atendimentoArquivo);
                         db.SaveChanges();
 
                         if (file != null)
@@ -479,7 +488,16 @@ namespace HealthSolution.Controllers
                                 System.IO.File.Delete(file.Path);
                             }
                             db.Arquivos.Remove(file);
+                            
                         }
+
+                        var fileAtendimento = db.AtendimentoArquivo.Where(x => x.ArquivoId == fileId).Where(x => x.Tipo == "Consulta").FirstOrDefault();
+
+                        if(fileAtendimento != null)
+                        {
+                            db.AtendimentoArquivo.Remove(fileAtendimento);
+                        }
+
                         db.SaveChanges();
                         transaction.Commit();
                     }

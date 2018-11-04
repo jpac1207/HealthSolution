@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using HealthSolution.Dal;
 using HealthSolution.ViewModels;
@@ -317,7 +318,7 @@ namespace HealthSolution.Controllers
 
                 prontuarios.Add(new ProntuarioViewModel()
                 {
-                    id = x.Id,
+                    Id = x.Id,
                     Tipo = "Consulta",
                     Date = x.Date,
                     Especialidade = x.Especialidade.Nome,
@@ -327,7 +328,9 @@ namespace HealthSolution.Controllers
                     Minuto = x.Minuto,
                     FormaPagamento = paymentWay != null ? paymentWay.FormaPagamento.Nome : "-",
                     AnotacaoEspecialista = x.AnotacaoEspecialista,
-                    Observacao = x.Observacao
+                    Observacao = x.Observacao,
+                    Medicamentos = x.Medicamentos
+
                 });
             });
 
@@ -338,7 +341,7 @@ namespace HealthSolution.Controllers
 
                 prontuarios.Add(new ProntuarioViewModel()
                 {
-                    id = x.Id,
+                    Id = x.Id,
                     Tipo = "Procedimento",
                     Date = x.Date,
                     Especialidade = x.Procedimento.Nome,
@@ -348,7 +351,8 @@ namespace HealthSolution.Controllers
                     Minuto = x.Minuto,
                     FormaPagamento = payment != null ? payment.FormaPagamento.Nome : "-",
                     AnotacaoEspecialista = x.AnotacaoEspecialista,
-                    Observacao = x.Observacao
+                    Observacao = x.Observacao,
+                    Medicamentos = x.Medicamentos
                 });
             });
 
@@ -400,6 +404,11 @@ namespace HealthSolution.Controllers
                 prontuario.Minuto = elemento.Minuto;
                 prontuario.Hora = elemento.Hora;
                 prontuario.Tipo = "Consulta";
+                prontuario.Medicamentos = elemento.Medicamentos;
+                
+                List<AtendimentoArquivo> arquivos = db.AtendimentoArquivo.Where(x => x.AtendimentoId == id).Where(x => x.Tipo == tipo).Include(x => x.Arquivo).ToList();
+                prontuario.Arquivos = arquivos;
+
             }
 
             if (tipo.Equals("Procedimento"))
@@ -412,9 +421,45 @@ namespace HealthSolution.Controllers
                 prontuario.NomePaciente = elemento.Paciente.Nome;
                 prontuario.AnotacaoEspecialista = elemento.AnotacaoEspecialista;
                 prontuario.Tipo = "Procedimento";
+                prontuario.Medicamentos = elemento.Medicamentos;
+
+                List<AtendimentoArquivo> arquivos = db.AtendimentoArquivo.Where(x => x.AtendimentoId == id).Where(x => x.Tipo == tipo).Include(x => x.Arquivo).ToList();
+                prontuario.Arquivos = arquivos;
             }
 
             return Json(prontuario);
+        }
+
+        public ActionResult SalvarArquivos(int id, string tipo)
+        {
+            DebugLog.Logar(id + "  " + tipo);
+            foreach(string fileName in Request.Files)
+            {
+                HttpPostedFileBase file = Request.Files[fileName];
+                DebugLog.Logar(fileName);
+                Arquivo arquivo = new Arquivo();
+
+                if (file != null)
+                {
+                    var path = Path.Combine(@Server.MapPath(@"~\Files\Clientes"), string.Format("c_{0}_{1}", id, file.FileName));
+                    file.SaveAs(path);
+                    arquivo.Path = path;
+                    arquivo.OriginalName = file.FileName;
+                    db.Arquivos.Add(arquivo);
+                    db.SaveChanges();
+
+
+                    AtendimentoArquivo atendimentoarquivo = new AtendimentoArquivo();
+                    atendimentoarquivo.AtendimentoId = id;
+                    atendimentoarquivo.Tipo = tipo;
+                    atendimentoarquivo.ArquivoId = arquivo.Id;
+                    db.AtendimentoArquivo.Add(atendimentoarquivo);
+                    db.SaveChanges();
+                }
+
+            }
+
+            return View();
         }
 
         public ActionResult Export([Form] QueryOptions queryOptions, string nome, string cpf)

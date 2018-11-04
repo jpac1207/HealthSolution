@@ -64,7 +64,7 @@
                 <td>@item.Doutor</td>
                 <td>@item.NomePaciente</td>
                 <td>@item.Observacao</td>
-                <td>@Html.ActionLink("Iniciar Atendimento", "Atendimento", new { id = item.Id, tipo = item.Tipo }, new { @class = "btn" })
+                <td>@Html.ActionLink("Seguir Atendimento", "Atendimento", new { id = item.Id, tipo = item.Tipo }, new { @class = "btn btn-link" })
             </tr>
         }
     </table>

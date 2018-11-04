@@ -242,6 +242,14 @@ namespace HealthSolution.Controllers
                             arquivo.OriginalName = file.FileName;
                         }
 
+
+                        var atendimentoArquivo = new AtendimentoArquivo();
+                        atendimentoArquivo.ArquivoId = arquivo.Id;
+                        atendimentoArquivo.Tipo = "Procedimento";
+                        atendimentoArquivo.AtendimentoId = intervencao.Id;
+                        db.AtendimentoArquivo.Add(atendimentoArquivo);
+                        
+
                         if (intervencaoViewModel.FormaPagamentoId != -1)
                         {
                             db.PagamentosProcedimentos.Add(new PagamentoProcedimento()
@@ -458,6 +466,14 @@ namespace HealthSolution.Controllers
                                 System.IO.File.Delete(file.Path);
                             }
                             db.Arquivos.Remove(file);
+                        }
+
+
+                        var fileAtendimento = db.AtendimentoArquivo.Where(x => x.ArquivoId == fileId).Where(x => x.Tipo == "Procedimento").FirstOrDefault();
+
+                        if (fileAtendimento != null)
+                        {
+                            db.AtendimentoArquivo.Remove(fileAtendimento);
                         }
                         db.SaveChanges();
 

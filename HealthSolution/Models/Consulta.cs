@@ -24,5 +24,6 @@ namespace HealthSolution.Models
         public Arquivo Arquivo { get; set; }
         public int ArquivoId { get; set; }
         public string AnotacaoEspecialista { get; set; }
+        public string Medicamentos { get; set; }
     }
 }

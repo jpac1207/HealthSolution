@@ -313,9 +313,26 @@
     <Compile Include="Migrations\201810241538092_anotacao medico.Designer.cs">
       <DependentUpon>201810241538092_anotacao medico.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810300007242_CreateMedicamentos.cs" />
+    <Compile Include="Migrations\201810300007242_CreateMedicamentos.Designer.cs">
+      <DependentUpon>201810300007242_CreateMedicamentos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810300322513_campo medicamentos.cs" />
+    <Compile Include="Migrations\201810300322513_campo medicamentos.Designer.cs">
+      <DependentUpon>201810300322513_campo medicamentos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811011739380_AtendimentoArquivo.cs" />
+    <Compile Include="Migrations\201811011739380_AtendimentoArquivo.Designer.cs">
+      <DependentUpon>201811011739380_AtendimentoArquivo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811040205120_Modelo Anamneses.cs" />
+    <Compile Include="Migrations\201811040205120_Modelo Anamneses.Designer.cs">
+      <DependentUpon>201811040205120_Modelo Anamneses.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Arquivo.cs" />
+    <Compile Include="Models\AtendimentoArquivo.cs" />
     <Compile Include="Models\Consulta.cs" />
     <Compile Include="Models\DiasAtendimento.cs" />
     <Compile Include="Models\Endereco.cs" />
@@ -325,6 +342,8 @@
     <Compile Include="Models\FormaPagamento.cs" />
     <Compile Include="Models\Intervencao.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Medicamento.cs" />
+    <Compile Include="Models\ModeloAnamnese.cs" />
     <Compile Include="Models\Paciente.cs" />
     <Compile Include="Models\Pagamento.cs" />
     <Compile Include="Models\PagamentoConsulta.cs" />
@@ -361,6 +380,7 @@
     <Content Include="Content\Images\ui-icons_cc0000_256x240.png" />
     <Content Include="Content\Images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Scripts\health-solution\atendimento.js" />
     <Content Include="Scripts\health-solution\consultasEdit.js" />
     <Content Include="Scripts\health-solution\home.js" />
     <Content Include="Scripts\health-solution\consultas.js" />
@@ -412,12 +432,15 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jspdf.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\health-solution\prontuario.js" />
+    <Content Include="Scripts\print.min.css" />
+    <Content Include="Scripts\print.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
@@ -582,6 +605,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810241538092_anotacao medico.resx">
       <DependentUpon>201810241538092_anotacao medico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810300007242_CreateMedicamentos.resx">
+      <DependentUpon>201810300007242_CreateMedicamentos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810300322513_campo medicamentos.resx">
+      <DependentUpon>201810300322513_campo medicamentos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811011739380_AtendimentoArquivo.resx">
+      <DependentUpon>201811011739380_AtendimentoArquivo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811040205120_Modelo Anamneses.resx">
+      <DependentUpon>201811040205120_Modelo Anamneses.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

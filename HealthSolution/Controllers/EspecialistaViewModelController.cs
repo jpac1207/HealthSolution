@@ -496,7 +496,7 @@ namespace HealthSolution.Controllers
 
             var atendimento = new AtendimentoViewModel();
 
-            if( tipo == "Consulta")
+            if (tipo == "Consulta")
             {
                 var consulta = db.Consultas.Where(x => x.Id == id).Include(x => x.Paciente).Include(x => x.Especialista).Include(x => x.Especialidade).FirstOrDefault();
                 atendimento.NomePaciente = consulta.Paciente.Nome;
@@ -508,9 +508,10 @@ namespace HealthSolution.Controllers
                 atendimento.IdPaciente = consulta.Paciente.Id;
                 atendimento.Especialidade = consulta.Especialidade.Nome;
                 atendimento.Observacao = consulta.Observacao;
+                atendimento.AnotacaoMedicamentos = consulta.Medicamentos;
             }
 
-            if( tipo == "Procedimento")
+            if (tipo == "Procedimento")
             {
 
                 var procedimento = db.Intervencoes.Where(x => x.Id == id).Include(x => x.Paciente).Include(x => x.Especialista).Include(x => x.Procedimento).FirstOrDefault();
@@ -523,15 +524,16 @@ namespace HealthSolution.Controllers
                 atendimento.IdPaciente = procedimento.Paciente.Id;
                 atendimento.Especialidade = procedimento.Procedimento.Nome;
                 atendimento.Observacao = procedimento.Observacao;
+                atendimento.AnotacaoMedicamentos = procedimento.Medicamentos;
             }
-            
+
             if (atendimento == null)
             {
                 return HttpNotFound();
             }
             return View(atendimento);
         }
-        
+
         [HttpPost]
         public ActionResult Agenda(string dataInicio, string dataFim, int especialistaId)
         {
@@ -715,6 +717,57 @@ namespace HealthSolution.Controllers
 
             return Json(new object[] { false, "Não foi possível encontrar o horário do especialista! <br/>"+
                 " Por favor, verifique antes de consultar!" });
+        }
+
+        [HttpPost]
+        public ActionResult SalvarAtendimento(string anotacaoEspecialista, string anotacaoMedicamentos, int idAtendimento, string tipo)
+        {
+
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    if (tipo == "Consulta")
+                    {
+                        var consulta = db.Consultas.Where(x => x.Id == idAtendimento).Include(x => x.Paciente).
+                            Include(x => x.Especialidade).Include(x => x.Especialista).FirstOrDefault();
+                        consulta.AnotacaoEspecialista = anotacaoEspecialista;
+                        consulta.Medicamentos = anotacaoMedicamentos;
+                    }
+                    else if (tipo == "Procedimento")
+                    {
+                        var procedimento = db.Intervencoes.Where(x => x.Id == idAtendimento).Include(x => x.Paciente).
+                            Include(x => x.Procedimento).Include(x => x.Especialista).FirstOrDefault();
+                        procedimento.AnotacaoEspecialista = anotacaoEspecialista;
+                        procedimento.Medicamentos = anotacaoMedicamentos;
+                    }
+
+                    db.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    DebugLog.Logar(e.StackTrace);
+                }
+            }
+            return RedirectToAction("Agenda");
+
+        }
+
+        [HttpPost]
+        public ActionResult GetMedicamentos()
+        {
+            List<String> nomemedicamentos = new List<String>();
+
+            List<Medicamento> medicamentos = db.Medicamentos.ToList();
+
+            foreach( Medicamento medicamento in medicamentos)
+            {
+                nomemedicamentos.Add(medicamento.Nome);
+            }
+
+            return Json(nomemedicamentos);
         }
 
         public ActionResult Export([Form] QueryOptions queryOptions, string nome, string crm, string especialidade)

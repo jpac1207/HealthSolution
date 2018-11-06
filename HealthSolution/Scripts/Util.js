@@ -17,7 +17,6 @@ Util.prototype.stringToDate = function (inputFormat) {
     var date = new Date([dateParts[2], dateParts[1], dateParts[0]].join('/'));
     return date;
 }
-
 Util.prototype.toDateString = function (date) {
     var year = date.getFullYear();
     var month = (1 + date.getMonth()).toString();

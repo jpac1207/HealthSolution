@@ -1,8 +1,0 @@
-29/10/2018 23:07:26 =>    em System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-   em System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-   em System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-   em System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-   em System.IO.StreamReader..ctor(String path, Encoding encoding)
-   em System.IO.File.ReadLines(String path, Encoding encoding)
-   em HealthSolution.Controllers.HomeController.Process() na C:\Users\adacf\source\repos\HealthSolution\HealthSolution\Controllers\HomeController.cs:linha 39
-29/10/2018 23:08:02 => FLIXONASE 12795 15mg x 15cpr

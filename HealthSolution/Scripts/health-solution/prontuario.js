@@ -11,13 +11,11 @@ var tipo;
 var logo = document.getElementById("logo-clinica");
 
 btnSalvar.addEventListener('click', function (event) {
-
     event.preventDefault();
-
     sendFile();
-
 });
 
+<<<<<<< HEAD
 
 createdocument = function () {
 
@@ -55,24 +53,41 @@ createdocument = function () {
 }
 
 sendFile = function () {
+=======
+function sendFile() {
+>>>>>>> 8310203e2b686055e2cc68382bab66f14e60d380
     var arquivos = [];
     var formData = new FormData();
 
     for (var i = 0; i < fileList.length; i++) {
-        formData.append("file",fileList[i]);   
+        formData.append("file" + i, fileList[i]);
     }
 
     formData.append("id", id);
     formData.append("tipo", tipo);
 
     var util = new Util();
-    var method = 'SalvarArquivos';
-    var params = "{ id: '" + id + "', tipo:'" + tipo + "'}";
+    var method = 'SalvarArquivos';   
 
-    util.doAjax(baseUrlPaciente + method, params).then(function (data) {
+    var options = {
+        url: baseUrlPaciente + method,
+        headers: {
+            Accept: "application/json"
+        },
+        contentType: false,
+        processData: false,
+        cache: false,
+        type: 'POST',
+        data: formData
+    };
+
+    $.ajax(options).then(function (data) {
         console.log(data);
-       
-    }), function (err) { consoleg.log(err) };
+        util.showModal("Arquivos salvos com sucesso!");
+    }), function (err) {
+        console.log(err);
+        util.showModal("Erro ao salvar arquivos!");
+    };
 }
 
 function imageToBase64(url) {
@@ -111,21 +126,18 @@ function imageToBase64(url) {
 
 btnAdicionar.addEventListener('click', function (event) {
 
-        fileList.push(fileInput.file);
-        var row = document.createElement("tr");
-        var lvNameCell = row.insertCell(0);
-        lvNameCell.innerHTML = "<label class='ml-3 mt-2'>" +  fileInput.files[0].name +  "</label>";
+    fileList.push(fileInput.files[0]);
+    var row = document.createElement("tr");
+    var lvNameCell = row.insertCell(0);
+    lvNameCell.innerHTML = "<label class='ml-3 mt-2'>" + fileInput.files[0].name + "</label>";
 
-        //var lvNameCell1 = row.insertCell(1);
-        //lvNameCell1.innerHTML = " <span class='oi oi-eye mr-1 mt-2' style='font-size:larger; color: dimgrey; cursor: pointer'></span>";
-
-        var lvNameCell1 = row.insertCell(1);
-        lvNameCell1 .innerHTML = "<span class='ml-4 oi oi-data-transfer-download mt-2' style='font-size:large; color: dimgrey; cursor: pointer'></span>";
-        tbodyFiles.appendChild(row);
-    
+    var lvNameCell1 = row.insertCell(1);
+    lvNameCell1.innerHTML = "<span class='ml-4 oi oi-data-transfer-download mt-2' style='font-size:large; color: dimgrey; cursor: pointer'></span>";
+    tbodyFiles.appendChild(row);
 });
 
 btnImprimir.addEventListener('click', function (event) {
+<<<<<<< HEAD
     createdocument();
 });
 
@@ -144,11 +156,42 @@ $('#modalProntuario').on('show.bs.modal', function (event) {
 })
 
 function getProntuario (tipo, id, modal) {
+=======
+    var someJSONdata = [
+        {
+            name: 'John Doe',
+            email: 'john@doe.com',
+            phone: '111-111-1111'
+        },
+        {
+            name: 'Barry Allen',
+            email: 'barry@flash.com',
+            phone: '222-222-2222'
+        },
+        {
+            name: 'Cool Dude',
+            email: 'cool@dude.com',
+            phone: '333-333-3333'
+        }
+    ]
+
+    printJS({
+        printable: someJSONdata,
+        properties: ['name', 'email', 'phone'],
+        type: 'json',
+        gridHeaderStyle: 'color: red;  border: 2px solid #3971A5;',
+        gridStyle: 'border: 2px solid #3971A5;'
+    });
+
+});
+
+function getProntuario(tipo, id, modal) {
+>>>>>>> 8310203e2b686055e2cc68382bab66f14e60d380
     var util = new Util();
     var method = 'GetDetailsProntuario';
 
     util.doAjax(baseUrlPaciente + method, "{tipo:'" + tipo + "', id:'" + id + "'}").then(function (data) {
-        
+
         if (data) {
             console.log(data);
             modal.find("#lblTipo").text(data.Tipo);
@@ -161,16 +204,12 @@ function getProntuario (tipo, id, modal) {
             modal.find("#txtObservacao").text(data.Observacao);
             modal.find("#txtMedicamentos").text(data.Medicamentos);
             modal.find("#tbodyFiles").text("");
-            
+
             for (var i = 0; i < data.Arquivos.length; i++) {
 
                 var row = document.createElement("tr");
                 var lvNameCell = row.insertCell(0);
                 lvNameCell.innerHTML = "<label class='ml-3 mt-2'>" + data.Arquivos[i].Arquivo.OriginalName + "</label>";
-
-                //var lvNameCell1 = row.insertCell(1);
-                //lvNameCell1.innerHTML = " <span class='oi oi-eye mr-1 mt-2' style='font-size:larger; color: dimgrey; cursor: pointer'></span>";
-
                 var lvNameCell1 = row.insertCell(1);
                 lvNameCell1.innerHTML = "<span class='ml-4 oi oi-data-transfer-download mt-2' style='font-size:large; color: dimgrey; cursor: pointer'></span>";
                 tbodyFiles.appendChild(row);
@@ -179,3 +218,13 @@ function getProntuario (tipo, id, modal) {
 
     }, function (err) { });
 }
+
+$('#modalProntuario').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var recipient = button.data('id') // Extract info from data-* attributes  
+    var modal = $(this);
+
+    tipo = button.attr("id").split("-")[0];
+    id = button.attr("id").split("-")[1];
+    getProntuario(tipo, id, modal);
+});

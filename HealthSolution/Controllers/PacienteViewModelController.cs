@@ -289,6 +289,7 @@ namespace HealthSolution.Controllers
             return RedirectToAction("Index");
         }
 
+        [MedicalFilter]
         public ActionResult Prontuario(int? id)
         {
             if (id == null)
@@ -394,7 +395,8 @@ namespace HealthSolution.Controllers
             var prontuario = new ProntuarioViewModel();
             if (tipo.Equals("Consulta"))
             {
-                var elemento = db.Consultas.Where(x => x.Id == id).Include(x => x.Paciente).Include(x => x.Especialista).Include(x => x.Especialidade).FirstOrDefault();
+                var elemento = db.Consultas.Where(x => x.Id == id).Include(x => x.Paciente).
+                                Include(x => x.Especialista).Include(x => x.Especialidade).FirstOrDefault();
                 prontuario.Date = elemento.Date;
                 prontuario.Especialidade = elemento.Especialidade.Nome;
                 prontuario.NomeEspecialista = elemento.Especialista.Nome;
@@ -405,10 +407,10 @@ namespace HealthSolution.Controllers
                 prontuario.Hora = elemento.Hora;
                 prontuario.Tipo = "Consulta";
                 prontuario.Medicamentos = elemento.Medicamentos;
-                
-                List<AtendimentoArquivo> arquivos = db.AtendimentoArquivo.Where(x => x.AtendimentoId == id).Where(x => x.Tipo == tipo).Include(x => x.Arquivo).ToList();
-                prontuario.Arquivos = arquivos;
 
+                List<AtendimentoArquivo> arquivos = db.AtendimentoArquivo.Where(x => x.AtendimentoId == id).
+                                                    Where(x => x.Tipo == tipo).Include(x => x.Arquivo).ToList();
+                prontuario.Arquivos = arquivos;
             }
 
             if (tipo.Equals("Procedimento"))
@@ -430,36 +432,44 @@ namespace HealthSolution.Controllers
             return Json(prontuario);
         }
 
+        [HttpPost]
         public ActionResult SalvarArquivos(int id, string tipo)
         {
-            DebugLog.Logar(id + "  " + tipo);
-            foreach(string fileName in Request.Files)
+            try
             {
-                HttpPostedFileBase file = Request.Files[fileName];
-                DebugLog.Logar(fileName);
-                Arquivo arquivo = new Arquivo();
-
-                if (file != null)
+                foreach (string fileName in Request.Files)
                 {
-                    var path = Path.Combine(@Server.MapPath(@"~\Files\Clientes"), string.Format("c_{0}_{1}", id, file.FileName));
-                    file.SaveAs(path);
-                    arquivo.Path = path;
-                    arquivo.OriginalName = file.FileName;
-                    db.Arquivos.Add(arquivo);
-                    db.SaveChanges();
+                    HttpPostedFileBase file = Request.Files[fileName];
+                    Arquivo arquivo = new Arquivo();
 
+                    if (file != null)
+                    {
+                        var path = Path.Combine(@Server.MapPath(@"~\Files\Clientes"),
+                                   string.Format("c_{0}_{1}", id, file.FileName));
+                        if (!System.IO.File.Exists(path))
+                        {
+                            file.SaveAs(path);
+                            arquivo.Path = path;
+                            arquivo.OriginalName = file.FileName;
+                            db.Arquivos.Add(arquivo);
+                            db.SaveChanges();
 
-                    AtendimentoArquivo atendimentoarquivo = new AtendimentoArquivo();
-                    atendimentoarquivo.AtendimentoId = id;
-                    atendimentoarquivo.Tipo = tipo;
-                    atendimentoarquivo.ArquivoId = arquivo.Id;
-                    db.AtendimentoArquivo.Add(atendimentoarquivo);
-                    db.SaveChanges();
+                            AtendimentoArquivo atendimentoarquivo = new AtendimentoArquivo();
+                            atendimentoarquivo.AtendimentoId = id;
+                            atendimentoarquivo.Tipo = tipo;
+                            atendimentoarquivo.ArquivoId = arquivo.Id;
+                            db.AtendimentoArquivo.Add(atendimentoarquivo);
+                            db.SaveChanges();
+                        }
+                    }
                 }
-
             }
-
-            return View();
+            catch (Exception e)
+            {
+                DebugLog.Logar(e.StackTrace);
+                return Json("Erro ao salvar arquivos!");
+            }
+            return Json("Arquivos salvos com sucesso!");
         }
 
         public ActionResult Export([Form] QueryOptions queryOptions, string nome, string cpf)

@@ -486,6 +486,7 @@ namespace HealthSolution.Controllers
             return View(new List<AgendaViewModel>());
         }
 
+        [MedicalFilter]
         public ActionResult Atendimento(int? id, string tipo)
         {
 

@@ -36,6 +36,6 @@ $(function () {
     });
 
     $("#btnAdicionar").click(function () {
-        $("#txtmedicamentos").val($("#txtmedicamentos").val() + $("#txtMedicamentos").val() + "\n");;
+        $("#txtmedicamentos").val($("#txtmedicamentos").val() + $("#txtMedicamentos").val() + "\n");
     });
 });

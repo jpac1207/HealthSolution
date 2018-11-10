@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 10/11/2018 11:26:17 =>    em System.Data.Entity.Internal.DbSetDiscoveryService.RegisterSets(DbModelBuilder modelBuilder)
    em System.Data.Entity.Internal.LazyInternalContext.CreateModelBuilder()
    em System.Data.Entity.Internal.LazyInternalContext.CreateModel(LazyInternalContext internalContext)
@@ -20,3 +21,7 @@
    em System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
    em System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)
    em HealthSolution.Controllers.AdminController.Login(String user, String password) na C:\Users\adacf\source\repos\HealthSolution\HealthSolution\Controllers\AdminController.cs:linha 33
+=======
+10/11/2018 11:06:16 => admin
+10/11/2018 11:07:16 => admin
+>>>>>>> 8310203e2b686055e2cc68382bab66f14e60d380

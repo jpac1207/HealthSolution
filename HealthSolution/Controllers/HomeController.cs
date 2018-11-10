@@ -24,13 +24,13 @@ namespace HealthSolution.Controllers
     {
         private HealthContext db = new HealthContext();
         public ActionResult Index()
-        {
+        {           
             return View();
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";           
+            ViewBag.Message = "Your application description page.";
 
             return View();
         }
@@ -46,16 +46,14 @@ namespace HealthSolution.Controllers
         {
             try
             {
-                foreach (string line in System.IO.File.ReadLines(@"C:\Users\adacf\source\repos\HealthSolution\HealthSolution\Farmacias.csv", System.Text.Encoding.UTF8))
+                foreach (string line in System.IO.File.ReadLines(@"C:\Users\asus.PC\Documents\visual studio 2015\Projects\HealthSolution\HealthSolution\Farmacias.csv", System.Text.Encoding.UTF8))
                 {
                     string[] values = line.Split(';');
                     Medicamento m = new Medicamento();
                     m.Id = int.Parse(values[1]);
                     m.Nome = values[2];
                     m.Apresentacao = values[11];
-
                     db.Medicamentos.Add(m);
-
                 }
 
                 db.SaveChanges();

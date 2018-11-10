@@ -17,7 +17,6 @@ Util.prototype.stringToDate = function (inputFormat) {
     var date = new Date([dateParts[2], dateParts[1], dateParts[0]].join('/'));
     return date;
 }
-
 Util.prototype.toDateString = function (date) {
     var year = date.getFullYear();
     var month = (1 + date.getMonth()).toString();
@@ -40,4 +39,45 @@ Util.prototype.sendMessage = function(styleClass, message){
     var div = document.getElementById("globalMessage");
     div.setAttribute("class", styleClass);
     div.innerHTML = message;
+}
+
+Util.prototype.showModal = function (content) {
+    
+    var modal = new tingle.modal({
+        footer: true,
+        stickyFooter: false,
+        closeMethods: ['overlay', 'button', 'escape'],
+        closeLabel: "Close",
+        cssClass: ['custom-class-1', 'custom-class-2'],
+        onOpen: function () {
+            //console.log('modal open');
+        },
+        onClose: function () {
+            //console.log('modal closed');
+        },
+        beforeClose: function () {           
+            return true; // close the modal           
+        }
+    });
+
+    // set content
+    modal.setContent(content);
+
+    // add a button
+    modal.addFooterBtn('OK', 'tingle-btn tingle-btn--primary', function () {
+        // here goes some logic
+        modal.close();
+    });
+
+    //// add another button
+    //modal.addFooterBtn('Dangerous action !', 'tingle-btn tingle-btn--danger', function () {
+    //    // here goes some logic
+    //    modal.close();
+    //});
+
+    // open modal
+    modal.open();
+
+    //// close modal
+    //modal.close();
 }

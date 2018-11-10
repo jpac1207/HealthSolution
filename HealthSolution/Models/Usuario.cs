@@ -12,5 +12,6 @@ namespace HealthSolution.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string HashValue { get; set; }
+        public bool IsMedical { get; set; }
     }
 }

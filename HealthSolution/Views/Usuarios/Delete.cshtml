@@ -27,6 +27,13 @@
             @Html.DisplayFor(model => model.HashValue)
         </dd>
 
+        <dt>
+            Usuário é Médico?
+        </dt>
+
+        <dd>
+            @(Model.IsMedical ? "Sim" : "Não")
+        </dd>
     </dl>
 
     @using (Html.BeginForm()) {

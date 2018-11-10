@@ -31,47 +31,52 @@
 
 <div class="container">
 
-        @foreach (var item in Model)
-        {
-            <div class="card rounded shadow p-3 mb-5" style="width:95%;height:90%;margin:auto">
-                <div class="card-body">
-                   <label class="font-weight-bold" style="color:gray; font-size:larger"> @item.Tipo</label> <label id="lblData" class="ml-auto float-right" style="color:gray;font-size:larger">@(item.Date != null ? item.Date.Date.ToString("dd/MM/yyyy") : "")  @item.Hora:@(item.Minuto >= 10 ? item.Minuto.ToString() : string.Concat("0", item.Minuto.ToString()))</label><br /> 
-                   <p></p> 
-                   <label class="font-weight-bold" style="color:gray"> Especialista: </label> <label id="lblEspecialista" style="color:gray"> @item.NomeEspecialista </label> <br />
-                   <label class="font-weight-bold" style="color:gray"> Especialidade: </label> <label id="lblEspecialista" style="color:gray"> @item.Especialidade </label> <br /> 
-                   <div class="card mt-3">
-                       <div class="card-header"> Anotações Especialista</div>
-                       <div class="card-body">
-                           @item.AnotacaoEspecialista
-                       </div>
-                   </div>
-                   <button class="btn btn-light mt-4 float-right" data-toggle="modal" data-target=".bd-example-modal-lg" id="@item.Tipo-@item.Id">Visualizar</button>
+    @foreach (var item in Model)
+    {
+        <div class="card rounded shadow p-3 mb-5" style="width:95%;height:90%;margin:auto">
+            <div class="card-body">
+                <label class="font-weight-bold" style="color:gray; font-size:larger"> @item.Tipo</label>
+                <label id="lblData" class="ml-auto float-right" style="color:gray;font-size:larger">
+                    @(item.Date != null ? item.Date.Date.ToString("dd/MM/yyyy") : "")
+                    @(item.Hora >= 10 ? item.Hora.ToString() : string.Concat("0", item.Hora.ToString())):@(item.Minuto >= 10 ? item.Minuto.ToString() : string.Concat("0", item.Minuto.ToString()))
+                </label><br />
+                <p></p>
+                <label class="font-weight-bold" style="color:gray"> Especialista: </label> <label id="lblEspecialista" style="color:gray"> @item.NomeEspecialista </label> <br />
+                <label class="font-weight-bold" style="color:gray"> Especialidade: </label> <label id="lblEspecialista" style="color:gray"> @item.Especialidade </label> <br />
+                <div class="card mt-3">
+                    <div class="card-header"> Anotações Especialista</div>
+                    <div class="card-body">
+                        @item.AnotacaoEspecialista
+                    </div>
                 </div>
-            @*<tr>
-                <td>@item.Tipo</td>
-                <td>@item.NomePaciente</td>
-                <td>@item.NomeEspecialista</td>
-                <td>@(item.Date != null ? item.Date.Date.ToString("dd/MM/yyyy") : "")</td>
-                <td>@item.Especialidade</td>
-                <td>@item.Observacao</td>
-                <td>@item.FormaPagamento</td>
-            </tr>*@
+                <button class="btn btn-light mt-4 float-right" data-toggle="modal" data-target=".bd-example-modal-lg" id="@item.Tipo-@item.Id">Visualizar</button>
             </div>
-            <br />
-        }
+            @*<tr>
+                    <td>@item.Tipo</td>
+                    <td>@item.NomePaciente</td>
+                    <td>@item.NomeEspecialista</td>
+                    <td>@(item.Date != null ? item.Date.Date.ToString("dd/MM/yyyy") : "")</td>
+                    <td>@item.Especialidade</td>
+                    <td>@item.Observacao</td>
+                    <td>@item.FormaPagamento</td>
+                </tr>*@
+        </div>
+        <br />
+    }
 
-    
+
 </div>
 <div>
     @Html.ActionLink("Voltar para a Lista", "Index")
 </div>
 
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="z-index:10000000; width:100%" id="modalProntuario">
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" style="z-index:10000000; width:100%" id="modalProntuario">
     <div class="modal-dialog modal-lg" style="width:90%">
         <div class="modal-content">
             <div class="modal-header">
-
-                <label class="font-weight-bold" style="color:gray; font-size:larger" id="lblTipo"> Tipo</label> <label id="lblData" class="ml-auto float-right" style="color:gray;font-size:larger"> data </label><br />
+                <label class="font-weight-bold" style="color:gray; font-size:larger" id="lblTipo"> Tipo</label>
+                <label id="lblData" class="ml-auto float-right" style="color:gray;font-size:larger"> data </label><br />
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -84,30 +89,32 @@
                 <div class="card mt-3">
                     <div class="card-header"> Anotações Especialista</div>
                     <div class="card-body">
-                        <textarea  id="txtAnotacaoEspecialista"  style="color:gray;width:100%;border:none;" ></textarea><br />
+                        <textarea id="txtAnotacaoEspecialista" style="color:gray;width:100%;border:none;" readonly></textarea><br />
                     </div>
                 </div>
 
                 <div class="card mt-3">
                     <div class="card-header"> Medicamentos</div>
                     <div class="card-body">
-                        <textarea id="txtMedicamentos" style="color:gray;width:100%;border:none;"></textarea><br />
+                        <textarea id="txtMedicamentos" style="color:gray;width:100%;border:none;" readonly></textarea><br />
                     </div>
                 </div>
-
 
                 <div class="card mt-3">
                     <div class="card-header"> Observações</div>
                     <div class="card-body">
-                        <textarea id="txtObservacao"  style="color:gray;width:100%;border:none"></textarea><br />
+                        <textarea id="txtObservacao" style="color:gray;width:100%;border:none" readonly></textarea><br />
                     </div>
                 </div>
 
-
-                <p class="mt-5 font-weight-bold" style="font-size:medium">Documentos <span class="oi oi-file"></span>
+                <p class="mt-5 font-weight-bold" style="font-size:medium">
+                    Documentos <span class="oi oi-file"></span>
                     <span class="ml-auto">
                         <input type="file" name="file" class="btn btn-light" id="fileInput" />
-                        <button class="btn btn-success align-top ml-auto" id="btnAdicionarFile">Adicionar <span class="oi oi-plus"></span></button>
+                        <button class="btn btn-success align-top ml-auto" id="btnAdicionarFile">
+                            Adicionar
+                            <span class="oi oi-plus"></span>
+                        </button>
                     </span>
                 </p>
                 <table class="table table-striped" style="width:100%;">
@@ -124,7 +131,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td  style="width:85%">
+                            <td style="width:85%">
                                 <label class="ml-3 mt-2">Documento 2</label>
                             </td>
 
@@ -134,14 +141,12 @@
                             <td class="mr-3">
                                 <span class="ml-4 oi oi-data-transfer-download mt-2" style="font-size:large;color:dimgrey;cursor:pointer"></span>
                             </td>
-
                         </tr>
                     </tbody>
                 </table>
 
-
                 <button class="btn btn-success float-right mt-5 ml-2" id="btnSalvar">Salvar</button>
-                <button class="btn btn-default float-right mt-5 ml-2" id="btnImprimir" >Imprimir <span class="oi oi-print"></span></button>
+                <button class="btn btn-default float-right mt-5 ml-2" id="btnImprimir">Imprimir <span class="oi oi-print"></span></button>
             </div>
         </div>
     </div>
@@ -149,7 +154,6 @@
 
     <canvas id="myCanvas" />
 </div>
-
 
 @section Scripts {
     @Scripts.Render("~/Content/css");

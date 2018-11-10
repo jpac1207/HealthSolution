@@ -51,15 +51,12 @@
                                     @Html.ActionLink("Especialidades", "Index", "Especialidades", new { }, new { @class = "dropdown-item" })
                                     @Html.ActionLink("Tipos de Procedimento", "Index", "Procedimentos", new { }, new { @class = "dropdown-item" })
                                     @Html.ActionLink("Finanças", "Finances", "Report", new { }, new { @class = "dropdown-item" })
-<<<<<<< HEAD
                                     @Html.ActionLink("Modelos Anamnese", "Index", "ModeloAnamnese", new { }, new { @class = "dropdown-item" })
                                     @Html.ActionLink("Usuários", "Index", "Usuarios", new { }, new { @class = "dropdown-item danger" })
-=======
                                     @if (isAdmin)
                                     {
                                         @Html.ActionLink("Usuários", "Index", "Usuarios", new { }, new { @class = "dropdown-item danger" })
                                     }
->>>>>>> 8310203e2b686055e2cc68382bab66f14e60d380
                                 </div>
                             </li>
                         </ul>
@@ -81,12 +78,9 @@
                 <input type="hidden" id="PacienteViewModelController" value="@Url.Action("","PacienteViewModel",new { })" />
                 <input type="hidden" id="ProcedimentosController" value="@Url.Action("","Procedimentos",new { })" />
                 <input type="hidden" id="ConsultaController" value="@Url.Action("","ConsultaViewModel",new { })" />
-<<<<<<< HEAD
                 <input type="hidden" id="ModeloAnamneseController" value="@Url.Action("","ModeloAnamnese",new { })" />
                 <footer class="text-center">                   
-=======
                 <footer class="text-center">
->>>>>>> 8310203e2b686055e2cc68382bab66f14e60d380
                     <h6>&copy; @DateTime.Now.Year - Santa Rita Centro Médico</h6>
                 </footer>
             </div>

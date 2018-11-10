@@ -289,6 +289,7 @@ namespace HealthSolution.Controllers
             return RedirectToAction("Index");
         }
 
+        [MedicalFilter]
         public ActionResult Prontuario(int? id)
         {
             if (id == null)

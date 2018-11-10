@@ -242,6 +242,7 @@
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\Utility.cs" />
     <Compile Include="Filters\AuthenticationFilter.cs" />
+    <Compile Include="Filters\MedicalFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -329,6 +330,10 @@
     <Compile Include="Migrations\201811040205120_Modelo Anamneses.Designer.cs">
       <DependentUpon>201811040205120_Modelo Anamneses.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811101324317_AddMedicalUser.cs" />
+    <Compile Include="Migrations\201811101324317_AddMedicalUser.Designer.cs">
+      <DependentUpon>201811101324317_AddMedicalUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Arquivo.cs" />
@@ -380,6 +385,7 @@
     <Content Include="Content\Images\ui-icons_cc0000_256x240.png" />
     <Content Include="Content\Images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\tingle.css" />
     <Content Include="Scripts\health-solution\atendimento.js" />
     <Content Include="Scripts\health-solution\consultasEdit.js" />
     <Content Include="Scripts\health-solution\home.js" />
@@ -443,6 +449,7 @@
     <Content Include="Scripts\print.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\tingle.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
@@ -617,6 +624,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811040205120_Modelo Anamneses.resx">
       <DependentUpon>201811040205120_Modelo Anamneses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811101324317_AddMedicalUser.resx">
+      <DependentUpon>201811101324317_AddMedicalUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

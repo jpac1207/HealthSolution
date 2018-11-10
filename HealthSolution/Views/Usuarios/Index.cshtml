@@ -14,20 +14,30 @@
     <tr class="bg-light text-dark">
         <th>
             Nome
-        </th>        
+        </th>
+        <th>
+            Médico
+        </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>       
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.Id }, new { @class = "btn btn-primary"}) |           
-            @Html.ActionLink("Excluir", "Delete", new { id=item.Id }, new { @class = "btn btn-danger" })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @(item.IsMedical ? "Sim" : "Não")
+            </td>
+            @if (item.Name != "admin")
+            {
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) |
+                    @Html.ActionLink("Excluir", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                </td>
+            }
+        </tr>
+    }
 
 </table>

@@ -7,6 +7,10 @@
     <title>@ViewBag.Title - Administração Clínica</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @{
+        var user = Session["userId"] != null ? Session["userId"].ToString() : "";
+        bool isAdmin = !string.IsNullOrEmpty(user) && user == "admin";
+    }
 </head>
 <body style="background-color:#E7ECEE">
     <div class="card rounded shadow p-3 mb-5" style="width:95%;height:90%;margin:auto">
@@ -47,7 +51,10 @@
                                     @Html.ActionLink("Especialidades", "Index", "Especialidades", new { }, new { @class = "dropdown-item" })
                                     @Html.ActionLink("Tipos de Procedimento", "Index", "Procedimentos", new { }, new { @class = "dropdown-item" })
                                     @Html.ActionLink("Finanças", "Finances", "Report", new { }, new { @class = "dropdown-item" })
-                                    @Html.ActionLink("Usuários", "Index", "Usuarios", new { }, new { @class = "dropdown-item danger" })
+                                    @if (isAdmin)
+                                    {
+                                        @Html.ActionLink("Usuários", "Index", "Usuarios", new { }, new { @class = "dropdown-item danger" })
+                                    }
                                 </div>
                             </li>
                         </ul>
@@ -69,7 +76,7 @@
                 <input type="hidden" id="PacienteViewModelController" value="@Url.Action("","PacienteViewModel",new { })" />
                 <input type="hidden" id="ProcedimentosController" value="@Url.Action("","Procedimentos",new { })" />
                 <input type="hidden" id="ConsultaController" value="@Url.Action("","ConsultaViewModel",new { })" />
-                <footer class="text-center">                   
+                <footer class="text-center">
                     <h6>&copy; @DateTime.Now.Year - Santa Rita Centro Médico</h6>
                 </footer>
             </div>
@@ -77,6 +84,7 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/modal")
     @Scripts.Render("~/Scripts/util")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Content/css")

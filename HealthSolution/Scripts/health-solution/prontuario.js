@@ -41,7 +41,11 @@ function sendFile() {
 
     $.ajax(options).then(function (data) {
         console.log(data);
-    }), function (err) { console.log(err) };
+        util.showModal("Arquivos salvos com sucesso!");
+    }), function (err) {
+        console.log(err);
+        util.showModal("Erro ao salvar arquivos!");
+    };
 }
 
 btnAdicionar.addEventListener('click', function (event) {

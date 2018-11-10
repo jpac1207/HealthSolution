@@ -50,13 +50,13 @@ namespace HealthSolution.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,HashValue")] Usuario usuario)
+        public ActionResult Create([Bind(Include = "Id,Name,HashValue,IsMedical")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
-                var current = db.Usuarios.Where(x => x.Name.ToUpper() == usuario.Name.ToUpper()).FirstOrDefault();
+                var previous = db.Usuarios.Where(x => x.Name.ToUpper() == usuario.Name.ToUpper()).FirstOrDefault();
 
-                if (current == null)
+                if (previous == null)
                 {
                     usuario.HashValue = HashUtil.ComputeHash(usuario.HashValue, null);
                     db.Usuarios.Add(usuario);
@@ -95,16 +95,22 @@ namespace HealthSolution.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,HashValue")] Usuario usuario)
+        public ActionResult Edit([Bind(Include = "Id,Name,HashValue,IsMedical")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
-                if (!string.IsNullOrEmpty(usuario.HashValue))
+                var previous = db.Usuarios.Where(x => x.Id == usuario.Id).FirstOrDefault();
+
+                if (previous != null)
                 {
-                    usuario.HashValue = HashUtil.ComputeHash(usuario.HashValue, null);
-                    db.Entry(usuario).State = EntityState.Modified;
+                    previous.Name = usuario.Name;
+                    previous.IsMedical = usuario.IsMedical;
+
+                    if (!string.IsNullOrEmpty(usuario.HashValue))
+                        previous.HashValue = HashUtil.ComputeHash(usuario.HashValue, null);
                     db.SaveChanges();
                 }
+
                 return RedirectToAction("Index");
             }
             return View(usuario);

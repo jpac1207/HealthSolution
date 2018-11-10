@@ -33,7 +33,8 @@ namespace HealthSolution
                       "~/Content/site.css",
                       "~/Content/open-iconic-bootstrap.css",
                       "~/Content/open-iconic.css",
-                      "~/Content/jquery-ui.css"));
+                      "~/Content/jquery-ui.css",
+                      "~/Content/tingle.css"));
 
             bundles.Add(new ScriptBundle("~/consulta").Include("~/Scripts/health-solution/consultas.js"));
             bundles.Add(new ScriptBundle("~/consultaEdit").Include("~/Scripts/health-solution/consultasEdit.js"));
@@ -43,6 +44,7 @@ namespace HealthSolution
             bundles.Add(new ScriptBundle("~/prontuario").Include("~/Scripts/health-solution/prontuario.js"));
             bundles.Add(new ScriptBundle("~/atendimento").Include("~/Scripts/health-solution/atendimento.js"));
             bundles.Add(new ScriptBundle("~/print").Include("~/Scripts/print.min.js"));
+            bundles.Add(new ScriptBundle("~/modal").Include("~/Scripts/tingle.js"));
             bundles.Add(new StyleBundle("~/printcss").Include("~/Scripts/print.min.css"));
         }
     }

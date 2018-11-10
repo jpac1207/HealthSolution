@@ -5,8 +5,10 @@ var fileList = [];
 var tbodyFiles = document.getElementById("tbodyFiles");
 var btnSalvar = document.getElementById("btnSalvar");
 var btnImprimir = document.getElementById("btnImprimir");
+var nomePaciente = document.getElementById("nome-paciente");
 var id;
 var tipo;
+var logo = document.getElementById("logo-clinica");
 
 btnSalvar.addEventListener('click', function (event) {
 
@@ -15,6 +17,42 @@ btnSalvar.addEventListener('click', function (event) {
     sendFile();
 
 });
+
+
+createdocument = function () {
+
+    var doc = new jsPDF("portrait", "mm", "a4");
+
+
+    doc.text(80, 15, "Clínica Santa Rita");
+    doc.line(5, 20, 205, 20);
+    
+    doc.setFillColor(240, 240, 240);
+    doc.rect(5, 25, 200, 10, 'FD');
+  //  var base64 = imageToBase64(logo.src);
+  //  console.log(base64);
+    doc.setFontSize(12);
+    doc.rect(5, 35, 200, 50);
+   // doc.addImage(base64, 'PNG', 15, 40);
+    doc.text(10, 33, "Identificação do Paciente");
+    doc.text(10, 42, "Nome:" + nomePaciente.innerHTML);
+    doc.text(10, 50, "Especialidade:" + $('#lblEspecialidademd').text());
+    doc.text(10, 58, "Data Nascimento: 24/10/2012" );
+
+
+    doc.text(80, 95, "Prescrição Médica");
+    doc.line(5, 99, 205, 99);
+    doc.rect(5, 105, 200, 120);
+    doc.text(10, 110, $("#txtAnotacaoEspecialista").text());
+
+    doc.line(35, 250, 170, 250);
+    doc.text(93, 254, "Médico(a)");
+   // doc.table(20, 200, [ ])
+    var string = doc.output('datauristring');
+    var x = window.open();
+    x.document.open();
+    x.document.location = string;
+}
 
 sendFile = function () {
     var arquivos = [];
@@ -37,6 +75,40 @@ sendFile = function () {
     }), function (err) { consoleg.log(err) };
 }
 
+function imageToBase64(url) {
+   /* var canvas, ctx, dataURL, base64;
+    canvas = document.getElementById("myCanvas");
+    ctx = canvas.getContext("2d");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx.drawImage(img, 0, 0);
+    dataURL = canvas.toDataURL("image/png");
+   // base64 = dataURL.replace(/^data:image\/png;base64,/, "");
+    return dataURL;*/
+
+   /* var img = new Image();
+
+    img.setAttribute('crossOrigin', 'anonymous');
+
+    img.onload = function () {
+        var canvas = document.createElement("canvas");
+        canvas.width = this.width;
+        canvas.height = this.height;
+
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(this, 0, 0);
+
+        var dataURL = canvas.toDataURL("image/png");
+        console.log(dataURL);
+        alert(dataURL.replace(/^data:image\/(png|jpg);base64,/, ""));
+        return dataURL;
+    };
+
+    img.src = url;*/
+
+   
+}
+
 btnAdicionar.addEventListener('click', function (event) {
 
         fileList.push(fileInput.file);
@@ -54,35 +126,8 @@ btnAdicionar.addEventListener('click', function (event) {
 });
 
 btnImprimir.addEventListener('click', function (event) {
-    var someJSONdata = [
-        {
-            name: 'John Doe',
-            email: 'john@doe.com',
-            phone: '111-111-1111'
-        },
-        {
-            name: 'Barry Allen',
-            email: 'barry@flash.com',
-            phone: '222-222-2222'
-        },
-        {
-            name: 'Cool Dude',
-            email: 'cool@dude.com',
-            phone: '333-333-3333'
-        }
-    ]
-
-    printJS({
-        printable: someJSONdata,
-        properties: ['name', 'email', 'phone'],
-        type: 'json',
-        gridHeaderStyle: 'color: red;  border: 2px solid #3971A5;',
-        gridStyle: 'border: 2px solid #3971A5;'
-    })
+    createdocument();
 });
-
-
-
 
 $('#modalProntuario').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget) // Button that triggered the modal
@@ -105,7 +150,9 @@ function getProntuario (tipo, id, modal) {
     util.doAjax(baseUrlPaciente + method, "{tipo:'" + tipo + "', id:'" + id + "'}").then(function (data) {
         
         if (data) {
+            console.log(data);
             modal.find("#lblTipo").text(data.Tipo);
+            modal.find("#lblPacientemd").text(data.NomePaciente);
             modal.find('#lblEspecialistamd').text(data.NomeEspecialista);
             modal.find('#lblEspecialidademd').text(data.Especialidade);
             var date = new Date(parseInt(data.Date.replace(/\/Date\((-?\d+)\)\//, '$1')));

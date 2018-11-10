@@ -46,18 +46,19 @@
 
         <div class="col-md-9">
 
-            <div class="row mt-5">
-                <div class="col-md-7"></div>
+            <div class="row mt-5 mt-3">
+                <div class="col-md-8"></div>
 
-                <div class="col-md-5">
-                    <div class="row">
-                        @*@Html.DropDownList("ModeloAnamnese", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessage("ModeloAnamnese", "", new { @class = "text-danger" })*@
+                <div class="col-md-4">
+                    <div class="row float-right mr-1">
+                        @Html.DropDownList("ModeloAnamneses", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessage("ModeloAnamneses", "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
 
-            <div class="card">
+
+            <div class="card mt-3">
                 <div class="card-header">Anotações Médicos</div>
                 <div class="card-body">
                     @Html.TextArea("anotacaoEspecialista", new { @class = "form-control", @cols = 50, @rows = 7, @Styles = "border-top:none;border-right:none;border-bottom:1px;min-height:300px" })

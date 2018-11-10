@@ -363,6 +363,7 @@
     <Compile Include="ViewModels\IntervencaoViewModel.cs" />
     <Compile Include="ViewModels\PacienteViewModel.cs" />
     <Compile Include="ViewModels\ProntuarioViewModel.cs" />
+    <Compile Include="Controllers\ModeloAnamneseController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -380,6 +381,7 @@
     <Content Include="Content\Images\ui-icons_cc0000_256x240.png" />
     <Content Include="Content\Images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Scripts\canvas.js" />
     <Content Include="Scripts\health-solution\atendimento.js" />
     <Content Include="Scripts\health-solution\consultasEdit.js" />
     <Content Include="Scripts\health-solution\home.js" />
@@ -432,6 +434,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jspdf.debug.js" />
     <Content Include="Scripts\jspdf.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\popper-utils.js" />
@@ -539,6 +542,11 @@
     <Content Include="Views\Report\Finances.cshtml" />
     <Content Include="Views\EspecialistaViewModel\Agenda.cshtml" />
     <Content Include="Views\EspecialistaViewModel\Atendimento.cshtml" />
+    <Content Include="Views\ModeloAnamnese\Create.cshtml" />
+    <Content Include="Views\ModeloAnamnese\Delete.cshtml" />
+    <Content Include="Views\ModeloAnamnese\Details.cshtml" />
+    <Content Include="Views\ModeloAnamnese\Edit.cshtml" />
+    <Content Include="Views\ModeloAnamnese\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

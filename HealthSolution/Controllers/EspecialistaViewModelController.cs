@@ -120,7 +120,7 @@ namespace HealthSolution.Controllers
                 especialistas = lvespecialistas;
                 ViewBag.especialidade = especialidade;
             }
-
+            
             queryOptions.SortOrder = SortOrder.DESC;
             var start = (queryOptions.CurrentPage - 1) * queryOptions.PageSize;
             queryOptions.TotalPages = (int)Math.Ceiling((double)especialistas.Count() / queryOptions.PageSize);
@@ -517,7 +517,7 @@ namespace HealthSolution.Controllers
                 var procedimento = db.Intervencoes.Where(x => x.Id == id).Include(x => x.Paciente).Include(x => x.Especialista).Include(x => x.Procedimento).FirstOrDefault();
                 atendimento.NomePaciente = procedimento.Paciente.Nome;
                 atendimento.DataNascimento = procedimento.Paciente.DataNascimento;
-                atendimento.Tipo = "Consulta";
+                atendimento.Tipo = "Procedimento";
                 atendimento.NomeEspecialista = procedimento.Especialista.Nome;
                 atendimento.AnotacaoEspecialista = procedimento.AnotacaoEspecialista;
                 atendimento.IdAtendimento = int.Parse(id.ToString());
@@ -526,6 +526,20 @@ namespace HealthSolution.Controllers
                 atendimento.Observacao = procedimento.Observacao;
                 atendimento.AnotacaoMedicamentos = procedimento.Medicamentos;
             }
+            
+            var anamneses = db.ModelosAnamneses.ToList();
+           
+            var modelos = new SelectListItem();
+
+            List<SelectListItem> modeloAnamneses = new List<SelectListItem>();
+
+            modeloAnamneses.Add(new SelectListItem() { Text = "Selecione um Modelo Anamnese", Value = "-1" });
+            foreach ( ModeloAnamnese anamnese in anamneses)
+            {
+                   modeloAnamneses.Add(new SelectListItem() { Text = anamnese.Nome, Value = anamnese.Id.ToString() });
+            }
+
+            ViewBag.ModeloAnamneses = modeloAnamneses;
 
             if (atendimento == null)
             {
@@ -764,7 +778,7 @@ namespace HealthSolution.Controllers
 
             foreach( Medicamento medicamento in medicamentos)
             {
-                nomemedicamentos.Add(medicamento.Nome);
+                nomemedicamentos.Add(medicamento.Nome + " | " + medicamento.Apresentacao);
             }
 
             return Json(nomemedicamentos);

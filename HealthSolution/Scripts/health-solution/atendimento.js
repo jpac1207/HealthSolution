@@ -1,4 +1,23 @@
-﻿var baseUrl = document.getElementById("EspecialistaViewModelController").value + "/";
+﻿var baseUrl = document.getElementById("ModeloAnamneseController").value + "/";
+var modeloAnamneses = document.getElementById("ModeloAnamneses");
+var anotacaoEspecialista = document.getElementById("anotacaoEspecialista");
+
+modeloAnamneses.addEventListener('change', function (event) {
+    fnGetModeloAnmnese(modeloAnamneses.selectedIndex);
+});
+
+function fnGetModeloAnmnese(id) {
+
+    if (id != "-1") {
+        var util = new Util();
+        var method = 'GetModeloAnamneseById';
+        var params = "{id:'" + id + "'}";
+
+        util.doAjax(baseUrl + method, params).then(function (data) {
+            anotacaoEspecialista.value = data.Modelo;
+        }), function (err) { consoleg.log(err) };
+    }
+}
 
 $(function () {
 

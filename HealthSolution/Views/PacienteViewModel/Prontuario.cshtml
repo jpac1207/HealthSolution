@@ -1,7 +1,33 @@
 ﻿@model IEnumerable<HealthSolution.ViewModels.ProntuarioViewModel>
+@using HealthSolution.Extensions
 
 @{
     ViewBag.Title = "Prontuário";
+    var queryOptions = (QueryOptions)ViewBag.QueryOptions;
+}
+
+
+@{
+    string lvparams = "";
+    var doutor = "";
+    if (ViewBag.doutor != null)
+    {
+        doutor = ViewBag.doutor;
+    }
+
+    var procedimento = "";
+    if (ViewBag.procedimento != null)
+    {
+        procedimento = ViewBag.paciente;
+    }
+
+    var data = "";
+    if (ViewBag.data != null)
+    {
+        data = ViewBag.data;
+    }
+    
+    lvparams = string.Format("doutor={0}&procedimento={1}&data={2}", doutor, procedimento, data);
 }
 
 <p class="mt-3 ">

@@ -259,7 +259,7 @@ function run() {
 
 
                 var statusCell = row.insertCell(4);
-                statusCell.innerHTML = data[i].AtendimentoRealizado;
+                statusCell.innerHTML = data[i].AtendimentoRealizado == true ? "Atendimento Realizado" : "Falta Atendimento";
                 table.appendChild(row);
             }
 

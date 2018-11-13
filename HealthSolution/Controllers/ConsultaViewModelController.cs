@@ -219,14 +219,13 @@ namespace HealthSolution.Controllers
                             db.Pacientes.Add(paciente);
                             db.SaveChanges();
                         }
-
+                        
                         Arquivo arquivo = new Arquivo();
                         arquivo.OriginalName = "";
                         arquivo.Path = "#";
                         db.Arquivos.Add(arquivo);
                         db.SaveChanges();
-
-
+                        
                         var consulta = new Consulta();
                         consulta.Date = consultaViewModel.Date;
                         consulta.Hora = consultaViewModel.Hora;
@@ -237,6 +236,7 @@ namespace HealthSolution.Controllers
                         consulta.Observacao = consultaViewModel.Observacao;
                         consulta.ValorPago = consultaViewModel.ValorPago;
                         consulta.ArquivoId = arquivo.Id;
+                        consulta.AtendimentoRealizado = false;
                         db.Consultas.Add(consulta);
                         db.SaveChanges();
 

@@ -25,5 +25,6 @@ namespace HealthSolution.Models
         public int ArquivoId { get; set; }
         public string AnotacaoEspecialista { get; set; }
         public string Medicamentos { get; set; }
+        public Boolean AtendimentoRealizado { get; set; }
     }
 }

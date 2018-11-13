@@ -1,0 +1,6 @@
+12/11/2018 23:52:25 => An error occurred while updating the entries. See the inner exception for details.
+12/11/2018 23:52:25 =>    em System.Data.Entity.Internal.InternalContext.SaveChanges()
+   em System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   em System.Data.Entity.DbContext.SaveChanges()
+   em HealthSolution.Controllers.ConsultaViewModelController.Create(ConsultaViewModel consultaViewModel, Paciente formPaciente, String cidade, String bairro, String rua, String numero, String telefone, HttpPostedFileBase file) na C:\Users\adacf\source\repos\HealthSolution\HealthSolution\Controllers\ConsultaViewModelController.cs:linha 243
+12/11/2018 23:52:25 => Cannot add or update a child row: a foreign key constraint fails ("bdhealthsolution"."tbconsulta", CONSTRAINT "FK_tbconsulta_tbarquivo_ArquivoId" FOREIGN KEY ("ArquivoId") REFERENCES "tbarquivo" ("Id") ON DELETE CASCADE ON UPDATE CASCADE)

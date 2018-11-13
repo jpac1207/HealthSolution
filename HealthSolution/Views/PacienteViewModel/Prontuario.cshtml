@@ -51,15 +51,6 @@
                 </div>
                 <button class="btn btn-light mt-4 float-right" data-toggle="modal" data-target=".bd-example-modal-lg" id="@item.Tipo-@item.Id">Visualizar</button>
             </div>
-            @*<tr>
-                    <td>@item.Tipo</td>
-                    <td>@item.NomePaciente</td>
-                    <td>@item.NomeEspecialista</td>
-                    <td>@(item.Date != null ? item.Date.Date.ToString("dd/MM/yyyy") : "")</td>
-                    <td>@item.Especialidade</td>
-                    <td>@item.Observacao</td>
-                    <td>@item.FormaPagamento</td>
-                </tr>*@
         </div>
         <br />
     }
@@ -67,7 +58,7 @@
 
 </div>
 <div>
-    @Html.ActionLink("Voltar para a Lista", "Index")
+    @Html.ActionLink("Voltar", "Index")
 </div>
 
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"

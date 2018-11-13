@@ -126,3 +126,16 @@ textarea {
 .custom-file-control {
     white-space: nowrap;
 }
+
+.link-3 {
+    transition: 0.3s;
+    color: #ffffff;
+    padding: 2px 10px;
+    margin: 2px 10px;
+}
+
+    .link-3:hover {
+        border-bottom: 1px solid;
+        padding: 2px 10px;
+        margin: 2px 10px;
+    }

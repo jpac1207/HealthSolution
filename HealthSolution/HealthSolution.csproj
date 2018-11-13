@@ -334,6 +334,14 @@
     <Compile Include="Migrations\201811101324317_AddMedicalUser.Designer.cs">
       <DependentUpon>201811101324317_AddMedicalUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811130115153_boolean consultaEAtendimento.cs" />
+    <Compile Include="Migrations\201811130115153_boolean consultaEAtendimento.Designer.cs">
+      <DependentUpon>201811130115153_boolean consultaEAtendimento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811130126332_boolean procedimento.cs" />
+    <Compile Include="Migrations\201811130126332_boolean procedimento.Designer.cs">
+      <DependentUpon>201811130126332_boolean procedimento.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Arquivo.cs" />
@@ -387,7 +395,6 @@
     <Content Include="Content\Images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Scripts\canvas.js" />
-
     <Content Include="Content\tingle.css" />
     <Content Include="Scripts\health-solution\atendimento.js" />
     <Content Include="Scripts\health-solution\consultasEdit.js" />
@@ -444,6 +451,8 @@
     <Content Include="Scripts\jspdf.debug.js" />
     <Content Include="Scripts\jspdf.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\pdfmake.js" />
+    <Content Include="Scripts\pdfmake.min.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -459,6 +468,7 @@
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Scripts\Util.js" />
+    <Content Include="Scripts\vfs_fonts.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -636,6 +646,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811101324317_AddMedicalUser.resx">
       <DependentUpon>201811101324317_AddMedicalUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811130115153_boolean consultaEAtendimento.resx">
+      <DependentUpon>201811130115153_boolean consultaEAtendimento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811130126332_boolean procedimento.resx">
+      <DependentUpon>201811130126332_boolean procedimento.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

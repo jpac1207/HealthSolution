@@ -586,8 +586,8 @@ namespace HealthSolution.Controllers
 
             if (especialistaId > 0)
             {
-                consultas = consultas.Where(x => x.EspecialistaId == especialistaId).ToList();
-                procedimentos = procedimentos.Where(x => x.EspecialistaId == especialistaId).ToList();
+                consultas = consultas.Where(x => x.EspecialistaId == especialistaId).OrderByDescending( x => x.Date).ToList();
+                procedimentos = procedimentos.Where(x => x.EspecialistaId == especialistaId).OrderByDescending( x => x.Date).ToList();
                 ViewBag.especialistaId = new SelectList(db.Especialistas.ToList(), "Id", "Nome", especialistaId);
             }
 
@@ -603,7 +603,8 @@ namespace HealthSolution.Controllers
                     Especialidade = x.Especialidade.Nome,
                     NomePaciente = x.Paciente.Nome,
                     Observacao = x.Observacao,
-                    Id = x.Id
+                    Id = x.Id,
+                    AtendimentoRealizado = x.AtendimentoRealizado
                 });
             });
 
@@ -619,7 +620,8 @@ namespace HealthSolution.Controllers
                     Doutor = x.Especialista.Nome,
                     NomePaciente = x.Paciente.Nome,
                     Observacao = x.Observacao,
-                    Id = x.Id
+                    Id = x.Id,
+                    AtendimentoRealizado = x.AtendimentoRealizado
                 });
             });
 
@@ -748,6 +750,7 @@ namespace HealthSolution.Controllers
                             Include(x => x.Especialidade).Include(x => x.Especialista).FirstOrDefault();
                         consulta.AnotacaoEspecialista = anotacaoEspecialista;
                         consulta.Medicamentos = anotacaoMedicamentos;
+                        consulta.AtendimentoRealizado = true;
                     }
                     else if (tipo == "Procedimento")
                     {
@@ -755,6 +758,7 @@ namespace HealthSolution.Controllers
                             Include(x => x.Procedimento).Include(x => x.Especialista).FirstOrDefault();
                         procedimento.AnotacaoEspecialista = anotacaoEspecialista;
                         procedimento.Medicamentos = anotacaoMedicamentos;
+                        procedimento.AtendimentoRealizado = true;
                     }
 
                     db.SaveChanges();

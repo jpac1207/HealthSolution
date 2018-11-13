@@ -20,6 +20,7 @@ namespace HealthSolution.ViewModels
         public string Medicamentos { get; set; }
         public int Hora { get; set; }
         public int Minuto { get; set; }
+        public Boolean AtendimentoRealizado { get; set; }
         public List<AtendimentoArquivo> Arquivos { get; set; }
     }
 }

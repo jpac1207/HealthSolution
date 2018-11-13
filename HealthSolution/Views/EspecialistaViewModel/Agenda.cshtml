@@ -67,7 +67,7 @@
                 <td>@item.Doutor</td>
                 <td>@item.NomePaciente</td>
                 <td>@item.Observacao</td>
-                <td>@(item.AtendimentoRealizado == true ? "Atendimento Realizado" : ""  )</td>
+                <td>@(item.AtendimentoRealizado == true ? "Atendimento Realizado" : "-"  )</td>
                 <td>@(item.AtendimentoRealizado == true ? (@Html.ActionLink("Alterar Atendimento", "Atendimento", new { id = item.Id, tipo = item.Tipo }, new { @class = "btn btn-link" })) : (@Html.ActionLink("Seguir Atendimento", "Atendimento", new { id = item.Id, tipo = item.Tipo }, new { @class = "btn btn-link" }))  )
             </tr>
         }

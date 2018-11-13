@@ -290,7 +290,7 @@ namespace HealthSolution.Controllers
         }
 
         [MedicalFilter]
-        public ActionResult Prontuario(int? id)
+        public ActionResult Prontuario(int? id, string doutor, string procedimento, string data)
         {
             if (id == null)
             {
@@ -311,6 +311,30 @@ namespace HealthSolution.Controllers
                 .Include(x => x.Procedimento).Include(x => x.Paciente)
                 .Include(x => x.Especialista).ToList();
             var prontuarios = new List<ProntuarioViewModel>();
+
+            if (!string.IsNullOrEmpty(doutor))
+            {
+                consultas = consultas.Where(x => x.Especialista.Nome.ToUpper().Contains(doutor.ToUpper())).ToList();
+                procedimentos = procedimentos.Where(x => x.Especialista.Nome.ToUpper().Contains(doutor.ToUpper())).ToList();
+                ViewBag.doutor = doutor;
+            }
+            if (!string.IsNullOrEmpty(procedimento))
+            {                
+                procedimentos = procedimentos.Where(x => x.Procedimento.Nome.ToUpper().Contains(procedimento.ToUpper())).ToList();
+                consultas = new List<Consulta>();
+                ViewBag.procedimento = procedimento;
+            }
+            if (!string.IsNullOrEmpty(data))
+            {
+                DateTime lvDateTime = DateTime.MinValue;
+
+                if (DateTime.TryParse(data, out lvDateTime))
+                {
+                    consultas = consultas.Where(x => x.Date == lvDateTime).ToList();
+                    procedimentos = procedimentos.Where(x => x.Date == lvDateTime).ToList();
+                    ViewBag.data = data;
+                }
+            }
 
             consultas.ForEach(x =>
             {
@@ -411,7 +435,7 @@ namespace HealthSolution.Controllers
                 List<AtendimentoArquivo> arquivos = db.AtendimentoArquivo.Where(x => x.AtendimentoId == id).
                                                     Where(x => x.Tipo == tipo).Include(x => x.Arquivo).ToList();
                 prontuario.Arquivos = arquivos;
- 
+
             }
 
             if (tipo.Equals("Procedimento"))

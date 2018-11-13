@@ -124,6 +124,20 @@ namespace HealthSolution.Controllers
             return Json(modelo);
         }
 
+        [HttpPost]
+        public ActionResult GetMedicamentos()
+        {
+            List<String> nomemedicamentos = new List<String>();
+            List<Medicamento> medicamentos = db.Medicamentos.ToList();
+
+            foreach (Medicamento medicamento in medicamentos)
+            {
+                nomemedicamentos.Add(medicamento.Nome + " | " + medicamento.Apresentacao);
+            }
+
+            return Json(nomemedicamentos);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -17,7 +17,7 @@ btnSalvar.addEventListener('click', function (event) {
 });
 
 $(".btnDownload").click(function (event) {
-    
+
 });
 
 function createPDF() {
@@ -39,28 +39,28 @@ function createPDF() {
                 },
                 {
                     columns: [
-                        
+
                         {
                             fontSize: 10,
                             text: 'Clínica Santa Rita', style: 'header', alignment: 'center', bold: false, margin: [20, 2, 10, 20], fontSize: 14
                         }
                     ]
                 },
-                { canvas: [{ type: 'rect', x: 0, y: 0, w: 510, h: 10, color: "#F0F0F0" }]},
+                { canvas: [{ type: 'rect', x: 0, y: 0, w: 510, h: 10, color: "#F0F0F0" }] },
                 { text: "Paciente: " + nomePaciente.innerHTML, alignment: 'left', margin: [5, 10, 0, 0], fontSize: 12, bold: false },
                 { text: "Especialidade: " + $('#lblEspecialidademd').text(), alignment: 'left', margin: [5, 2, 0, 0], fontSize: 12, bold: false },
                  { text: "Especialista: " + $('#lblEspecialistamd').text(), alignment: 'left', margin: [5, 2, 0, 0], fontSize: 12, bold: false },
-                { canvas: [{ type: 'rect', x: 0, y: 10, w: 510, h: 10, color: "#F0F0F0" }]},
+                { canvas: [{ type: 'rect', x: 0, y: 10, w: 510, h: 10, color: "#F0F0F0" }] },
                 { text: "Prescrição Médica", alignment: 'center', margin: [5, 5, 0, 0], fontSize: 13, bold: true },
                 {
                     table: {
 
                         widths: [500],
                         heights: [480],
-                        body: [ 
+                        body: [
                                 [$("#txtMedicamentos").text()],
                         ]
-                   }
+                    }
                 },
                 {
                     canvas: [{
@@ -69,7 +69,7 @@ function createPDF() {
                         x2: 510, y2: 38,
                         lineWidth: 0.8,
                         margin: [0, 0, 0, 5]
-                     }]
+                    }]
                 },
                 { text: "Médico(a)", alignment: 'center', margin: [0, 10, 0, 0], fontSize: 13, bold: true },
             ]
@@ -93,7 +93,7 @@ function sendFile() {
     formData.append("tipo", tipo);
 
     var util = new Util();
-    var method = 'SalvarArquivos';   
+    var method = 'SalvarArquivos';
 
     var options = {
         url: baseUrlPaciente + method,
@@ -124,10 +124,10 @@ function imageToBase64(img) {
     canvas.height = img.height;
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
     dataURL = canvas.toDataURL();
-   // base64 = dataURL.replace(/^data:image\/png;base64,/, "");
+    // base64 = dataURL.replace(/^data:image\/png;base64,/, "");
     alert(dataURL);
     return dataURL;
- 
+
 }
 
 btnAdicionar.addEventListener('click', function (event) {
@@ -138,7 +138,7 @@ btnAdicionar.addEventListener('click', function (event) {
     lvNameCell.innerHTML = "<label class='ml-3 mt-2'>" + fileInput.files[0].name + "</label>";
 
     var lvNameCell1 = row.insertCell(1);
-   // lvNameCell1.innerHTML = "<a><span class='ml-4 oi oi-data-transfer-download mt-2' style='font-size:large; color: dimgrey; cursor: pointer'></span>/a>";
+    // lvNameCell1.innerHTML = "<a><span class='ml-4 oi oi-data-transfer-download mt-2' style='font-size:large; color: dimgrey; cursor: pointer'></span>/a>";
     tbodyFiles.appendChild(row);
 });
 
@@ -155,9 +155,7 @@ $('#modalProntuario').on('show.bs.modal', function (event) {
     var modal = $(this)
 
     tipo = button.attr("id").split("-")[0];
-
     id = button.attr("id").split("-")[1];
-    
     getProntuario(tipo, id, modal);
 })
 
@@ -188,11 +186,11 @@ function getProntuario(tipo, id, modal) {
                     var lvNameCell = row.insertCell(0);
                     lvNameCell.innerHTML = "<label class='ml-3 mt-2'>" + data.Arquivos[i].Arquivo.OriginalName + "</label>";
                     var lvNameCell1 = row.insertCell(1);
-                    lvNameCell1.style.cssFloat = "right";
-                    lvNameCell1.innerHTML = "<a href=" + baseUrlConsulta + "GetFile?filename=" + data.Arquivos[i].Arquivo.Path + " class='btnDownload'><span class='ml-4 oi oi-data-transfer-download mt-2' style='font-size:large; color: dimgrey; cursor: pointer'></span></a>";
+                    lvNameCell1.style.cssFloat = "right";                    
+                    lvNameCell1.innerHTML = "<a href=" + baseUrlConsulta + "GetFile?filename=" + encodeURI(data.Arquivos[i].Arquivo.Path) + " class='btnDownload'><span class='ml-4 oi oi-data-transfer-download mt-2' style='font-size:large; color: dimgrey; cursor: pointer'></span></a>";
                     tbodyFiles.appendChild(row);
                 }
-               
+
             }
         }
 

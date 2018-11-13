@@ -120,7 +120,7 @@ namespace HealthSolution.Controllers
                 especialistas = lvespecialistas;
                 ViewBag.especialidade = especialidade;
             }
-            
+
             queryOptions.SortOrder = SortOrder.DESC;
             var start = (queryOptions.CurrentPage - 1) * queryOptions.PageSize;
             queryOptions.TotalPages = (int)Math.Ceiling((double)especialistas.Count() / queryOptions.PageSize);
@@ -527,17 +527,17 @@ namespace HealthSolution.Controllers
                 atendimento.Observacao = procedimento.Observacao;
                 atendimento.AnotacaoMedicamentos = procedimento.Medicamentos;
             }
-            
+
             var anamneses = db.ModelosAnamneses.ToList();
-           
+
             var modelos = new SelectListItem();
 
             List<SelectListItem> modeloAnamneses = new List<SelectListItem>();
 
             modeloAnamneses.Add(new SelectListItem() { Text = "Selecione um Modelo Anamnese", Value = "-1" });
-            foreach ( ModeloAnamnese anamnese in anamneses)
+            foreach (ModeloAnamnese anamnese in anamneses)
             {
-                   modeloAnamneses.Add(new SelectListItem() { Text = anamnese.Nome, Value = anamnese.Id.ToString() });
+                modeloAnamneses.Add(new SelectListItem() { Text = anamnese.Nome, Value = anamnese.Id.ToString() });
             }
 
             ViewBag.ModeloAnamneses = modeloAnamneses;
@@ -586,8 +586,8 @@ namespace HealthSolution.Controllers
 
             if (especialistaId > 0)
             {
-                consultas = consultas.Where(x => x.EspecialistaId == especialistaId).OrderByDescending( x => x.Date).ToList();
-                procedimentos = procedimentos.Where(x => x.EspecialistaId == especialistaId).OrderByDescending( x => x.Date).ToList();
+                consultas = consultas.Where(x => x.EspecialistaId == especialistaId).OrderByDescending(x => x.Date).ToList();
+                procedimentos = procedimentos.Where(x => x.EspecialistaId == especialistaId).OrderByDescending(x => x.Date).ToList();
                 ViewBag.especialistaId = new SelectList(db.Especialistas.ToList(), "Id", "Nome", especialistaId);
             }
 
@@ -772,21 +772,6 @@ namespace HealthSolution.Controllers
             }
             return RedirectToAction("Agenda");
 
-        }
-
-        [HttpPost]
-        public ActionResult GetMedicamentos()
-        {
-            List<String> nomemedicamentos = new List<String>();
-
-            List<Medicamento> medicamentos = db.Medicamentos.ToList();
-
-            foreach( Medicamento medicamento in medicamentos)
-            {
-                nomemedicamentos.Add(medicamento.Nome + " | " + medicamento.Apresentacao);
-            }
-
-            return Json(nomemedicamentos);
         }
 
         public ActionResult Export([Form] QueryOptions queryOptions, string nome, string crm, string especialidade)

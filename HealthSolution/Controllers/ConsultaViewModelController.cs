@@ -613,7 +613,7 @@ namespace HealthSolution.Controllers
                     fileBytes = System.IO.File.ReadAllBytes(fileName);
                     string lvfileName = fileName.Split(new string[] { @"Clientes\" }, StringSplitOptions.None)[1];
                     return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, lvfileName);
-                }
+                }               
                 Response.ClearContent();
                 Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
                 Response.Flush();
@@ -621,7 +621,7 @@ namespace HealthSolution.Controllers
                 return null;
             }
             catch (Exception)
-            {
+            {                
                 Response.ClearContent();
                 Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
                 Response.Flush();

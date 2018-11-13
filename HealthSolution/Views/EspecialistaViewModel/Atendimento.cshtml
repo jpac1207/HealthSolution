@@ -13,26 +13,43 @@
     @Html.AntiForgeryToken()
 
     <div class="row mt-5">
+        <div class="col-md-8"></div>
+
+        <div class="col-md-4">
+            <div class="row float-right mr-1">
+                @Html.DropDownList("ModeloAnamneses", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessage("ModeloAnamneses", "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1">
 
         <div class="col-md-3">
 
-            <div class="card" style="background-color:#F1EDF8;min-height:100%;">
+            <div class="card shadow" style="background-color:#F1EDF8;min-height:100%;">
                 <table class="m-3">
                     <tr>
                         <td>
-                            <label class="font-weight-bold" style="color:dimgray;font-size:large">Nome:</label> <label style="font-size:medium">@Model.NomePaciente</label>
+                            <label class="font-weight-bold" style="color:dimgray;font-size:large">Paciente:</label> <label style="font-size:medium" id="lblPaciente">@Model.NomePaciente</label>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label class="font-weight-bold" style="color:dimgray;font-size:large">Data de Nascimento:</label> <label style="font-size:medium"> @Model.DataNascimento</label>
+                            <label class="font-weight-bold" style="color:dimgray;font-size:large">Data de Nascimento:</label> <label style="font-size:medium"> @Model.DataNascimento.Day/@Model.DataNascimento.Month/@Model.DataNascimento.Year</label>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label class="font-weight-bold" style="color:dimgray;font-size:large"> @(Model.Tipo == "Consulta" ? "Especialidade" : "Procedimento"): </label> <label style="font-size:medium"> @Model.Especialidade</label>
+                            <label class="font-weight-bold" style="color:dimgray;font-size:large" id="lblEspecialidade"> @(Model.Tipo == "Consulta" ? "Especialidade" : "Procedimento"): </label> <label style="font-size:medium"> @Model.Especialidade</label>
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <label class="font-weight-bold" style="color:dimgray;font-size:large" >Especialista</label> <label style="font-size:medium" id="lblEspecialista"> @Model.NomeEspecialista </label>
+                        </td>
+                    </tr>
+
 
                     <tr>
                         <td>
@@ -46,21 +63,10 @@
 
         <div class="col-md-9">
 
-            <div class="row mt-5">
-                <div class="col-md-7"></div>
-
-                <div class="col-md-5">
-                    <div class="row">
-                        @*@Html.DropDownList("ModeloAnamnese", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessage("ModeloAnamnese", "", new { @class = "text-danger" })*@
-                    </div>
-                </div>
-            </div>
-
             <div class="card">
                 <div class="card-header">Anotações Médicos</div>
                 <div class="card-body">
-                    @Html.TextArea("anotacaoEspecialista", new { @class = "form-control", @cols = 50, @rows = 7, @Styles = "border-top:none;border-right:none;border-bottom:1px;min-height:300px" })
+                    @Html.TextArea("anotacaoEspecialista", new { @class = "form-control", @cols = 50, @rows = 15, @Styles = "border-top:none;border-right:none;border-bottom:1px;min-height:400px" })
                 </div>
 
             </div>
@@ -90,7 +96,7 @@
     <input type="hidden" name="tipo" value="@Model.Tipo" />
 
     <div class="text-center">
-        <button class="btn btn-success mt-5" id="btnImprimir"> Imprimir Receita</button>
+        <input type="submit" value="Imprimir Receita" class="btn btn-success mt-5" id="btnImprimir"/>
         @*@Html.ActionLink("Salvar Atendimento", "SalvarAtendimento", new { id = Model.IdAtendimento, tipo = Model.Tipo, anotacao = Model.AnotacaoEspecialista }, new { @class = "btn btn-primary mt-5" })*@
         <input type="submit" value="Salvar Atendimento" class="btn btn-primary mt-5" />
     </div>
@@ -98,5 +104,7 @@
 
 
 @section Scripts {
+    @Scripts.Render("~/print");
+    @Scripts.Render("~/printcss");
     @Scripts.Render("~/atendimento")
 }

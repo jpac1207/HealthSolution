@@ -7,6 +7,7 @@ var textPacienteCPF = document.getElementById("Cpf");
 var textDate = document.getElementById("Date");
 var textHora = document.getElementById("Hora");
 var textMinuto = document.getElementById("Minuto");
+var btnBuscar = document.getElementById("btnBuscar");
 
 var fnMudarDropDoutor = function () {
 
@@ -102,9 +103,10 @@ function fnVerifyHour(data, hora, minuto, doutorId) {
 }
 
 dropEspecialidade.onchange = fnMudarDropDoutor;
-textPacienteCPF.onchange = fnPesquisarCPF;
+//textPacienteCPF.onchange = fnPesquisarCPF;
 textDate.onchange = fnVerificarHorario;
 textHora.onchange = fnVerificarHorario;
 textMinuto.onchange = fnVerificarHorario;
 dropDoutor.onchange = fnVerificarHorario;
+btnBuscar.onclick = fnPesquisarCPF;
 fnMudarDropDoutor();

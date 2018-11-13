@@ -96,6 +96,8 @@ function consulta(pesquisa) {
             phoneCell.innerHTML = "Especialista";
             var phoneCell = headerRow.insertCell(3);
             phoneCell.innerHTML = "Horário";
+            var phoneCell = headerRow.insertCell(4);
+            phoneCell.innerHTML = "Status";
 
             table.appendChild(headerRow);
 
@@ -114,6 +116,9 @@ function consulta(pesquisa) {
 
                 var lvPhoneCell = row.insertCell(3);
                 lvPhoneCell.innerHTML = util.getHour(parseInt(data[i].Hora), parseInt(data[i].Minuto));
+               
+                var lvPhoneCell = row.insertCell(4);
+                lvPhoneCell.innerHTML = "ok";
                 table.appendChild(row);
             }
 
@@ -183,6 +188,8 @@ function run() {
             phoneCell.innerHTML = "Especialista";
             var phoneCell = headerRow.insertCell(3);
             phoneCell.innerHTML = "Horário";
+            var statusCell = headerRow.insertCell(4);
+            statusCell.innerHTML = "Status";
 
             table.appendChild(headerRow);
 
@@ -201,6 +208,10 @@ function run() {
 
                 var lvPhoneCell = row.insertCell(3);
                 lvPhoneCell.innerHTML = util.getHour(parseInt(data[i].Hora), parseInt(data[i].Minuto));
+
+                var statusCell = row.insertCell(4);
+                statusCell.innerHTML = data[i].AtendimentoRealizado == true ? "Atendimento Realizado" : "Falta Atendimento";
+
                 table.appendChild(row);
             }
 
@@ -223,7 +234,9 @@ function run() {
             var phoneCell = headerRow.insertCell(2);
             phoneCell.innerHTML = "Especialista";
             var phoneCell = headerRow.insertCell(3);
-            phoneCell.innerHTML = "Horário";          
+            phoneCell.innerHTML = "Horário";
+            var statusCell = headerRow.insertCell(4);
+            var statusCell = "Status";
             table.appendChild(headerRow);
 
             for (var i = 0; i < data.length; i++) {
@@ -243,6 +256,10 @@ function run() {
 
                 var lvPhoneCell = row.insertCell(3);
                 lvPhoneCell.innerHTML = util.getHour(parseInt(data[i].Hora), parseInt(data[i].Minuto));
+
+
+                var statusCell = row.insertCell(4);
+                statusCell.innerHTML = data[i].AtendimentoRealizado;
                 table.appendChild(row);
             }
 

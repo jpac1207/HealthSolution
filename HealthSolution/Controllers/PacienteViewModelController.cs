@@ -411,6 +411,7 @@ namespace HealthSolution.Controllers
                 List<AtendimentoArquivo> arquivos = db.AtendimentoArquivo.Where(x => x.AtendimentoId == id).
                                                     Where(x => x.Tipo == tipo).Include(x => x.Arquivo).ToList();
                 prontuario.Arquivos = arquivos;
+ 
             }
 
             if (tipo.Equals("Procedimento"))

@@ -34,5 +34,6 @@ namespace HealthSolution.Dal
         public IDbSet<Medicamento> Medicamentos { get; set; }
         public IDbSet<AtendimentoArquivo> AtendimentoArquivo { get; set; }
         public IDbSet<ModeloAnamnese> ModelosAnamneses { get; set; }
+        
     }
 }

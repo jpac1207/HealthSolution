@@ -16,32 +16,27 @@
     <div class="card rounded shadow p-3 mb-5" style="width:95%;height:90%;margin:auto">
         <div class="card-body">
             <label class="float-left infLabel form-control" id="ipLabel" style="display:none">@Utility.GetLocalIPAddress()</label>
-            <img src="~/Content/Images/logo1.png" class="logo-central" />
+            <img src="~/Content/Images/logo1.png" class="logo-central" id="logo-clinica">
             <img src="~/Content/Images/information.png" style="float:right;" id="imgInformation" />
             <br />
             <hr />
-            <div class="">
-                <nav class="navbar navbar-expand-xl" style="background-color:#265484">
+                <nav class="navbar navbar-expand-xl" style="background-color:#265484; max-height:64px">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggler"
                                 data-toggle="collapse" data-target=".navbar-collapse">
                             <span class="navbar-toggler-icon"></span>
                         </button>
-                        @*@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
-                        @*<a class="navbar-brand" href="/">
-                                <img src="~/Content/Images/logo.png" />
-                            </a>*@
                     </div>
-                    <div class="navbar-collapse collapse">
-                        <ul class="navbar-nav">
-                            <li class="nav-item active">@Html.ActionLink("Home", "Index", "Home", new { }, new { @class = "nav-link" })</li>
+                    <div class="navbar-collapse collapse" style="height:100%">
+                        <ul class="navbar-nav" >
+                            <li class="nav-item active link-3">@Html.ActionLink("Home", "Index", "Home", new { }, new { @class = "nav-link" })</li>
                             @*<li class="nav-item">@Html.ActionLink("Sobre", "About", "Home", new { }, new { @class = "nav-link" })</li>*@
-                            <li class="nav-item">@Html.ActionLink("Agenda", "Agenda", "EspecialistaViewModel", new { }, new { @class = "nav-link" })</li>
-                            <li class="nav-item">@Html.ActionLink("Pacientes", "Index", "PacienteViewModel", new { }, new { @class = "nav-link" })</li>
-                            <li class="nav-item">@Html.ActionLink("Consultas", "Index", "ConsultaViewModel", new { }, new { @class = "nav-link" })</li>
-                            <li class="nav-item">@Html.ActionLink("Procedimentos", "Index", "IntervencaoViewModel", new { }, new { @class = "nav-link" })</li>
-                            <li class="nav-item">@Html.ActionLink("Especialistas", "Index", "EspecialistaViewModel", new { }, new { @class = "nav-link" })</li>
-                            <li class="nav-item dropdown">
+                            <li class="nav-item link-3">@Html.ActionLink("Agenda", "Agenda", "EspecialistaViewModel", new { }, new { @class = "nav-link" })</li>
+                            <li class="nav-item link-3">@Html.ActionLink("Pacientes", "Index", "PacienteViewModel", new { }, new { @class = "nav-link" })</li>
+                            <li class="nav-item link-3">@Html.ActionLink("Consultas", "Index", "ConsultaViewModel", new { }, new { @class = "nav-link" })</li>
+                            <li class="nav-item link-3">@Html.ActionLink("Procedimentos", "Index", "IntervencaoViewModel", new { }, new { @class = "nav-link" })</li>
+                            <li class="nav-item link-3">@Html.ActionLink("Especialistas", "Index", "EspecialistaViewModel", new { }, new { @class = "nav-link" })</li>
+                            <li class="nav-item dropdown link-3">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
                                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Administração
@@ -51,6 +46,8 @@
                                     @Html.ActionLink("Especialidades", "Index", "Especialidades", new { }, new { @class = "dropdown-item" })
                                     @Html.ActionLink("Tipos de Procedimento", "Index", "Procedimentos", new { }, new { @class = "dropdown-item" })
                                     @Html.ActionLink("Finanças", "Finances", "Report", new { }, new { @class = "dropdown-item" })
+                                    @Html.ActionLink("Modelos Anamnese", "Index", "ModeloAnamnese", new { }, new { @class = "dropdown-item" })
+                                    @Html.ActionLink("Usuários", "Index", "Usuarios", new { }, new { @class = "dropdown-item danger" })
                                     @if (isAdmin)
                                     {
                                         @Html.ActionLink("Usuários", "Index", "Usuarios", new { }, new { @class = "dropdown-item danger" })
@@ -59,11 +56,10 @@
                             </li>
                         </ul>
                         <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item">@Html.ActionLink("Logout", "Logout", "Admin", new { }, new { @class = "nav-link" })</li>
+                            <li class="nav-item link-3 row">@Html.ActionLink("Logout", "Logout", "Admin", new { }, new { @class = "nav-link" })<span class="oi mt-2" data-glyph="account-login" style="font-size:18px"></span></li>
                         </ul>
                     </div>
                 </nav>
-            </div>
             <div class="body-content">
                 @if (ViewBag.Message != null && ViewBag.StyleClass != null)
                 {
@@ -76,6 +72,8 @@
                 <input type="hidden" id="PacienteViewModelController" value="@Url.Action("","PacienteViewModel",new { })" />
                 <input type="hidden" id="ProcedimentosController" value="@Url.Action("","Procedimentos",new { })" />
                 <input type="hidden" id="ConsultaController" value="@Url.Action("","ConsultaViewModel",new { })" />
+                <input type="hidden" id="ModeloAnamneseController" value="@Url.Action("","ModeloAnamnese",new { })" />
+                                  
                 <footer class="text-center">
                     <h6>&copy; @DateTime.Now.Year - Santa Rita Centro Médico</h6>
                 </footer>

@@ -5,8 +5,9 @@
 }
 
 <p class="mt-3 ">
-    Prontuário @(Model.Count() > 0 ? Model.ElementAt(0).NomePaciente : "")
+    Prontuário <label id="nome-paciente">@(Model.Count() > 0 ? Model.ElementAt(0).NomePaciente : "")</label>
 </p>
+
 
 <div class="card mb-5" style="background-color:#F1EDF8">
     @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "card-body" }))
@@ -50,15 +51,6 @@
                 </div>
                 <button class="btn btn-light mt-4 float-right" data-toggle="modal" data-target=".bd-example-modal-lg" id="@item.Tipo-@item.Id">Visualizar</button>
             </div>
-            @*<tr>
-                    <td>@item.Tipo</td>
-                    <td>@item.NomePaciente</td>
-                    <td>@item.NomeEspecialista</td>
-                    <td>@(item.Date != null ? item.Date.Date.ToString("dd/MM/yyyy") : "")</td>
-                    <td>@item.Especialidade</td>
-                    <td>@item.Observacao</td>
-                    <td>@item.FormaPagamento</td>
-                </tr>*@
         </div>
         <br />
     }
@@ -66,7 +58,7 @@
 
 </div>
 <div>
-    @Html.ActionLink("Voltar para a Lista", "Index")
+    @Html.ActionLink("Voltar", "Index")
 </div>
 
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
@@ -81,6 +73,8 @@
                 </button>
             </div>
             <div class="modal-body">
+                <label class="font-weight-bold" style="color:gray"> Paciente: </label> <label id="lblPacientemd" style="color:gray"> teste </label> <br />
+
                 <label class="font-weight-bold" style="color:gray"> Especialista: </label> <label id="lblEspecialistamd" style="color:gray"> teste </label> <br />
                 <label class="font-weight-bold" style="color:gray"> Especialidade: </label> <label id="lblEspecialidademd" style="color:gray"> teste </label> <br />
                 <div class="card mt-3">
@@ -147,6 +141,9 @@
             </div>
         </div>
     </div>
+
+
+    <canvas id="myCanvas" />
 </div>
 
 @section Scripts {

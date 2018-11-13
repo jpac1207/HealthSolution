@@ -120,7 +120,7 @@ namespace HealthSolution.Controllers
                 especialistas = lvespecialistas;
                 ViewBag.especialidade = especialidade;
             }
-
+            
             queryOptions.SortOrder = SortOrder.DESC;
             var start = (queryOptions.CurrentPage - 1) * queryOptions.PageSize;
             queryOptions.TotalPages = (int)Math.Ceiling((double)especialistas.Count() / queryOptions.PageSize);
@@ -518,7 +518,7 @@ namespace HealthSolution.Controllers
                 var procedimento = db.Intervencoes.Where(x => x.Id == id).Include(x => x.Paciente).Include(x => x.Especialista).Include(x => x.Procedimento).FirstOrDefault();
                 atendimento.NomePaciente = procedimento.Paciente.Nome;
                 atendimento.DataNascimento = procedimento.Paciente.DataNascimento;
-                atendimento.Tipo = "Consulta";
+                atendimento.Tipo = "Procedimento";
                 atendimento.NomeEspecialista = procedimento.Especialista.Nome;
                 atendimento.AnotacaoEspecialista = procedimento.AnotacaoEspecialista;
                 atendimento.IdAtendimento = int.Parse(id.ToString());
@@ -527,6 +527,20 @@ namespace HealthSolution.Controllers
                 atendimento.Observacao = procedimento.Observacao;
                 atendimento.AnotacaoMedicamentos = procedimento.Medicamentos;
             }
+            
+            var anamneses = db.ModelosAnamneses.ToList();
+           
+            var modelos = new SelectListItem();
+
+            List<SelectListItem> modeloAnamneses = new List<SelectListItem>();
+
+            modeloAnamneses.Add(new SelectListItem() { Text = "Selecione um Modelo Anamnese", Value = "-1" });
+            foreach ( ModeloAnamnese anamnese in anamneses)
+            {
+                   modeloAnamneses.Add(new SelectListItem() { Text = anamnese.Nome, Value = anamnese.Id.ToString() });
+            }
+
+            ViewBag.ModeloAnamneses = modeloAnamneses;
 
             if (atendimento == null)
             {
@@ -572,8 +586,8 @@ namespace HealthSolution.Controllers
 
             if (especialistaId > 0)
             {
-                consultas = consultas.Where(x => x.EspecialistaId == especialistaId).ToList();
-                procedimentos = procedimentos.Where(x => x.EspecialistaId == especialistaId).ToList();
+                consultas = consultas.Where(x => x.EspecialistaId == especialistaId).OrderByDescending( x => x.Date).ToList();
+                procedimentos = procedimentos.Where(x => x.EspecialistaId == especialistaId).OrderByDescending( x => x.Date).ToList();
                 ViewBag.especialistaId = new SelectList(db.Especialistas.ToList(), "Id", "Nome", especialistaId);
             }
 
@@ -589,7 +603,8 @@ namespace HealthSolution.Controllers
                     Especialidade = x.Especialidade.Nome,
                     NomePaciente = x.Paciente.Nome,
                     Observacao = x.Observacao,
-                    Id = x.Id
+                    Id = x.Id,
+                    AtendimentoRealizado = x.AtendimentoRealizado
                 });
             });
 
@@ -605,7 +620,8 @@ namespace HealthSolution.Controllers
                     Doutor = x.Especialista.Nome,
                     NomePaciente = x.Paciente.Nome,
                     Observacao = x.Observacao,
-                    Id = x.Id
+                    Id = x.Id,
+                    AtendimentoRealizado = x.AtendimentoRealizado
                 });
             });
 
@@ -734,6 +750,7 @@ namespace HealthSolution.Controllers
                             Include(x => x.Especialidade).Include(x => x.Especialista).FirstOrDefault();
                         consulta.AnotacaoEspecialista = anotacaoEspecialista;
                         consulta.Medicamentos = anotacaoMedicamentos;
+                        consulta.AtendimentoRealizado = true;
                     }
                     else if (tipo == "Procedimento")
                     {
@@ -741,6 +758,7 @@ namespace HealthSolution.Controllers
                             Include(x => x.Procedimento).Include(x => x.Especialista).FirstOrDefault();
                         procedimento.AnotacaoEspecialista = anotacaoEspecialista;
                         procedimento.Medicamentos = anotacaoMedicamentos;
+                        procedimento.AtendimentoRealizado = true;
                     }
 
                     db.SaveChanges();
@@ -765,7 +783,7 @@ namespace HealthSolution.Controllers
 
             foreach( Medicamento medicamento in medicamentos)
             {
-                nomemedicamentos.Add(medicamento.Nome);
+                nomemedicamentos.Add(medicamento.Nome + " | " + medicamento.Apresentacao);
             }
 
             return Json(nomemedicamentos);

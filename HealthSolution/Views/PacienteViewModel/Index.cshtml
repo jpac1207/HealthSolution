@@ -50,91 +50,91 @@
         </div>
     }
 </div>
-    <div class="table-responsive table-hover  mt-3">
-        <table class="table">
-            <tr class="bg-light text-dark">
-                <th>
-                    Prontuário
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Nome)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Cpf)
-                </th>
-                <th>
-                    Data de Nascimento
-                </th>
-                <th>
-                    Data de Cadastro
-                </th>
-                <th>
-                    Como Conheceu?
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Cidade)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Bairro)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Rua)
-                </th>
-                <th>
-                    Numero Residência
-                </th>
-                <th class="phoneCell">
-                    Telefone
-                </th>
-                <th class="buttonCell"></th>
-            </tr>
+<div class="table-responsive table-hover  mt-3">
+    <table class="table">
+        <tr class="bg-light text-dark">
+            <th>
+                Prontuário
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cpf)
+            </th>
+            <th>
+                Data de Nascimento
+            </th>
+            <th>
+                Data de Cadastro
+            </th>
+            <th>
+                Como Conheceu?
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cidade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bairro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rua)
+            </th>
+            <th>
+                Numero Residência
+            </th>
+            <th class="phoneCell">
+                Telefone
+            </th>
+            <th class="buttonCell"></th>
+        </tr>
 
-            @foreach (var item in Model)
+        @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.ActionLink("Prontuário", "Prontuario", new { id = item.Id }, new { @class = "btn btn-dark" })
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nome)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Cpf)
-                    </td>
-                    <td>
-                        @(item.DataNascimento != null ? item.DataNascimento.Date.ToString("dd/MM/yyyy") : "")
-                    </td>
-                    <td>
-                        @(item.DataCadastro != null ? item.DataCadastro.Date.ToString("dd/MM/yyyy") : "")
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ComoConheceu)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Cidade)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Bairro)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Rua)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NumeroResidencia)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NumeroTelefone)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) |
-                        @Html.ActionLink("Detalhar", "Details", new { id = item.Id }, new { @class = "btn btn-secondary" }) |
-                        @Html.ActionLink("Excluir", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
-                    </td>
-                </tr>
-            }
+            <tr>
+                <td>
+                    @Html.ActionLink("Prontuário", "Prontuario", new { id = item.Id }, new { @class = "btn btn-dark" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cpf)
+                </td>
+                <td>
+                    @(item.DataNascimento != null ? item.DataNascimento.Date.ToString("dd/MM/yyyy") : "")
+                </td>
+                <td>
+                    @(item.DataCadastro != null ? item.DataCadastro.Date.ToString("dd/MM/yyyy") : "")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComoConheceu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cidade)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bairro)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rua)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumeroResidencia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumeroTelefone)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) |
+                    @Html.ActionLink("Detalhar", "Details", new { id = item.Id }, new { @class = "btn btn-secondary" }) |
+                    @Html.ActionLink("Excluir", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
 
-        </table>
-    </div>
+    </table>
+</div>
 
 
 <div style="margin:auto;" class="text-center">

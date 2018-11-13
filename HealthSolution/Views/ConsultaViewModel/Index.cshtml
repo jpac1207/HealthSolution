@@ -126,8 +126,8 @@
                 <td>
                     @(item.FormaPagamento != null ? item.FormaPagamento.Nome : "-")
                 </td>
-                <td>                   
-                    @(item.LinkArquivo == "#" ? Html.Raw("<a href='#' class ='btn btn-link'>Baixar Arquivo</a>") : Html.ActionLink("Baixar Arquivo", "GetFile", new { fileName = Url.Content(item.LinkArquivo) }, new { @class = "btn btn-link" }))
+                <td style="text-align:center">                   
+                    @(item.LinkArquivo == "#" ? Html.Raw("<a href='#' class ='btn btn-link' style='text-decoration:none;color:black;'>-</a>") : Html.ActionLink("Baixar Arquivo", "GetFile", new { fileName = Url.Content(item.LinkArquivo) }, new { @class = "btn btn-link" }))
                 </td>
                 <td>
                     @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) |

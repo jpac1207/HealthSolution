@@ -7,13 +7,22 @@
     var queryOptions = (QueryOptions)ViewBag.QueryOptions;
 }
 
+@{
+    string lvparams = "";
+    var nome = "";
+    if (ViewBag.nome != null)
+    {
+        nome = ViewBag.nome;
+    }
+
+    lvparams = string.Format("nome={0}", nome);
+}
 
 <br />
 <p>
     Modelos Anamnese
     <span style='float:right;'>
         <a class="btn btn-primary" href="~/ModeloAnamnese/Create">Cadastrar <span class="oi oi-plus"></span></a>
-        @*<a class="btn btn-primary" href="@Url.Action("")/Export?SortOrder=@queryOptions.SortOrder&SortField=@queryOptions.SortField&CurrentPage=@queryOptions.CurrentPage&PageSize=@queryOptions.PageSize&@lvparams">Exportar <span class="oi oi-data-transfer-download"></span></a>*@
     </span>
 </p>
 
@@ -22,7 +31,7 @@
     {
         <div class="row">
             <div class="col-md-4">
-                @Html.TextBox("ModeloAnamnese", null, new { @class = "form-control", placeholder = "Modelo Anamnese", onchange = "form.submit()" })
+                @Html.TextBox("nome", null, new { @class = "form-control", placeholder = "Modelo Anamnese", onchange = "form.submit()" })
             </div>
             <div class="col-md-4">
                 <button class="btn btn-success">Buscar</button>

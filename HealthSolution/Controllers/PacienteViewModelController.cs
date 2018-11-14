@@ -306,21 +306,21 @@ namespace HealthSolution.Controllers
 
             var consultas = db.Consultas.Where(x => x.PacienteId == id)
                 .Include(x => x.Especialidade).Include(x => x.Especialista).
-                Include(x => x.Paciente).ToList();
+                Include(x => x.Paciente).OrderByDescending(x => x.Date).ToList();
             var procedimentos = db.Intervencoes.Where(x => x.PacienteId == id)
                 .Include(x => x.Procedimento).Include(x => x.Paciente)
-                .Include(x => x.Especialista).ToList();
+                .Include(x => x.Especialista).OrderByDescending(x => x.Date).ToList();
             var prontuarios = new List<ProntuarioViewModel>();
 
             if (!string.IsNullOrEmpty(doutor))
             {
-                consultas = consultas.Where(x => x.Especialista.Nome.ToUpper().Contains(doutor.ToUpper())).ToList();
-                procedimentos = procedimentos.Where(x => x.Especialista.Nome.ToUpper().Contains(doutor.ToUpper())).ToList();
+                consultas = consultas.Where(x => x.Especialista.Nome.ToUpper().Contains(doutor.ToUpper())).OrderByDescending(x => x.Date).ToList();
+                procedimentos = procedimentos.Where(x => x.Especialista.Nome.ToUpper().Contains(doutor.ToUpper())).OrderByDescending(x => x.Date).ToList();
                 ViewBag.doutor = doutor;
             }
             if (!string.IsNullOrEmpty(procedimento))
             {                
-                procedimentos = procedimentos.Where(x => x.Procedimento.Nome.ToUpper().Contains(procedimento.ToUpper())).ToList();
+                procedimentos = procedimentos.Where(x => x.Procedimento.Nome.ToUpper().Contains(procedimento.ToUpper())).OrderByDescending(x => x.Date).ToList();
                 consultas = new List<Consulta>();
                 ViewBag.procedimento = procedimento;
             }
@@ -330,8 +330,8 @@ namespace HealthSolution.Controllers
 
                 if (DateTime.TryParse(data, out lvDateTime))
                 {
-                    consultas = consultas.Where(x => x.Date == lvDateTime).ToList();
-                    procedimentos = procedimentos.Where(x => x.Date == lvDateTime).ToList();
+                    consultas = consultas.Where(x => x.Date == lvDateTime).OrderByDescending(x => x.Date).ToList();
+                    procedimentos = procedimentos.Where(x => x.Date == lvDateTime).OrderByDescending( x => x.Date).ToList();
                     ViewBag.data = data;
                 }
             }

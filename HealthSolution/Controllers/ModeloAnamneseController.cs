@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using HealthSolution.Dal;
 using HealthSolution.Models;
+using HealthSolution.Filters;
+using System.Web.UI.WebControls;
+using System.Web.ModelBinding;
 
 namespace HealthSolution.Controllers
 {
@@ -16,9 +19,20 @@ namespace HealthSolution.Controllers
         private HealthContext db = new HealthContext();
 
         // GET: ModeloAnamnese
-        public ActionResult Index()
+        public ActionResult Index([Form] QueryOptions queryOptions, string nome)
         {
-            return View(db.ModelosAnamneses.ToList());
+            var modelos = db.ModelosAnamneses.ToList();
+            if (!string.IsNullOrEmpty(nome))
+            {
+                modelos = db.ModelosAnamneses.Where(x => x.Nome == nome).ToList();
+                ViewBag.nome = nome;
+            }
+            
+            var start = (queryOptions.CurrentPage - 1) * queryOptions.PageSize;
+            queryOptions.TotalPages = (int)Math.Ceiling((double)modelos.Count() / queryOptions.PageSize);
+            ViewBag.QueryOptions = queryOptions;
+
+            return View(modelos);
         }
 
         // GET: ModeloAnamnese/Details/5

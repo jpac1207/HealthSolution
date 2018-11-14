@@ -14,6 +14,7 @@ using System.Web.ModelBinding;
 
 namespace HealthSolution.Controllers
 {
+    [AuthenticationFilter]
     public class ModeloAnamneseController : Controller
     {
         private HealthContext db = new HealthContext();

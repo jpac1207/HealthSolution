@@ -625,7 +625,7 @@ namespace HealthSolution.Controllers
                 });
             });
 
-            prontuarios = prontuarios.OrderByDescending(x => x.Data).ToList();
+            prontuarios = prontuarios.OrderByDescending(x => x.Data).OrderByDescending(x => x.Hora).ToList();
 
             return View(prontuarios);
         }

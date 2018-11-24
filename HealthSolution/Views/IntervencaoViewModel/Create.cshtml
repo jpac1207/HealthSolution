@@ -95,8 +95,13 @@
             <div class="col-md-4">
                 <label class="control-label">Paciente</label>
                 <div class="col-md-10">
-                    @Html.Editor("Nome", new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessage("Nome", "", new { @class = "text-danger" })
+                    <div class="row">
+                        <div class="col-md-10">
+                            @Html.Editor("Nome", new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessage("Nome", "", new { @class = "text-danger" })
+                        </div>
+                        <label class="oi oi-magnifying-glass mt-2" style="font-size:20px;cursor:pointer" id="btnBuscar"></label>
+                    </div>
                 </div>
             </div>
 

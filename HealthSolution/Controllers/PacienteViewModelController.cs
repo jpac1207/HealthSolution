@@ -403,6 +403,22 @@ namespace HealthSolution.Controllers
         }
 
         [HttpPost]
+        public ActionResult GetPacienteByName(string name)
+        {
+            Paciente paciente = null;
+            if (!string.IsNullOrEmpty(name))
+            {
+                paciente = db.Pacientes.Where(x => x.Nome == name).
+                    Include(x => x.Telefone).Include(x => x.Endereco).FirstOrDefault();
+            }
+
+            if (paciente == null)
+                paciente = new Paciente();
+
+            return Json(paciente);
+        }
+
+        [HttpPost]
         public ActionResult GetAniversariantes()
         {
             int day = DateTime.Now.Day;
@@ -410,6 +426,13 @@ namespace HealthSolution.Controllers
             var aniversariantes = db.Pacientes.Where(x => x.DataNascimento.Day == day &&
             x.DataNascimento.Month == month).Include(x => x.Telefone).ToList();
             return Json(aniversariantes);
+        }
+        
+        [HttpPost]
+        public ActionResult GetPacientes()
+        {
+            List<Paciente> pacientes = db.Pacientes.ToList();            
+            return Json(pacientes);
         }
 
         [HttpPost]

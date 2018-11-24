@@ -130,9 +130,8 @@ namespace HealthSolution.Controllers
         {
             DateTime data = DateTime.Now.Date;
             List<Intervencao> Intervencao = new List<Intervencao>();
-            Intervencao = db.Intervencoes.Where(x => x.Date == data).Include(x => x.Especialista).Include(x => x.Paciente).Include(x => x.Procedimento).ToList();
-            return Json(Intervencao);
-            
+            Intervencao = db.Intervencoes.Where(x => x.Date == data).OrderBy(x => x.Hora).Include(x => x.Especialista).Include(x => x.Paciente).Include(x => x.Procedimento).ToList();
+            return Json(Intervencao);            
         }
 
         public ActionResult GetProcedimentos(string pesquisar)

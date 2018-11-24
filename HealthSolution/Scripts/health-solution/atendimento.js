@@ -39,7 +39,8 @@ $(function () {
     }, function (err) { console.log(err) });
 
     $("#txtMedicamentos").autocomplete({
-        source: medicamentos
+        source: medicamentos,
+        minLength: 3
     });
 
     $("#btnAdicionar").click(function () {

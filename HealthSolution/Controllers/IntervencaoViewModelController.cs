@@ -124,10 +124,10 @@ namespace HealthSolution.Controllers
             queryOptions.TotalPages = (int)Math.Ceiling((double)intervencoes.Count() / queryOptions.PageSize);
             ViewBag.QueryOptions = queryOptions;
 
-            if (queryOptions.SortField == "Id")
-                queryOptions.SortField = "Date";
+            //if (queryOptions.SortField == "Id")
+            //    queryOptions.SortField = "Date";
 
-            intervencoes = intervencoes.OrderBy(queryOptions.Sort).Skip(start).Take(queryOptions.PageSize).ToList();
+            intervencoes = intervencoes.OrderByDescending(x => x.Date).ThenBy(x => x.Hora).Skip(start).Take(queryOptions.PageSize).ToList();
             intervencoes.ForEach(x => intervencaoViewModels.Add(GetIntervencaoViewModel(x)));
 
             return View(intervencaoViewModels);
@@ -189,7 +189,7 @@ namespace HealthSolution.Controllers
                     {
                         var paciente = db.Pacientes.Where(x => x.Cpf == formPaciente.Cpf).FirstOrDefault();
 
-                        if (paciente == null)
+                        if (paciente == null || string.IsNullOrEmpty(formPaciente.Cpf))
                         {
                             var lvtelefone = new Telefone();
                             lvtelefone.Numero = telefone;
@@ -306,11 +306,12 @@ namespace HealthSolution.Controllers
                 return HttpNotFound();
             }
             var paymentWays = db.FormasPagamento.ToList();
+            var pacients = db.Pacientes.OrderBy(x => x.Nome);
             paymentWays.Insert(0, new FormaPagamento() { Id = -1, Nome = "-" });
 
             ViewBag.EspecialistaId = new SelectList(db.Especialistas, "Id", "Nome", intervencaoViewModel.EspecialistaId);
             ViewBag.FormaPagamentoId = new SelectList(paymentWays, "Id", "Nome", intervencaoViewModel.FormaPagamentoId);
-            ViewBag.PacienteId = new SelectList(db.Pacientes, "Id", "Nome", intervencaoViewModel.PacienteId);
+            ViewBag.PacienteId = new SelectList(pacients, "Id", "Nome", intervencaoViewModel.PacienteId);
             ViewBag.ProcedimentoId = new SelectList(db.Procedimentos, "Id", "Nome", intervencaoViewModel.ProcedimentoId);
             ViewBag.Hora = GetListHour();
             ViewBag.Minuto = GetListMinute();
@@ -404,11 +405,12 @@ namespace HealthSolution.Controllers
                 return RedirectToAction("Index");
             }
             var paymentWays = db.FormasPagamento.ToList();
+            var pacients = db.Pacientes.OrderBy(x => x.Nome);
             paymentWays.Insert(0, new FormaPagamento() { Id = -1, Nome = "-" });
 
             ViewBag.EspecialistaId = new SelectList(db.Especialistas, "Id", "Nome", intervencaoViewModel.EspecialistaId);
             ViewBag.FormaPagamentoId = new SelectList(paymentWays, "Id", "Nome", intervencaoViewModel.FormaPagamentoId);
-            ViewBag.PacienteId = new SelectList(db.Pacientes, "Id", "Nome", intervencaoViewModel.PacienteId);
+            ViewBag.PacienteId = new SelectList(pacients, "Id", "Nome", intervencaoViewModel.PacienteId);
             ViewBag.ProcedimentoId = new SelectList(db.Procedimentos, "Id", "Nome", intervencaoViewModel.ProcedimentoId);
             ViewBag.Hora = GetListHour();
             ViewBag.Minuto = GetListMinute();

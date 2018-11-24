@@ -55,6 +55,48 @@ function fnGetPacienteByCPF(cpf) {
 
 }
 
+function fnGetPacienteByName(name) {
+    var util = new Util();
+    var method = 'GetPacienteByName';
+
+    var textNomePaciente = document.getElementById("Nome");
+    var textDataAniversario = document.getElementById("DataNascimento");
+    var textCidade = document.getElementById("cidade");
+    var textBairro = document.getElementById("bairro");
+    var textRua = document.getElementById("rua");
+    var textResidencia = document.getElementById("numero");
+    var textTelefone = document.getElementById("telefone");
+
+    textPacienteCPF.value = "";
+    textNomePaciente.value = "";
+    textDataAniversario.value = "";
+    textCidade.value = "";
+    textBairro.value = "";
+    textRua.value = "";
+    textResidencia.value = "";
+    textTelefone.value = "";
+
+    util.doAjax(baseUrlPaciente + method, "{name:'" + name + "'}").then(function (data) {
+        if (data.Cpf != null) {
+            console.log(data)
+            var date = new Date(parseInt(data.DataNascimento.replace(/\/Date\((-?\d+)\)\//, '$1')));
+            textNomePaciente.value = data.Nome;
+            textDataAniversario.value = util.toDateString(date);
+            textCidade.value = data.Endereco.Cidade;
+            textBairro.value = data.Endereco.Bairro;
+            textRua.value = data.Endereco.Rua;
+            textResidencia.value = data.Endereco.Numero;
+            textTelefone.value = data.Telefone.Numero;
+            textPacienteCPF.value = data.Cpf;
+        }
+        else {
+            util.showModal("Não foi possível encontrar esse paciente!");
+        }
+
+    }, function (err) { consoleg.log(err) });
+
+}
+
 function fnVerifyHour(data, hora, minuto, doutorId) {
     var util = new Util();
     var method = 'VerifyDoctorTime';
@@ -80,3 +122,24 @@ textDate.onchange = fnVerificarHorario;
 textHora.onchange = fnVerificarHorario;
 textMinuto.onchange = fnVerificarHorario;
 dropDoutor.onchange = fnVerificarHorario;
+
+$(function () {
+
+    var pacientes = [];
+    var method = "GetPacientes";
+    var util = new Util();
+
+    util.doAjax(baseUrlPaciente + method).then(function (data) {
+        for (var i = 0; i < data.length; i++) {
+            pacientes.push(data[i].Nome);
+        }
+    }, function (err) { console.log(err) });
+
+    $("#Nome").autocomplete({
+        source: pacientes
+    });
+
+    $("#Nome").change(function () {
+        fnGetPacienteByName($("#Nome").val());
+    });
+});
